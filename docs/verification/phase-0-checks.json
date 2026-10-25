@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-25",
+  "scope": "Phase 0 offline baseline only; not full acceptance",
+  "environment": {
+    "node": "24.19.0",
+    "npm": "11.17.0",
+    "pnpm": "not installed; registry request EACCES",
+    "jdk": "Temurin 21.0.12.1",
+    "maven": "3.9.16",
+    "dockerCLI": "29.7.2",
+    "dockerEngine": "permission denied connecting to engine",
+    "git": "2.55.0.windows.3"
+  },
+  "checks": [
+    {
+      "command": "node scripts/check-baseline.mjs",
+      "exitCode": 0,
+      "stdout": "PASS baseline: workspace, locale parity, 5 navigation entries, OpenAPI references/permissions, credential patterns, documentation (68 files).\nScope: static checks only; not a dependency audit, full OpenAPI validator, SQL execution or app build.\n",
+      "warnings": ""
+    },
+    {
+      "command": "node --test tests/baseline.test.mjs",
+      "exitCode": 0,
+      "stdout": "✔ source policy checks approval, capability, territory, enablement and both time bounds (0.7226ms)\n✔ core token pairs meet WCAG AA contrast (0.9987ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 136.5962\n",
+      "warnings": ""
+    },
+    {
+      "command": "node --check scripts/doctor.mjs",
+      "exitCode": 0,
+      "stdout": "",
+      "warnings": ""
+    },
+    {
+      "command": "docker compose -f infra/compose.yaml config --no-interpolate --quiet",
+      "exitCode": 0,
+      "stdout": "",
+      "warnings": "Docker user config access denied"
+    },
+    {
+      "command": "git -c safe.directory=D:/project/nobi-racing diff --cached --check",
+      "exitCode": 0,
+      "stdout": "",
+      "warnings": ""
+    },
+    {
+      "command": "Local Markdown documentation link resolution",
+      "exitCode": 0,
+      "stdout": "No broken local links",
+      "warnings": ""
+    }
+  ],
+  "syntaxChecks": [
+    {
+      "command": "node --check scripts/check-baseline.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node --check scripts/doctor.mjs",
+      "exitCode": 0
+    },
+    {
+      "command": "node --check tests/baseline.test.mjs",
+      "exitCode": 0
+    }
+  ],
+  "blocked": [
+    {
+      "command": "npm view pnpm@10 version --json --fetch-retries=0 --fetch-timeout=10000",
+      "result": "registry.npmjs.org EACCES; no dependencies downloaded"
+    },
+    {
+      "command": "mvn -B -Dmaven.repo.local=<workspace>/.cache/m2 -Dmaven.wagon.http.retryHandler.count=0 -f services/racing-api/pom.xml verify",
+      "result": "exit 1; parent POM resolution denied by network permissions; compilation/tests not reached"
+    }
+  ],
+  "notRun": [
+    "pnpm install / lock generation",
+    "Vue/TypeScript typecheck",
+    "Vitest",
+    "Web build",
+    "Redocly semantic OpenAPI validation",
+    "Playwright",
+    "Flyway/PostgreSQL Testcontainers integration",
+    "native iOS/Android builds"
+  ],
+  "productionDeployment": false,
+  "phase1Started": false
+}

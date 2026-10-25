@@ -1,0 +1,16 @@
+name: Phase 0 baseline
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: node scripts/check-baseline.mjs
+      - run: node --test tests/baseline.test.mjs

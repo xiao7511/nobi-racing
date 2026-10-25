@@ -1,0 +1,29 @@
+{
+  "brand": "NOBI Racing",
+  "nav": {
+    "home": "首页",
+    "races": "赛事",
+    "news": "资讯",
+    "data": "数据",
+    "profile": "我的"
+  },
+  "common": {
+    "language": "语言",
+    "mock": "MOCK · 示例数据",
+    "phase": "Phase 0 · 工程基线预览",
+    "empty": "暂无内容",
+    "unavailable": "暂时无法加载",
+    "loading": "加载中…",
+    "retry": "重试"
+  },
+  "home": {
+    "title": "你的全球赛车世界",
+    "description": "为全球车迷汇聚赛事、资讯与数据。"
+  },
+  "placeholder": "此区域将在后续阶段实现。",
+  "admin": {
+    "title": "管理后台",
+    "description": "内容与数据源管理将要求工作人员身份验证。",
+    "locked": "未建立员工会话，受保护操作暂不可用。"
+  }
+}

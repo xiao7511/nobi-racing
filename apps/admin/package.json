@@ -1,0 +1,24 @@
+{
+  "name": "@nobi/admin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vue-tsc --noEmit && vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@nobi/i18n": "workspace:*",
+    "@nobi/design-tokens": "workspace:*",
+    "@nobi/contracts": "workspace:*",
+    "vue": "~3.5.44",
+    "pinia": "^3.0.0",
+    "vue-i18n": "^11.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "vue-tsc": "^3.1.0"
+  }
+}

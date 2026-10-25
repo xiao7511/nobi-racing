@@ -1,0 +1,14 @@
+{
+  "name": "@nobi/i18n",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./en": "./src/en.json",
+    "./zh-CN": "./src/zh-CN.json"
+  },
+  "peerDependencies": {
+    "vue-i18n": "^11.0.0"
+  }
+}

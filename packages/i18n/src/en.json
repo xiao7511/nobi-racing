@@ -1,0 +1,29 @@
+{
+  "brand": "NOBI Racing",
+  "nav": {
+    "home": "Home",
+    "races": "Races",
+    "news": "News",
+    "data": "Data",
+    "profile": "Profile"
+  },
+  "common": {
+    "language": "Language",
+    "mock": "MOCK · Sample data",
+    "phase": "Phase 0 · Foundation preview",
+    "empty": "No content yet",
+    "unavailable": "Temporarily unavailable",
+    "loading": "Loading…",
+    "retry": "Try again"
+  },
+  "home": {
+    "title": "Your world of racing",
+    "description": "Races, stories and statistics for fans worldwide."
+  },
+  "placeholder": "This area is reserved for a later phase.",
+  "admin": {
+    "title": "Administration",
+    "description": "Content and source management will require authenticated staff access.",
+    "locked": "No staff session. Protected operations are unavailable."
+  }
+}
