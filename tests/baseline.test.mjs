@@ -25,3 +25,10 @@ test('core token pairs meet WCAG AA contrast', () => {
   assert.ok(contrast(color('on-accent'),color('accent')) >= 4.5);
   assert.ok(contrast(color('border'),color('surface')) >= 3);
 });
+test('light theme core token pairs meet WCAG AA contrast', () => {
+  const block = css.split(":root[data-theme='light']")[1];
+  const light = name => block.match(new RegExp('--color-' + name + ': (#[a-f0-9]{6})'))[1];
+  for (const fg of ['text', 'muted', 'accent', 'focus']) for (const bg of ['bg', 'surface', 'surface-raised']) assert.ok(contrast(light(fg), light(bg)) >= 4.5, fg + ' on light ' + bg);
+  assert.ok(contrast(light('on-accent'), light('accent')) >= 4.5);
+  assert.ok(contrast(light('border'), light('surface')) >= 3);
+});

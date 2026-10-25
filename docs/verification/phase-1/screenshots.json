@@ -1,0 +1,510 @@
+{
+  "capturedAt": "2026-10-25T07:11:52.087Z",
+  "count": 72,
+  "files": [
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-article.png",
+      "width": 1440,
+      "height": 1424,
+      "bytes": 198254,
+      "sha256": "986e3b3ec522aab4492c57e42c6418f0b9c9f2b6f3303ad54d993ddc0ea6ac9d"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-driver.png",
+      "width": 1440,
+      "height": 1021,
+      "bytes": 84810,
+      "sha256": "de7bcfae5e6513d3f034ad9deb09809a8e655639655a8f369a1ca33275821a5e"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-home.png",
+      "width": 1440,
+      "height": 1332,
+      "bytes": 241324,
+      "sha256": "6a4a8321cb5c2d4e69ab84fe9148a273a10c9c12201f21c635e2cf19f4aed4ff"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-news.png",
+      "width": 1440,
+      "height": 1332,
+      "bytes": 60271,
+      "sha256": "909f2f7915840692c9c22024287a5034bdea2e911f597984eed1e01527fd2aad"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-profile.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 88309,
+      "sha256": "cd7e3f17203f28208b66e31c8b52034a549a543bcc90a8909e7fe08ecfb53d61"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-race.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 39505,
+      "sha256": "db7224f1076b89771ff78b8bcc491dd18a32259ac376c3a68ef40762ffdbc296"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-races.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 97847,
+      "sha256": "9d27cff767fff0e9f3a0e7afb1ba64ac2498895c5087fc9ebd25eabb25c6ab67"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-settings.png",
+      "width": 1440,
+      "height": 1021,
+      "bytes": 84810,
+      "sha256": "de7bcfae5e6513d3f034ad9deb09809a8e655639655a8f369a1ca33275821a5e"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-dark-stats.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 85589,
+      "sha256": "7bbceb0d42beb2e42ad67863c1e4ff7f9e511df586343d99620b25aaf6b7808e"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-article.png",
+      "width": 1440,
+      "height": 1424,
+      "bytes": 197284,
+      "sha256": "026d9a6ed61ec10a59202511622bc33c29c22b743c45ab28cc3785f6cc90725b"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-driver.png",
+      "width": 1440,
+      "height": 1021,
+      "bytes": 84972,
+      "sha256": "7c1c3f7d28639a0bd94291047aa48a92f89dc551a2af32cb15cbe3cbf3f7c882"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-home.png",
+      "width": 1440,
+      "height": 1332,
+      "bytes": 240577,
+      "sha256": "886459961f8b794fbba80a30a799b2bfadfe934b16e8ad544a2ab4d3e8db10c9"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-news.png",
+      "width": 1440,
+      "height": 1176,
+      "bytes": 177665,
+      "sha256": "996445e83b5c580498864d2a4cc55eb966c54d29de20fb40c8dd24601c413b90"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-profile.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 88482,
+      "sha256": "d59aa473297d1e4526a92f87247db7320e1ebf59bbf6163b5903a6fb6afce0c1"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-race.png",
+      "width": 1440,
+      "height": 1026,
+      "bytes": 137758,
+      "sha256": "deea0bfea2cf13eb5e605040940362215b9ca070b1beabe97132c6ada4cb379c"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-races.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 98039,
+      "sha256": "4410631860453732db4dbde0b9bcffd1538324a0b537b4c0d373457a09b70b63"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-settings.png",
+      "width": 1440,
+      "height": 1109,
+      "bytes": 95597,
+      "sha256": "01dbb87413fdb2945e87d63a683f2910ad3bc94dca6ab42ca715c3e617bf3aa4"
+    },
+    {
+      "path": "screenshots/chromium-1440-en-US-light-stats.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 85414,
+      "sha256": "32c303d33d428979b6320c63c621e58c336d8775598c4fabb5ad4c3fd93e85e8"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-article.png",
+      "width": 1440,
+      "height": 1332,
+      "bytes": 213277,
+      "sha256": "dca4713e81da3af5acd73b68df7517eb2a8d87daf322e71591cb774711f74649"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-driver.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 88509,
+      "sha256": "eae78be9bbd4539dd2506a0a02f7e4a3466a18958b02ea1489397a59d6de2097"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-home.png",
+      "width": 1440,
+      "height": 1332,
+      "bytes": 245375,
+      "sha256": "27cc9bbca190801b5f07fa875dfd49ced74be46ed451221549343c9ec8931e8e"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-news.png",
+      "width": 1440,
+      "height": 1176,
+      "bytes": 189473,
+      "sha256": "11efa72c8159b55c6c1566fb1f71c97ca8b10359300a3ad87fd91d760c38cb8c"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-profile.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 90367,
+      "sha256": "6608ccdf0bde4afd43adf959d69debe9ae2f55e33d658947ee85f18e02cc671e"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-race.png",
+      "width": 1440,
+      "height": 1006,
+      "bytes": 140789,
+      "sha256": "1256c2ee481765d90d78ebd81afcddeb3bb22b4b8a6f9d167ad11e484b539249"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-races.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 103354,
+      "sha256": "522588570df4fd211528ad2dd5862319cc3ee8e526b12ba4cf2213bad7430861"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-settings.png",
+      "width": 1440,
+      "height": 1083,
+      "bytes": 95406,
+      "sha256": "ff405680a95e169c640777689b98c5c7a12dac0ecba4278c053f5667a10d6c42"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-dark-stats.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 89977,
+      "sha256": "4b37b170633fa61b4f13e4cecc414980569dc541ba20c7581572c4673b2dc2de"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-article.png",
+      "width": 1440,
+      "height": 1332,
+      "bytes": 210690,
+      "sha256": "077e4715a9bd352dacf774744291035b9591b088711f4248309ab5b2896d3835"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-driver.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 88168,
+      "sha256": "bd1daeb47e095b19d99b370603182e0f28115d8186f6bab3da5586f5bc216ed8"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-home.png",
+      "width": 1440,
+      "height": 1332,
+      "bytes": 244513,
+      "sha256": "5d0fa06214a64e6a5866a1ab3a8ca6e701417029aab812a0ae621f46363b8e91"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-news.png",
+      "width": 1440,
+      "height": 1176,
+      "bytes": 189375,
+      "sha256": "7786899cee140a808c6b09296c40534efc897f3872515d62e34d53851f851ad3"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-profile.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 90565,
+      "sha256": "8cafaa4f86b8dddbfd49564a5219829ee2e43fd36fae9b72b02c1a7008a8f7d8"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-race.png",
+      "width": 1440,
+      "height": 1006,
+      "bytes": 140036,
+      "sha256": "da43dd0d5aedc3bb66f42147bac7e1e125ff8ae9e9e31aa1e4c0d9c8cc3ca1bf"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-races.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 103486,
+      "sha256": "0bd461fffba365c8323989cf6fe6f6f352c72b07e4ccc91c4268369349a54209"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-settings.png",
+      "width": 1440,
+      "height": 1083,
+      "bytes": 95236,
+      "sha256": "01ad1f4cddd7f48e647ca8fc022268256693e185c78acc72cc3c3a76f235fe1b"
+    },
+    {
+      "path": "screenshots/chromium-1440-zh-CN-light-stats.png",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 89819,
+      "sha256": "1ce542f8dfbd9b35bc31ada4640368c4b624796c295a05daeacdc6de9bbf4ecf"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-article.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 66872,
+      "sha256": "099a4d6182bdbb92e5a326fca61a4fd6d554ff7e5b5b8c76e451b30a5e416702"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-driver.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 38864,
+      "sha256": "b4b5c087dc9f4b23b5acf561ea5fc0ec2cda2029ff59ca495411543f0ff028f3"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-home.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 70240,
+      "sha256": "5b73dc0d8e3e6546f64e096241266fba69624b4727828f62c64c072574f2c603"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-news.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 66378,
+      "sha256": "6754468a17a7e12fe8aa232105285aca366c76667d49e741fe5d64f94a91e005"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-profile.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 53622,
+      "sha256": "7fda23bcf4908b96745fa4affb45003e6bef1916e72bad612603871009b36911"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-race.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 62420,
+      "sha256": "f2236c3bd4fca7f9ddc02d6def6d6faaa8fbd3d0b4da140d917b46c04846888b"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-races.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 57107,
+      "sha256": "bd6d9601acdc3098ea39a75b61da85eeeff6d04d9c4978e149371592dc880518"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-settings.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 43658,
+      "sha256": "613a2d4d2e6a5b18b527d5dbc692b3d5d087c0a5a5dab31f782e0a81122a7266"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-dark-stats.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 50460,
+      "sha256": "afeabe46a0dfcde1502def632b0c5fffce9f2852fbdbe4653b743cdfe3e3f465"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-article.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 66334,
+      "sha256": "224c865b73bc8a2dde367d15d949f1f83c6daff9b18db6b6764c48920de97194"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-driver.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 39055,
+      "sha256": "60115895f0b25546a80aea8cfbe4c22e1cca57a78af42925be2e22cbb7239139"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-home.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 70478,
+      "sha256": "a7306146f8ee22cceb7352063430ea16813aa6a0d3f1f915d04ee8903bef53e8"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-news.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 66069,
+      "sha256": "75fe5efb54961113429ef812c6a2dab22f6843d03e43bae16a3bb66f2899dbb8"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-profile.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 53970,
+      "sha256": "80e7c91778fe4462be7eb5149ff0b0b0e95dceb3e1f3c4b121cbff2537b711cd"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-race.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 62417,
+      "sha256": "f42858b8c97b5c641f7e244806c7785cccaa37a09d3bc71dd576fd4ea6089349"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-races.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 56915,
+      "sha256": "90497c2786e6b556bd98f66141d132f7e7df30a7cc3df9d93d442d7bd6cc897c"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-settings.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 43674,
+      "sha256": "b1c9ededd5b8eb61dbfe4a30892f2bb361605a975fe7ab05a48054f48ca21725"
+    },
+    {
+      "path": "screenshots/chromium-390-en-US-light-stats.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 50339,
+      "sha256": "1d8741d04a439c52ce96057a532747012ec7ef25054de008aba1dce1c147d136"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-article.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 73625,
+      "sha256": "75371ba2d5948775f3bf2b99abaa2b0457c215bdbaa93beb77747c962482a6dd"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-driver.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 38872,
+      "sha256": "087ad6f49bfd988bde2d802c0f598fa357bdfd1bd54f2ae99f9bca45aabc5bb1"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-home.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 73068,
+      "sha256": "376f0a7837579e99bd89a2816bbd422f32cca25eaba525335f41f6773b88414d"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-news.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 68571,
+      "sha256": "361d01b91eab5c80f8c806051c0d34f90653d358675e7c7a396fc253b8410b0c"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-profile.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 56933,
+      "sha256": "7ac3a9bf87e7c33e85f273c05c133db793a99ebd965387cc3b6c396312ac2cd2"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-race.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 64954,
+      "sha256": "ab2d65dc5a4df927c1b058352d3b34e83403a8c64c532aabd6d474125a22eec8"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-races.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 61793,
+      "sha256": "39730adef25e4f4901816a43c0a8abaad32bca92a85db7f16995973187ef3e89"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-settings.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 45404,
+      "sha256": "4175aae300088857bbfae99cdfb6d6d934aa62dcc06ecf90b839557d7d3b1fe3"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-dark-stats.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 58394,
+      "sha256": "8455ffd5423ced451b30122d362f6655770dfde1d689744430638ed6eff09da7"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-article.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 72656,
+      "sha256": "89bfcd039e41f84ee6e17584524e6931e391a1f54cf387ed0c850559a1ab26bb"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-driver.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 39012,
+      "sha256": "4ba261764591dca9ae9ec4ffd82b63b8c744562ed5d66ccaf382bc2bafbdba64"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-home.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 72920,
+      "sha256": "b3c1b29d614729f4bb13f1afbf509b7a06c6c23b7fb2d983ef6f846af3696e37"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-news.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 68044,
+      "sha256": "5f2d698353d0aeb7a23f36c7ad75c7be9d22f6d523166818a2fb23ca61c4b394"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-profile.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 56708,
+      "sha256": "2d4e0390a567394f9de3a046c0b27bdd72f26e09f334618fe1ea543ec1e8345f"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-race.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 64626,
+      "sha256": "ec3c04975e7ee538ac05794bfdef2c5812f5cb511180815da6ffe5f6e5e9a6e2"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-races.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 61283,
+      "sha256": "a99003c7c57921e2f78a89fb087f209c521187f2de1ab162cc37beacabd5460d"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-settings.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 44966,
+      "sha256": "a07521eaef0bd8d9b1891f4744d2e12e1826ca771767a58201750d42119083c5"
+    },
+    {
+      "path": "screenshots/chromium-390-zh-CN-light-stats.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 58216,
+      "sha256": "8b5758e8a37aea07db2ffd02ba76626e16f218781dd8c577e6dc2db101cc60a4"
+    }
+  ]
+}

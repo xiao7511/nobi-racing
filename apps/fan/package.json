@@ -17,13 +17,15 @@
     "vue": "~3.5.44",
     "pinia": "^3.0.0",
     "vue-i18n": "^11.0.0",
-    "@capacitor/core": "^8.0.0",
-    "@capacitor/android": "^8.0.0",
-    "@capacitor/ios": "^8.0.0"
+    "@capacitor/core": "8.5.3",
+    "@capacitor/android": "8.5.3",
+    "@capacitor/ios": "8.5.3",
+    "vue-router": "^4.6.0",
+    "@capacitor/app": "8.1.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.0",
     "vue-tsc": "^3.1.0",
-    "@capacitor/cli": "^8.0.0"
+    "@capacitor/cli": "8.5.3"
   }
 }

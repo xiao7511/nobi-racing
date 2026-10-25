@@ -1,0 +1,25 @@
+export type ThemePreference = 'dark' | 'light' | 'system';
+export interface SavedPreferences {
+  locale: 'en-US' | 'zh-CN'; theme: ThemePreference; timeZone: string;
+  savedArticleIds: string[]; followedDriverIds: string[];
+}
+export const preferencesKey = 'nobi-racing:preferences:v1';
+export function isTimeZone(value: unknown): value is string {
+  if (typeof value !== 'string' || value.length > 100) return false;
+  try { new Intl.DateTimeFormat('en-US', { timeZone: value }); return true; } catch { return false; }
+}
+export function parsePreferences(value: string | null): Partial<SavedPreferences> {
+  if (!value) return {};
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (!parsed || typeof parsed !== 'object') return {};
+    const data = parsed as Record<string, unknown>;
+    const ids = (input: unknown) => Array.isArray(input) ? [...new Set(input.filter((id): id is string => typeof id === 'string' && /^mock-[a-z0-9-]{1,70}$/.test(id)))].slice(0, 100) : [];
+    return {
+      ...(data.locale === 'en-US' || data.locale === 'zh-CN' ? { locale: data.locale } : {}),
+      ...(data.theme === 'dark' || data.theme === 'light' || data.theme === 'system' ? { theme: data.theme } : {}),
+      ...(isTimeZone(data.timeZone) ? { timeZone: data.timeZone } : {}),
+      savedArticleIds: ids(data.savedArticleIds), followedDriverIds: ids(data.followedDriverIds),
+    };
+  } catch { return {}; }
+}

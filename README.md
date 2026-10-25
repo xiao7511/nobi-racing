@@ -1,10 +1,10 @@
-# NOBI Racing · Phase 0
+# NOBI Racing · Phase 1
 
-全球赛车资讯 App 的全新工程基线，支持 English / 简体中文，目标平台为 Web、iOS、Android，另有独立 Web 管理端。当前仅包含工程预览和技术状态接口，不含真实赛事内容或实时数据服务。
+全球赛车资讯 App，支持 English (en-US) / 简体中文，使用 Vue 3、TypeScript、Pinia、Vue Router 和 Capacitor。Phase 1 实现五个主入口、新闻/分站/车手详情及设置页。内容均为原创虚构，API 在本地异步返回合成数据。
 
 ## 当前状态
 
-目录起始为空；未复制其他 NOBI 仓库代码。Phase 0 基础静态检查可离线执行。由于本次会话无法访问 npm/Maven 包源且 Docker 引擎不可用，依赖安装、锁文件、前后端构建和数据库集成测试仍待验证。完整验收状态见 [Phase 0 报告](docs/phases/phase-0-report.md)。
+Phase 1 沿用中断前的 `feature/nobi-racing-phase1` 分支，按用户后续指令完成车迷端；原 Phase 0 计划中的身份和后端纵切仍为后续事项。依赖和真实锁文件已落地。当前验证结论、截图与平台边界见 [Phase 1 报告](docs/phases/phase-1-report.md)；[Phase 0 报告](docs/phases/phase-0-report.md)保留历史状态。
 
 ## 目录
 
@@ -29,21 +29,22 @@ doctor 默认输出诊断而不阻止离线检查；node scripts/doctor.mjs --st
 
 ## 安装依赖后运行
 
-在具备合法网络访问的开发环境执行。下列工具安装仅限项目目录；本次未安装成功。
+Node 24.19+，pnpm 10.34.8。在具备合法网络访问的开发环境执行；pnpm 安装仅限项目目录。
 
 ~~~powershell
 npm install --prefix .tools/pnpm --no-package-lock pnpm@10.34.8
 $env:Path = (Join-Path $PWD '.tools/pnpm/node_modules/.bin') + ';' + $env:Path
 pnpm --version
-pnpm install --no-frozen-lockfile
-pnpm check
+pnpm install --frozen-lockfile
+pnpm check:phase1
 pnpm exec playwright install chromium webkit
 pnpm test:e2e
+pnpm verify:phase1
 mvn -f services/racing-api/pom.xml verify
 mvn -f services/racing-api/pom.xml -Pdatabase-it verify
 ~~~
 
-首次依赖解析必须审查 peer dependencies、补丁版本与许可证，生成并提交真实 pnpm-lock.yaml。随后所有 CI 使用 pnpm install --frozen-lockfile。当前没有伪造锁文件；完整验证工作流会在缺少锁文件时明确失败。
+锁文件固定实际解析版本，strict peers 已通过。Capacitor core/android/ios/cli 固定为同一版本。`verify:phase1` 顺序运行基线、lint、类型、测试、构建、API 校验与浏览器测试，并保存日志到 `docs/verification/phase-1/`。本地有 Edge 时可设置 `$env:NOBI_BROWSER_CHANNEL='msedge'` 代替桌面 Chromium；移动 Safari 仍需 WebKit。
 
 ~~~powershell
 pnpm dev:fan
@@ -51,7 +52,13 @@ pnpm dev:admin
 mvn -f services/racing-api/pom.xml spring-boot:run
 ~~~
 
-车迷端在 http://127.0.0.1:5173，管理端在 http://127.0.0.1:5174，状态接口在 http://127.0.0.1:8080/api/v1/readiness。前端目前不请求后端。业务 API 均为草案。JVM 服务当前不自动连接 DB/Redis 或执行迁移。
+车迷端默认在 http://127.0.0.1:5173，管理端在 http://127.0.0.1:5174。端口被占用时通过 `pnpm --filter @nobi/fan dev --port 5273` 指定其他端口。端到端测试独占 5273/5274，拒绝复用现有服务，避免误测其他项目。
+
+用户端路由：`/#/`、`/#/news`、`/#/races`、`/#/stats`、`/#/profile`、`/#/settings`；详情例 `/#/news/mock-aero`、`/#/races/mock-harbor`、`/#/drivers/mock-mei`。Hash 路由适配静态托管及 Capacitor。`/#/news?scenario=error` / `empty` 可复现 Mock 失败和空态；正常页面不提供开发调试控件。
+
+语言、外观、时区、收藏与关注仅存储本地，不含身份令牌。深色、浅色、跟随系统均可选。前端不请求 Spring Boot 或第三方服务；API、PostgreSQL、Redis 和真实身份不属于本次用户端范围。
+
+Capacitor 的 `webDir=dist`、HTTPS scheme、禁明文传输与 Android 返回键适配已保留。App ID 仍为 `com.example.nobiracing` 占位；未生成原生项目、未签名或上传商店。iOS 需 Mac/Xcode，Android 需 SDK/设备，原生包的构建与真机验收待后续阶段。
 
 ## 本地数据库
 
@@ -59,4 +66,4 @@ mvn -f services/racing-api/pom.xml spring-boot:run
 
 ## 范围与约束
 
-只完成 Phase 0；Phase 1–6 是计划，不自动执行。不连接商业实时数据、不抓取受保护媒体或正文、不使用官方 F1 Logo、不写入其他 NOBI 仓库、不部署生产、不购买服务、不提交凭据。所有未来 Mock API/夹具必须携带 mode: mock，界面展示 MOCK 标记。
+仅实施用户指定的 Phase 1 前端，不自动进入后端阶段。不连接商业实时数据、不抓取受保护媒体或正文、不使用官方 F1 Logo、不写入其他 NOBI 仓库、不部署生产、不购买服务、不提交凭据。所有 Mock API/夹具携带 mode: mock，界面展示 MOCK 标记。

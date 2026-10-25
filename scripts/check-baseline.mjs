@@ -48,6 +48,7 @@ await walk(root);
 for (const file of files) {
   const name = relative(root, file).replaceAll('\\', '/');
   assert.ok(!/(^|\/)\.env(?!\.example$)/.test(name), 'Private env file in baseline: ' + name);
+  if (/\.(png|jpg|jpeg|webp|ico|woff2?)$/i.test(name)) continue;
   const content = await readFile(file, 'utf8');
   assert.ok(!/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/.test(content), 'Private key material detected');
   assert.ok(!/\b(?:gh[pousr]_[A-Za-z0-9]{30,}|AKIA[A-Z0-9]{16}|sk-[A-Za-z0-9]{32,})\b/.test(content), 'Credential pattern detected');

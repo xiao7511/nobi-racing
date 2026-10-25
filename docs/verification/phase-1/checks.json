@@ -1,0 +1,58 @@
+{
+  "checkedAt": "2026-10-25T07:11:41.010Z",
+  "scope": "Phase 1 fan application; synthetic data only",
+  "browserChannel": "msedge",
+  "mobileBrowser": "webkit",
+  "checks": [
+    {
+      "command": "pnpm check:baseline",
+      "exitCode": 0,
+      "passed": true,
+      "durationMs": 565,
+      "log": "check-baseline.log"
+    },
+    {
+      "command": "pnpm lint",
+      "exitCode": 0,
+      "passed": true,
+      "durationMs": 3393,
+      "log": "lint.log"
+    },
+    {
+      "command": "pnpm typecheck",
+      "exitCode": 0,
+      "passed": true,
+      "durationMs": 9108,
+      "log": "typecheck.log"
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0,
+      "passed": true,
+      "durationMs": 5962,
+      "log": "test.log"
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0,
+      "passed": true,
+      "durationMs": 8695,
+      "log": "build.log"
+    },
+    {
+      "command": "pnpm check:api",
+      "exitCode": 0,
+      "passed": true,
+      "durationMs": 1874,
+      "log": "check-api.log"
+    },
+    {
+      "command": "pnpm test:e2e",
+      "exitCode": 0,
+      "passed": true,
+      "durationMs": 77312,
+      "log": "test-e2e.log"
+    }
+  ],
+  "complete": true
+}

@@ -1,0 +1,31 @@
+
+> nobi-racing@0.0.0 test D:\project\nobi-racing
+> pnpm test:baseline && pnpm test:unit
+
+
+> nobi-racing@0.0.0 test:baseline D:\project\nobi-racing
+> node --test tests/baseline.test.mjs
+
+✔ source policy checks approval, capability, territory, enablement and both time bounds (0.7834ms)
+✔ core token pairs meet WCAG AA contrast (0.8153ms)
+✔ light theme core token pairs meet WCAG AA contrast (0.3651ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 140.7814
+
+> nobi-racing@0.0.0 test:unit D:\project\nobi-racing
+> vitest run
+
+
+ RUN  v4.1.12 D:/project/nobi-racing
+
+
+ Test Files  5 passed (5)
+      Tests  17 passed (17)
+   Start at  15:10:09
+   Duration  3.50s (transform 1.24s, setup 0ms, import 1.94s, tests 603ms, environment 5.59s)

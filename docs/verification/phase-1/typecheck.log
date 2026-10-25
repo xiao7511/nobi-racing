@@ -1,0 +1,9 @@
+
+> nobi-racing@0.0.0 typecheck D:\project\nobi-racing
+> pnpm -r --if-present typecheck && pnpm --filter @nobi/fan exec vue-tsc -p ../../tsconfig.tools.json
+
+Scope: 5 of 6 workspace projects
+apps/fan typecheck$ vue-tsc --noEmit
+apps/admin typecheck$ vue-tsc --noEmit
+apps/admin typecheck: Done
+apps/fan typecheck: Done

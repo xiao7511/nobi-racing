@@ -13,7 +13,7 @@
     "check:baseline": "node scripts/check-baseline.mjs",
     "test:baseline": "node --test tests/baseline.test.mjs",
     "check": "pnpm check:baseline && pnpm test:baseline && pnpm typecheck && pnpm test:unit && pnpm build && pnpm check:api",
-    "typecheck": "pnpm -r --if-present typecheck && tsc -p tsconfig.tools.json",
+    "typecheck": "pnpm -r --if-present typecheck && pnpm --filter @nobi/fan exec vue-tsc -p ../../tsconfig.tools.json",
     "test:unit": "vitest run",
     "build": "pnpm -r --if-present build",
     "test:e2e": "playwright test",
@@ -21,7 +21,12 @@
     "test:db": "mvn -f services/racing-api/pom.xml -Pdatabase-it verify",
     "check:api": "redocly lint packages/contracts/openapi.json",
     "dev:fan": "pnpm --filter @nobi/fan dev",
-    "dev:admin": "pnpm --filter @nobi/admin dev"
+    "dev:admin": "pnpm --filter @nobi/admin dev",
+    "lint": "eslint . --max-warnings 0",
+    "test": "pnpm test:baseline && pnpm test:unit",
+    "check:phase1": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "screenshots": "playwright test tests/e2e/screenshots.spec.ts --project=chromium",
+    "verify:phase1": "node scripts/verify-phase1.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
@@ -29,6 +34,18 @@
     "@types/node": "^24.0.0",
     "typescript": "~5.9.3",
     "vite": "~7.3.0",
-    "vitest": "^4.0.0"
+    "vitest": "^4.0.0",
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "eslint-plugin-vue": "^10.5.0",
+    "typescript-eslint": "^8.46.0",
+    "globals": "^16.4.0",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^27.0.0",
+    "vue": "~3.5.44",
+    "vue-i18n": "^11.0.0",
+    "pinia": "^3.0.0",
+    "vue-router": "^4.6.0",
+    "@vitejs/plugin-vue": "^6.0.0"
   }
 }

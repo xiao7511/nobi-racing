@@ -1,0 +1,30 @@
+name: Phase 1 fan application
+on:
+  pull_request:
+  push:
+    branches: [feature/nobi-racing-phase1]
+permissions:
+  contents: read
+jobs:
+  web-phase1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.8
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      - run: pnpm verify:phase1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-1-verification
+          path: |
+            docs/verification/phase-1/
+            test-results/
+          retention-days: 7

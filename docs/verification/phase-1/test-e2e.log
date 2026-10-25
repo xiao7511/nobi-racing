@@ -1,0 +1,53 @@
+
+> nobi-racing@0.0.0 test:e2e D:\project\nobi-racing
+> playwright test
+
+[WebServer] (node:27556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:18324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:38784) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 28 tests using 2 workers
+
+(node:33960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:23760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  2 [chromium] › tests\e2e\journeys.spec.ts:7:1 › story saving, driver following and profile survive reload (6.0s)
+  ok  3 [chromium] › tests\e2e\journeys.spec.ts:21:1 › news filters, searches and empty states work (1.5s)
+  ok  4 [chromium] › tests\e2e\journeys.spec.ts:29:1 › race filters and track timezone change the displayed sessions (2.5s)
+  ok  5 [chromium] › tests\e2e\journeys.spec.ts:40:1 › team standings aggregate correctly (1.5s)
+  ok  6 [chromium] › tests\e2e\journeys.spec.ts:46:1 › settings persist language, light appearance and timezone (1.9s)
+  ok  7 [chromium] › tests\e2e\journeys.spec.ts:58:1 › system appearance follows device changes (1.6s)
+  ok  8 [chromium] › tests\e2e\journeys.spec.ts:66:1 › keyboard skip link focuses the content without changing the hash route (1.3s)
+  ok  9 [chromium] › tests\e2e\journeys.spec.ts:76:1 › unknown routes and missing entities offer a way home (1.5s)
+  ok 10 [chromium] › tests\e2e\journeys.spec.ts:83:1 › mock failures retry and empty fixtures are explicit (2.2s)
+  ok 11 [chromium] › tests\e2e\journeys.spec.ts:94:1 › network outage is announced while bundled mock remains readable (1.4s)
+  ok 12 [chromium] › tests\e2e\journeys.spec.ts:103:1 › preview sends no requests to external origins and reports no runtime errors (2.3s)
+  ok 13 [chromium] › tests\e2e\shell.spec.ts:2:1 › fan navigation and language switch (1.6s)
+  ok 14 [chromium] › tests\e2e\shell.spec.ts:12:1 › admin preview exposes no protected action (866ms)
+(node:5488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 15 [mobile-web] › tests\e2e\journeys.spec.ts:7:1 › story saving, driver following and profile survive reload (4.6s)
+  ok 16 [mobile-web] › tests\e2e\journeys.spec.ts:21:1 › news filters, searches and empty states work (1.5s)
+  ok 17 [mobile-web] › tests\e2e\journeys.spec.ts:29:1 › race filters and track timezone change the displayed sessions (2.1s)
+  ok 18 [mobile-web] › tests\e2e\journeys.spec.ts:40:1 › team standings aggregate correctly (1.1s)
+  ok 19 [mobile-web] › tests\e2e\journeys.spec.ts:46:1 › settings persist language, light appearance and timezone (1.4s)
+  ok 20 [mobile-web] › tests\e2e\journeys.spec.ts:58:1 › system appearance follows device changes (1.6s)
+  ok 21 [mobile-web] › tests\e2e\journeys.spec.ts:66:1 › keyboard skip link focuses the content without changing the hash route (1.2s)
+  ok 22 [mobile-web] › tests\e2e\journeys.spec.ts:76:1 › unknown routes and missing entities offer a way home (1.2s)
+  ok 23 [mobile-web] › tests\e2e\journeys.spec.ts:83:1 › mock failures retry and empty fixtures are explicit (2.3s)
+  ok 24 [mobile-web] › tests\e2e\journeys.spec.ts:94:1 › network outage is announced while bundled mock remains readable (1.2s)
+  ok 25 [mobile-web] › tests\e2e\journeys.spec.ts:103:1 › preview sends no requests to external origins and reports no runtime errors (2.1s)
+  ok  1 [chromium] › tests\e2e\screenshots.spec.ts:5:1 › capture bilingual desktop and mobile pages in both themes (1.1m)
+(node:25760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 26 [mobile-web] › tests\e2e\screenshots.spec.ts:5:1 › capture bilingual desktop and mobile pages in both themes (18.1s)
+  ok 27 [mobile-web] › tests\e2e\shell.spec.ts:2:1 › fan navigation and language switch (1.8s)
+  ok 28 [mobile-web] › tests\e2e\shell.spec.ts:12:1 › admin preview exposes no protected action (767ms)
+
+  28 passed (1.3m)

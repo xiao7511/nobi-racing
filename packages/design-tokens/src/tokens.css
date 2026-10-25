@@ -11,6 +11,10 @@
   --color-success: #65d6a6;
   --color-warning: #ffd275;
   --color-focus: #80cfff;
+  --color-line: #2a3443;
+  --color-accent-soft: #291a1d;
+  --color-art-bg: #171f2b;
+  --color-art-grid: #344153;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -25,4 +29,23 @@
   --font-size-caption: 14px;
   --font-size-title: clamp(2rem, 6vw, 4.5rem);
   --duration-fast: 150ms;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #f4f6fa;
+  --color-surface: #ffffff;
+  --color-surface-raised: #e9edf4;
+  --color-text: #192232;
+  --color-muted: #4d5b70;
+  --color-border: #75829a;
+  --color-accent: #ad291c;
+  --color-on-accent: #ffffff;
+  --color-success: #176742;
+  --color-warning: #825200;
+  --color-focus: #165e9b;
+  --color-line: #d6dce6;
+  --color-accent-soft: #f9e8e4;
+  --color-art-bg: #e3e9f2;
+  --color-art-grid: #b9c7da;
 }

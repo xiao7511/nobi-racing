@@ -1,0 +1,42 @@
+
+> nobi-racing@0.0.0 build D:\project\nobi-racing
+> pnpm -r --if-present build
+
+Scope: 5 of 6 workspace projects
+apps/fan build$ vue-tsc --noEmit && vite build
+apps/admin build$ vue-tsc --noEmit && vite build
+apps/admin build: vite v7.3.7 building client environment for production...
+apps/admin build: transforming...
+apps/admin build: ✓ 39 modules transformed.
+apps/fan build: vite v7.3.7 building client environment for production...
+apps/fan build: transforming...
+apps/admin build: rendering chunks...
+apps/admin build: computing gzip size...
+apps/admin build: dist/index.html                   0.43 kB │ gzip:  0.30 kB
+apps/admin build: dist/assets/index-BVGOLhNL.css    2.78 kB │ gzip:  1.08 kB
+apps/admin build: dist/assets/index-lWYemYL9.js   132.74 kB │ gzip: 49.47 kB
+apps/admin build: ✓ built in 1.69s
+apps/admin build: Done
+apps/fan build: ✓ 82 modules transformed.
+apps/fan build: rendering chunks...
+apps/fan build: computing gzip size...
+apps/fan build: dist/index.html                                                              0.42 kB │ gzip:  0.29 kB
+apps/fan build: dist/assets/index-bms_5Myt.css                                              21.31 kB │ gzip:  5.07 kB
+apps/fan build: dist/assets/usePage-B3GeRncK.js                                              0.54 kB │ gzip:  0.37 kB
+apps/fan build: dist/assets/NotFoundView-BPOBVaUu.js                                         0.58 kB │ gzip:  0.41 kB
+apps/fan build: dist/assets/web-CaC-Tp7-.js                                                  0.84 kB │ gzip:  0.40 kB
+apps/fan build: dist/assets/RacingArt.vue_vue_type_script_setup_true_lang-DtJSWS6c.js        0.87 kB │ gzip:  0.54 kB
+apps/fan build: dist/assets/NewsCard.vue_vue_type_script_setup_true_lang-DCSTbCvi.js         0.97 kB │ gzip:  0.59 kB
+apps/fan build: dist/assets/NewsView-0rzqb4Q2.js                                             1.87 kB │ gzip:  1.01 kB
+apps/fan build: dist/assets/ArticleView-Dcu9pqMs.js                                          1.89 kB │ gzip:  1.00 kB
+apps/fan build: dist/assets/DriverView-pnTGqRPO.js                                           1.98 kB │ gzip:  1.02 kB
+apps/fan build: dist/assets/RacesView-rfiBhRqf.js                                            2.04 kB │ gzip:  1.07 kB
+apps/fan build: dist/assets/SettingsView-BnrXH1n7.js                                         2.59 kB │ gzip:  1.14 kB
+apps/fan build: dist/assets/RaceView-rdZ4kTG3.js                                             2.59 kB │ gzip:  1.20 kB
+apps/fan build: dist/assets/ProfileView-B21aaqNk.js                                          2.74 kB │ gzip:  1.13 kB
+apps/fan build: dist/assets/StatsView-CUx_xPWK.js                                            2.78 kB │ gzip:  1.30 kB
+apps/fan build: dist/assets/HomeView-C4Aio6cG.js                                             3.47 kB │ gzip:  1.52 kB
+apps/fan build: dist/assets/ResourceState.vue_vue_type_script_setup_true_lang-BZChC_35.js    7.67 kB │ gzip:  4.01 kB
+apps/fan build: dist/assets/index-CJHeq2Ma.js                                              181.37 kB │ gzip: 68.29 kB
+apps/fan build: ✓ built in 1.85s
+apps/fan build: Done
