@@ -1,0 +1,5 @@
+
+> nobi-racing@0.0.0 api:client:check D:\project\nobi-racing
+> node scripts/generate-api-client.mjs --check
+
+PASS generated API types, paths and runtime schemas drift check

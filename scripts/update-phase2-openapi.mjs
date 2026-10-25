@@ -12,7 +12,7 @@ const nullable = schema => ({ ...schema, type: [schema.type, 'null'] });
 const decimal = { type: 'string', pattern: '^-?[0-9]+(?:\\.[0-9]{1,3})?$' };
 const object = properties => ({ type: 'object', additionalProperties: false, required: Object.keys(properties), properties });
 const metadata = { provenance: ref('Phase2Provenance'), dataStatus: { enum: ['synthetic', 'current', 'stale', 'corrected'] }, updatedAt: time };
-Object.assign(api.info, { title: 'NOBI Racing API', version: '0.2.0', description: 'Phase 2 implements source-authorized synthetic racing data, PostgreSQL and Redis. Identity, editorial and staff writes remain disabled/draft. No commercial or real-time provider is connected.' });
+Object.assign(api.info, { title: 'NOBI Racing API', version: '0.3.0', description: 'Source-authorized synthetic racing data with PostgreSQL/Redis and a generated Web client. Identity, editorial and staff writes remain disabled/draft. No commercial or real-time provider is connected.' });
 api.servers = [{ url: 'http://127.0.0.1:5280', description: 'Loopback development only; not a production service' }];
 const schemas = api.components.schemas;
 schemas.Phase2Provenance = object({ sourceId: uuid, sourceCode: string, mode: { enum: ['mock', 'licensed'] }, fetchedAt: time, attribution: string, timeZone: string });
@@ -26,7 +26,7 @@ const definitions = {
   Driver: { id: uuid, name: string, countryCode: nullable(string), carNumber: nullable(integer), biography: nullable(string) },
   Team: { id: uuid, name: string, countryCode: nullable(string) },
   SeasonEntry: { id: uuid, seasonId: uuid, driverId: uuid, teamId: uuid, carNumber: nullable(integer), fromRound: integer, toRound: nullable(integer), driverName: string, teamName: string },
-  SessionResult: { id: uuid, sessionId: uuid, raceId: uuid, driverId: uuid, teamId: uuid, position: nullable(integer), resultStatus: { enum: ['classified', 'dnf', 'dns', 'dsq'] }, points: decimal, elapsedMs: nullable(integer) },
+  SessionResult: { id: uuid, sessionId: uuid, raceId: uuid, driverId: uuid, teamId: uuid, driverName: string, teamName: string, position: nullable(integer), resultStatus: { enum: ['classified', 'dnf', 'dns', 'dsq'] }, points: decimal, elapsedMs: nullable(integer) },
   StandingRow: { id: uuid, snapshotId: uuid, seasonId: uuid, afterRaceId: nullable(uuid), capturedAt: time, snapshotRevision: integer, position: integer, points: decimal, wins: integer, name: string },
 };
 for (const [name, fields] of Object.entries(definitions)) {

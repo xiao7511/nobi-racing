@@ -1,5 +1,7 @@
 # API 草案与错误码
 
+> Phase 3 更新：当前 OpenAPI 版本 0.3.0，成绩响应增加 `driverName` 与 `teamName`。已实现的 GET 操作生成 TypeScript DTO 和 standalone 响应校验器，`pnpm api:client:generate` 更新，`pnpm api:client:check` 检测漂移；Web 使用同源 `/api/v1` 并拒绝非 synthetic/mock 数据。分页除游标外校验相同 snapshotVersion/snapshotId，不进行跨快照拼接；详细边界见 [Phase 3 报告](phases/phase-3-report.md)。
+
 > Phase 2 更新：OpenAPI 已为 0.2.0，`x-phase-status=implemented-phase2` 的赛历/目录/成绩/积分接口已经实现，locale 为 en-US/zh-CN。readiness 检查 DB/Redis，错误包含 traceId；34 个真实 HTTP 响应通过契约校验。下文 Phase 0 草案说明保留为历史；当前可调用端点、游标/缓存规则和错误边界见 [Phase 2 报告](phases/phase-2-report.md)。Profile、资讯与管理写入仍是不可用草案。
 
 OpenAPI 3.1 权威文件为 packages/contracts/openapi.json（JSON 格式也是有效 OpenAPI 文档）。版本 0.0.0，REST 基路径 /api/v1。只有 GET /api/v1/readiness 已写入服务骨架；其返回 foundation、phase=0、dataMode=mock，仅表示进程级基线，不表示数据库/外部来源已就绪。其余操作标记 x-phase-status=draft。

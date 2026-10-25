@@ -8,7 +8,7 @@ export default defineConfig({
     { name: 'mobile-web', use: { ...devices['iPhone 13'] } },
   ],
   webServer: [
-    { command: 'pnpm --filter @nobi/fan dev --port 5273', url: 'http://127.0.0.1:5273', reuseExistingServer: false },
+    { command: 'pnpm --filter @nobi/fan dev --port 5273', url: 'http://127.0.0.1:5273', reuseExistingServer: false, env: { VITE_DATA_TRANSPORT: 'fixture' } },
     { command: 'pnpm --filter @nobi/admin dev --port 5274', url: 'http://127.0.0.1:5274', reuseExistingServer: false },
   ],
 });

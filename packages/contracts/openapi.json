@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "NOBI Racing API",
-    "version": "0.2.0",
-    "description": "Phase 2 implements source-authorized synthetic racing data, PostgreSQL and Redis. Identity, editorial and staff writes remain disabled/draft. No commercial or real-time provider is connected.",
+    "version": "0.3.0",
+    "description": "Source-authorized synthetic racing data with PostgreSQL/Redis and a generated Web client. Identity, editorial and staff writes remain disabled/draft. No commercial or real-time provider is connected.",
     "contact": {
       "name": "NOBI Racing project maintainers"
     }
@@ -3599,6 +3599,8 @@
           "raceId",
           "driverId",
           "teamId",
+          "driverName",
+          "teamName",
           "position",
           "resultStatus",
           "points",
@@ -3627,6 +3629,12 @@
           "teamId": {
             "type": "string",
             "format": "uuid"
+          },
+          "driverName": {
+            "type": "string"
+          },
+          "teamName": {
+            "type": "string"
           },
           "position": {
             "type": [

@@ -1,0 +1,176 @@
+{
+  "checkedAt": "2026-10-25T08:59:46.699Z",
+  "backendBrowserChecks": 18,
+  "fixtureBrowserChecks": 26,
+  "screenshotCount": 24,
+  "screenshots": [
+    {
+      "path": "screenshots/backend-chromium-en-US-dark-profile.png",
+      "bytes": 74937,
+      "width": 1280,
+      "height": 854,
+      "sha256": "4e6f8a580df47e73b675554255c2340c7398378f2b63dd2d0f91ae3b4ac9c9b3"
+    },
+    {
+      "path": "screenshots/backend-chromium-en-US-dark-races.png",
+      "bytes": 108389,
+      "width": 1280,
+      "height": 1069,
+      "sha256": "1b46b6b3bd6c99fecb36e6a6a87bfc6b488dd1f5e62aa81c5bbd3d15d2cf79d6"
+    },
+    {
+      "path": "screenshots/backend-chromium-en-US-dark-stats.png",
+      "bytes": 89189,
+      "width": 1280,
+      "height": 1107,
+      "sha256": "dd012815316a8fe0d048e5212e068595e9c0e68211597382429120018f1a5923"
+    },
+    {
+      "path": "screenshots/backend-chromium-en-US-light-profile.png",
+      "bytes": 74870,
+      "width": 1280,
+      "height": 854,
+      "sha256": "4a6751d0a8a2e011ba3013c6ca4e6d7a34a38539ac6a1e1c66027d4fcfaf74e8"
+    },
+    {
+      "path": "screenshots/backend-chromium-en-US-light-races.png",
+      "bytes": 108242,
+      "width": 1280,
+      "height": 1069,
+      "sha256": "d98410d2f36ab5c2ae121c813971bb0c0a911757615dea3e573fa0bcbfbb5749"
+    },
+    {
+      "path": "screenshots/backend-chromium-en-US-light-stats.png",
+      "bytes": 89018,
+      "width": 1280,
+      "height": 1107,
+      "sha256": "eadc9134c22ef2a710dfad9b194e877e5240d88be7f3a4ed6d3f85a9159735a3"
+    },
+    {
+      "path": "screenshots/backend-chromium-zh-CN-dark-profile.png",
+      "bytes": 77489,
+      "width": 1280,
+      "height": 854,
+      "sha256": "f2aa8bc7e6671c324867ef6ecc3a12249a98f1fa651e5ab70f84c8b8af385932"
+    },
+    {
+      "path": "screenshots/backend-chromium-zh-CN-dark-races.png",
+      "bytes": 113787,
+      "width": 1280,
+      "height": 1069,
+      "sha256": "85619f85b1c2e71ab1bd82d62f627cdeafb6f0cc81d517896ea5ffc3643590a6"
+    },
+    {
+      "path": "screenshots/backend-chromium-zh-CN-dark-stats.png",
+      "bytes": 94242,
+      "width": 1280,
+      "height": 1107,
+      "sha256": "cb2b1d46c47f6db4c753e5e47eb7b4cc39ec094277757df820e8fbbe4c15eb90"
+    },
+    {
+      "path": "screenshots/backend-chromium-zh-CN-light-profile.png",
+      "bytes": 77533,
+      "width": 1280,
+      "height": 854,
+      "sha256": "b30b2267e962c78e5c1eb7ba25c4f087eba8f0653fc692b1982411b36888d613"
+    },
+    {
+      "path": "screenshots/backend-chromium-zh-CN-light-races.png",
+      "bytes": 113757,
+      "width": 1280,
+      "height": 1069,
+      "sha256": "c92f2882a7a36db929ac1458a6623bfeb70bda19a22a13757f70b98738805439"
+    },
+    {
+      "path": "screenshots/backend-chromium-zh-CN-light-stats.png",
+      "bytes": 94128,
+      "width": 1280,
+      "height": 1107,
+      "sha256": "aa46e51f2c5f19da4f6641e760efc7328f71883cc3a26a284e9248cd682d74dd"
+    },
+    {
+      "path": "screenshots/backend-webkit-en-US-dark-profile.png",
+      "bytes": 99112,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "8d03562d18c5ab1a4f7f820e816b9e3c03ef9cff1e2fc3f71bbff9841429361e"
+    },
+    {
+      "path": "screenshots/backend-webkit-en-US-dark-races.png",
+      "bytes": 114311,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "54cde400555cda0144756977a285a043fa48c63841270b1b0e32b26f85313253"
+    },
+    {
+      "path": "screenshots/backend-webkit-en-US-dark-stats.png",
+      "bytes": 100938,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "32ff44ac0d67e45b124babf43f0c8f9178c183f1278033d825bf7f052c87172e"
+    },
+    {
+      "path": "screenshots/backend-webkit-en-US-light-profile.png",
+      "bytes": 102550,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "32906296f7397960bb541abf57d5eba7b6382c352ef66df2be1607a7254347e4"
+    },
+    {
+      "path": "screenshots/backend-webkit-en-US-light-races.png",
+      "bytes": 117486,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "0ab0727d95742469d6d4216787d9654af1234d9d48d0b1a63f397ec14f224359"
+    },
+    {
+      "path": "screenshots/backend-webkit-en-US-light-stats.png",
+      "bytes": 103475,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "9c7ee1d09c739c010913a9f1482ad98d84a21b2892c1a2b21ee49b9c93247eec"
+    },
+    {
+      "path": "screenshots/backend-webkit-zh-CN-dark-profile.png",
+      "bytes": 96727,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "849a4150c9e833c89ac4593613a8c70e4625099c62302584cd927f6a9a37e087"
+    },
+    {
+      "path": "screenshots/backend-webkit-zh-CN-dark-races.png",
+      "bytes": 115000,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "8b3b4b273806d56b9d595027debc4a3e7741de030beaf7e20596589cdd289dd1"
+    },
+    {
+      "path": "screenshots/backend-webkit-zh-CN-dark-stats.png",
+      "bytes": 98920,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "e942a8687119647aeb36035a93706241b6154eae9c8ea62886ed7cc89c4b2331"
+    },
+    {
+      "path": "screenshots/backend-webkit-zh-CN-light-profile.png",
+      "bytes": 99915,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "ebeb6423238d43a22f32ddfadf4a43205ce4efa7a4d24ca69bbfa7edf915e80a"
+    },
+    {
+      "path": "screenshots/backend-webkit-zh-CN-light-races.png",
+      "bytes": 117751,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "072e45b7a7ae254658db242e1b68eb72db6bdf9d16b71b64163bd921019b651b"
+    },
+    {
+      "path": "screenshots/backend-webkit-zh-CN-light-stats.png",
+      "bytes": 101449,
+      "width": 1170,
+      "height": 1992,
+      "sha256": "d041e7d40f3e6ff494f9d34afcd8568d3f8d4112c129f8734316da945498eb32"
+    }
+  ]
+}

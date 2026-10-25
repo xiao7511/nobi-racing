@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-10-25T08:59:46.699Z",
+  "scope": "Phase 3 database-backed Web integration; isolated synthetic fixtures; no external data source",
+  "browserChannel": "msedge",
+  "mobileBrowser": "webkit",
+  "checks": [
+    {
+      "command": "mvn -B -Dmaven.repo.local=.cache/m2 -f services/racing-api/pom.xml -Pdatabase-it,browser-it verify",
+      "exitCode": 0,
+      "durationMs": 110927,
+      "log": "backend.log"
+    },
+    {
+      "command": "pnpm api:client:check",
+      "exitCode": 0,
+      "durationMs": 1495,
+      "log": "api-client-check.log"
+    },
+    {
+      "command": "pnpm test:phase2:contracts",
+      "exitCode": 0,
+      "durationMs": 1537,
+      "log": "test-phase2-contracts.log"
+    },
+    {
+      "command": "pnpm api:phase2:check",
+      "exitCode": 0,
+      "durationMs": 716,
+      "log": "api-phase2-check.log"
+    },
+    {
+      "command": "pnpm check:api",
+      "exitCode": 0,
+      "durationMs": 2994,
+      "log": "check-api.log"
+    },
+    {
+      "command": "pnpm check:phase1",
+      "exitCode": 0,
+      "durationMs": 65798,
+      "log": "check-phase1.log"
+    },
+    {
+      "command": "pnpm test:e2e:fixture",
+      "exitCode": 0,
+      "durationMs": 48562,
+      "log": "test-e2e-fixture.log"
+    },
+    {
+      "command": "pnpm check:baseline",
+      "exitCode": 0,
+      "durationMs": 734,
+      "log": "check-baseline.log"
+    }
+  ],
+  "complete": true
+}

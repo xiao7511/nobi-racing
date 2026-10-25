@@ -1,0 +1,32 @@
+name: Phase 3 Web API integration
+on:
+  pull_request:
+  push:
+    branches: [codex/nobi-racing-phase3]
+permissions:
+  contents: read
+jobs:
+  web-api-phase3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.8
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      - run: pnpm verify:phase3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-3-verification
+          path: docs/verification/phase-3/
+          retention-days: 7

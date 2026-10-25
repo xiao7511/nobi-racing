@@ -120,6 +120,12 @@ importers:
       '@nobi/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
+      ajv:
+        specifier: 8.17.1
+        version: 8.17.1
+      ajv-formats:
+        specifier: 3.0.1
+        version: 3.0.1(ajv@8.17.1)
       pinia:
         specifier: ^3.0.0
         version: 3.0.4(typescript@5.9.3)(vue@3.5.44(typescript@5.9.3))
@@ -143,7 +149,14 @@ importers:
         specifier: ^3.1.0
         version: 3.3.13(typescript@5.9.3)
 
-  packages/contracts: {}
+  packages/contracts:
+    dependencies:
+      ajv:
+        specifier: 8.17.1
+        version: 8.17.1
+      ajv-formats:
+        specifier: 3.0.1
+        version: 3.0.1(ajv@8.17.1)
 
   packages/design-tokens: {}
 

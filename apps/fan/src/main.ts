@@ -7,6 +7,7 @@ import App from './App.vue';
 import { router } from './router';
 import { usePreferences } from './stores/preferences';
 import './style.css';
+import './backend.css';
 const pinia = createPinia();
 const preferences = usePreferences(pinia);
 preferences.initialize();

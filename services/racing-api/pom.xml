@@ -19,6 +19,17 @@
     <dependencies>
       <dependency><groupId>org.testcontainers</groupId><artifactId>testcontainers-postgresql</artifactId><version>2.0.5</version><scope>test</scope></dependency>
     </dependencies>
-    <build><plugins><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-failsafe-plugin</artifactId><executions><execution><goals><goal>integration-test</goal><goal>verify</goal></goals></execution></executions></plugin><plugin><groupId>org.codehaus.mojo</groupId><artifactId>build-helper-maven-plugin</artifactId><version>3.6.1</version><executions><execution><id>add-it-source</id><phase>generate-test-sources</phase><goals><goal>add-test-source</goal></goals><configuration><sources><source>src/it/java</source></sources></configuration></execution></executions></plugin></plugins></build>
-  </profile></profiles>
+    <build><plugins>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-failsafe-plugin</artifactId>
+        <configuration><includes><include>**/DatabaseIT.java</include></includes></configuration>
+        <executions><execution><goals><goal>integration-test</goal><goal>verify</goal></goals></execution></executions>
+      </plugin>
+      <plugin><groupId>org.codehaus.mojo</groupId><artifactId>build-helper-maven-plugin</artifactId><version>3.6.1</version><executions><execution><id>add-it-source</id><phase>generate-test-sources</phase><goals><goal>add-test-source</goal></goals><configuration><sources><source>src/it/java</source></sources></configuration></execution></executions></plugin>
+    </plugins></build>
+  </profile>
+  <profile><id>browser-it</id><build><plugins>
+    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-failsafe-plugin</artifactId><configuration><includes combine.self="override"><include>**/DatabaseIT.java</include><include>**/BrowserIT.java</include></includes></configuration></plugin>
+    <plugin><groupId>org.codehaus.mojo</groupId><artifactId>build-helper-maven-plugin</artifactId><version>3.6.1</version><executions><execution><id>add-browser-it-source</id><phase>generate-test-sources</phase><goals><goal>add-test-source</goal></goals><configuration><sources><source>src/browser-it/java</source></sources></configuration></execution></executions></plugin>
+  </plugins></build></profile>
+  </profiles>
 </project>

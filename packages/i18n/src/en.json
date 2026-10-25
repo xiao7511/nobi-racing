@@ -83,12 +83,15 @@
     "schedule": "Weekend schedule",
     "timeDisplay": "Schedule time zone",
     "yourTime": "Your time",
-    "trackTime": "Track time"
+    "trackTime": "Track time",
+    "scheduled": "Upcoming",
+    "cancelled": "Cancelled"
   },
   "sessions": {
     "practice": "Practice",
     "qualifying": "Qualifying",
-    "race": "Race"
+    "race": "Race",
+    "sprint": "Sprint"
   },
   "stats": {
     "title": "The season, in numbers.",
@@ -153,6 +156,61 @@
     "driver": "Driver",
     "profile": "Profile",
     "settings": "Settings",
-    "not-found": "Page not found"
+    "not-found": "Page not found",
+    "team": "Team details"
+  },
+  "api": {
+    "database": "Database preview",
+    "backendNotice": "Racing data from the local database · synthetic. Stories are original local samples.",
+    "offline": "You are offline. Racing data has been cleared; reconnect to verify the source again. Local stories remain available.",
+    "season": "Season",
+    "fetched": "Retrieved",
+    "sourceZone": "Source time zone",
+    "dataStatus": "Data status",
+    "snapshot": "Snapshot",
+    "trace": "Reference",
+    "retryAfter": "Please wait {count} seconds before retrying.",
+    "status": {
+      "synthetic": "Synthetic",
+      "current": "Current",
+      "stale": "Stale",
+      "corrected": "Corrected"
+    },
+    "racesDescription": "An authorized synthetic calendar, retrieved from the database.",
+    "statsDescription": "Complete season standings, as published by the source.",
+    "homeDescription": "Original stories, alongside source-attributed racing previews.",
+    "localStories": "Original local sample stories",
+    "results": "Session results",
+    "session": "Session",
+    "resultStatus": "Classification",
+    "driverDetails": "Driver details",
+    "result": {
+      "classified": "Classified",
+      "dnf": "DNF",
+      "dns": "DNS",
+      "dsq": "DSQ"
+    },
+    "noStatistics": "No complete standings snapshot is available for this season.",
+    "noCareerClaims": "Only the selected season’s published points and wins are shown. Career totals are not supplied.",
+    "roster": "Season roster entries",
+    "fromRound": "Rounds",
+    "openEnded": "onward",
+    "unavailableFollows": "Some saved drivers are unavailable in this data source or are no longer authorized. Their details are hidden; your saved identifiers remain on this device.",
+    "resetSelection": "Reset season selection"
+  },
+  "apiErrors": {
+    "SOURCE_UNAVAILABLE": "Racing data is temporarily unavailable. Please try again.",
+    "INVALID_RESPONSE": "The data could not be verified. Please refresh.",
+    "SOURCE_NOT_AUTHORIZED": "This data is unavailable under the current source permission.",
+    "VALIDATION_FAILED": "This selection is invalid or no longer available. Choose a season again.",
+    "RESOURCE_NOT_FOUND": "This resource is unavailable or no longer authorized.",
+    "SNAPSHOT_CHANGED": "The data version changed. Refresh to load a complete snapshot.",
+    "RATE_LIMITED": "Too many requests. Please wait before retrying.",
+    "AUTH_REQUIRED": "Access to this resource requires an authorized session.",
+    "AUTH_FORBIDDEN": "This resource is unavailable for the current access level.",
+    "OFFLINE": "Reconnect to retrieve and verify racing data.",
+    "REFRESH_REQUIRED": "Refresh to verify this data again.",
+    "TIMEOUT": "The request timed out. Please try again.",
+    "RESULT_LIMIT_EXCEEDED": "The result is too large for this view. Choose a narrower season."
   }
 }

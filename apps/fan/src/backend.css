@@ -1,0 +1,6 @@
+.season-picker { display: flex; align-items: center; gap: 12px; margin: 0 0 24px; font-size: 14px; color: var(--color-muted); }
+.season-picker select { max-width: 100%; }
+.source-note { overflow-wrap: anywhere; }
+.source-note .mock-pill { margin-right: 6px; }
+button:disabled { cursor: wait; opacity: .6; }
+@media (max-width: 600px) { .season-picker { align-items: flex-start; flex-direction: column; gap: 6px; }.season-picker select { width: 100%; }.section-heading:has(select) { align-items: flex-start; flex-direction: column; } }

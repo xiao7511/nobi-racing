@@ -39,7 +39,7 @@ if (!process.exitCode) {
   const suites = [];
   for (const folder of ['surefire-reports', 'failsafe-reports']) {
     const directory = resolve(root, 'services/racing-api/target', folder);
-    for (const file of (await readdir(directory)).filter(file => file.startsWith('TEST-') && file.endsWith('.xml'))) {
+    for (const file of (await readdir(directory)).filter(file => file.startsWith('TEST-') && file.endsWith('.xml') && file !== 'TEST-com.nobi.racing.BrowserIT.xml')) {
       const xml = await readFile(resolve(directory, file), 'utf8');
       const header = xml.match(/<testsuite\s[^>]+>/)?.[0];
       const property = key => header?.match(new RegExp(key + '="([^"]+)"'))?.[1];

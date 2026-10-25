@@ -4,7 +4,7 @@ import ts from 'typescript-eslint';
 import globals from 'globals';
 
 export default ts.config(
-  { ignores: ['**/node_modules/**', '**/dist/**', '**/target/**', '.cache/**', '.tools/**', 'playwright-report/**', 'test-results/**'] },
+  { ignores: ['**/node_modules/**', '**/dist/**', '**/target/**', '.cache/**', '.tools/**', 'playwright-report/**', 'test-results/**', 'packages/contracts/src/generated/validators.mjs'] },
   js.configs.recommended,
   ...ts.configs.recommended,
   ...vue.configs['flat/essential'],

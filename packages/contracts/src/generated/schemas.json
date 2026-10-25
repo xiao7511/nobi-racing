@@ -1,0 +1,1180 @@
+{
+  "$defs": {
+    "Circuit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "countryCode",
+        "timeZone",
+        "lengthKm",
+        "turns",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": "string"
+        },
+        "timeZone": {
+          "type": "string"
+        },
+        "lengthKm": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^-?[0-9]+(?:\\.[0-9]{1,3})?$"
+        },
+        "turns": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "CircuitDetailV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "dataMode"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/Circuit"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed"
+          ]
+        }
+      }
+    },
+    "CircuitPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Circuit"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "Driver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "countryCode",
+        "carNumber",
+        "biography",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "carNumber": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "biography": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "DriverDetailV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "dataMode"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/Driver"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed"
+          ]
+        }
+      }
+    },
+    "DriverPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Driver"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "Phase2Provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceId",
+        "sourceCode",
+        "mode",
+        "fetchedAt",
+        "attribution",
+        "timeZone"
+      ],
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sourceCode": {
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "mock",
+            "licensed"
+          ]
+        },
+        "fetchedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "attribution": {
+          "type": "string"
+        },
+        "timeZone": {
+          "type": "string"
+        }
+      }
+    },
+    "Problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "title",
+        "status",
+        "code",
+        "traceId"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "code": {
+          "type": "string"
+        },
+        "traceId": {
+          "type": "string"
+        }
+      }
+    },
+    "RaceEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "seasonId",
+        "circuitId",
+        "round",
+        "startsAt",
+        "status",
+        "laps",
+        "revision",
+        "timeZone",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "seasonId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "circuitId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "round": {
+          "type": "integer"
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "enum": [
+            "scheduled",
+            "completed",
+            "cancelled"
+          ]
+        },
+        "laps": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "timeZone": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "RaceEventDetailV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "dataMode"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/RaceEvent"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed"
+          ]
+        }
+      }
+    },
+    "RaceEventPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RaceEvent"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "RaceSession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "raceId",
+        "kind",
+        "sequence",
+        "startsAt",
+        "endsAt",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "raceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "kind": {
+          "enum": [
+            "practice",
+            "qualifying",
+            "sprint",
+            "race"
+          ]
+        },
+        "sequence": {
+          "type": "integer"
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endsAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "RaceSessionPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RaceSession"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "Readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "phase",
+        "dataMode",
+        "database",
+        "cache"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "degraded",
+            "unavailable"
+          ]
+        },
+        "phase": {
+          "const": "2"
+        },
+        "dataMode": {
+          "const": "mock"
+        },
+        "database": {
+          "enum": [
+            "up",
+            "down"
+          ]
+        },
+        "cache": {
+          "enum": [
+            "up",
+            "down",
+            "disabled"
+          ]
+        }
+      }
+    },
+    "Season": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "year",
+        "seriesCode",
+        "seriesName",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "year": {
+          "type": "integer"
+        },
+        "seriesCode": {
+          "type": "string"
+        },
+        "seriesName": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SeasonDetailV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "dataMode"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/Season"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed"
+          ]
+        }
+      }
+    },
+    "SeasonEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "seasonId",
+        "driverId",
+        "teamId",
+        "carNumber",
+        "fromRound",
+        "toRound",
+        "driverName",
+        "teamName",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "seasonId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "driverId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "teamId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "carNumber": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "fromRound": {
+          "type": "integer"
+        },
+        "toRound": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "driverName": {
+          "type": "string"
+        },
+        "teamName": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SeasonEntryPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SeasonEntry"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "SeasonPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Season"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "SessionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sessionId",
+        "raceId",
+        "driverId",
+        "teamId",
+        "driverName",
+        "teamName",
+        "position",
+        "resultStatus",
+        "points",
+        "elapsedMs",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "raceId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "driverId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "teamId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "driverName": {
+          "type": "string"
+        },
+        "teamName": {
+          "type": "string"
+        },
+        "position": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "resultStatus": {
+          "enum": [
+            "classified",
+            "dnf",
+            "dns",
+            "dsq"
+          ]
+        },
+        "points": {
+          "type": "string",
+          "pattern": "^-?[0-9]+(?:\\.[0-9]{1,3})?$"
+        },
+        "elapsedMs": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SessionResultPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SessionResult"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "StandingRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "snapshotId",
+        "seasonId",
+        "afterRaceId",
+        "capturedAt",
+        "snapshotRevision",
+        "position",
+        "points",
+        "wins",
+        "name",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "snapshotId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "seasonId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "afterRaceId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "snapshotRevision": {
+          "type": "integer"
+        },
+        "position": {
+          "type": "integer"
+        },
+        "points": {
+          "type": "string",
+          "pattern": "^-?[0-9]+(?:\\.[0-9]{1,3})?$"
+        },
+        "wins": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "StandingRowPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StandingRow"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    },
+    "Team": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "countryCode",
+        "provenance",
+        "dataStatus",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "countryCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/Phase2Provenance"
+        },
+        "dataStatus": {
+          "enum": [
+            "synthetic",
+            "current",
+            "stale",
+            "corrected"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "TeamDetailV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "dataMode"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "#/$defs/Team"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed"
+          ]
+        }
+      }
+    },
+    "TeamPageV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor",
+        "snapshotVersion",
+        "snapshotId",
+        "dataMode"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Team"
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "snapshotVersion": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "snapshotId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "dataMode": {
+          "enum": [
+            "mock",
+            "licensed",
+            "mixed",
+            "empty"
+          ]
+        }
+      }
+    }
+  }
+}

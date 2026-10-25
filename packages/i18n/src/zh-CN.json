@@ -83,12 +83,15 @@
     "schedule": "周末赛程",
     "timeDisplay": "赛程显示时区",
     "yourTime": "你的时间",
-    "trackTime": "赛道时间"
+    "trackTime": "赛道时间",
+    "scheduled": "即将开始",
+    "cancelled": "已取消"
   },
   "sessions": {
     "practice": "练习赛",
     "qualifying": "排位赛",
-    "race": "正赛"
+    "race": "正赛",
+    "sprint": "冲刺赛"
   },
   "stats": {
     "title": "用数字，读懂赛季。",
@@ -153,6 +156,61 @@
     "driver": "车手详情",
     "profile": "我的",
     "settings": "设置",
-    "not-found": "未找到页面"
+    "not-found": "未找到页面",
+    "team": "车队详情"
+  },
+  "api": {
+    "database": "数据库演示",
+    "backendNotice": "赛事数据来自本地数据库，均为合成示例；资讯仍为原创本地示例。",
+    "offline": "网络已断开，赛事数据已清空。重新联网后将再次验证来源；本地原创资讯仍可阅读。",
+    "season": "赛季",
+    "fetched": "采集时间",
+    "sourceZone": "来源时区",
+    "dataStatus": "数据状态",
+    "snapshot": "积分快照",
+    "trace": "问题编号",
+    "retryAfter": "请等待 {count} 秒后重试。",
+    "status": {
+      "synthetic": "合成示例",
+      "current": "当前",
+      "stale": "已过期",
+      "corrected": "已修正"
+    },
+    "racesDescription": "从数据库读取经过授权检查的合成赛历。",
+    "statsDescription": "查看数据源发布的完整赛季积分。",
+    "homeDescription": "原创故事与可追溯来源的赛事演示，在这里相遇。",
+    "localStories": "原创本地示例资讯",
+    "results": "会话成绩",
+    "session": "比赛会话",
+    "resultStatus": "成绩状态",
+    "driverDetails": "车手详情",
+    "result": {
+      "classified": "完赛",
+      "dnf": "未完赛 DNF",
+      "dns": "未发车 DNS",
+      "dsq": "取消资格 DSQ"
+    },
+    "noStatistics": "当前赛季暂无完整积分快照。",
+    "noCareerClaims": "仅显示所选赛季快照提供的积分和胜场，未提供生涯总计。",
+    "roster": "赛季名册记录",
+    "fromRound": "有效轮次",
+    "openEnded": "后续轮次",
+    "unavailableFollows": "部分关注车手在当前数据源中不可用或已失去授权，因此不显示其详情；关注标识仍保存在本设备。",
+    "resetSelection": "重置赛季选择"
+  },
+  "apiErrors": {
+    "SOURCE_UNAVAILABLE": "赛事数据暂时不可用，请稍后重试。",
+    "INVALID_RESPONSE": "数据未通过校验，请刷新后重试。",
+    "SOURCE_NOT_AUTHORIZED": "当前来源授权不允许展示此数据。",
+    "VALIDATION_FAILED": "当前选择无效或已不可用，请重新选择赛季。",
+    "RESOURCE_NOT_FOUND": "此资源不存在、不可用或已失去授权。",
+    "SNAPSHOT_CHANGED": "数据版本已变化，请刷新以读取完整快照。",
+    "RATE_LIMITED": "请求过于频繁，请稍后重试。",
+    "AUTH_REQUIRED": "访问此资源需要有效会话。",
+    "AUTH_FORBIDDEN": "当前权限无法访问此资源。",
+    "OFFLINE": "请恢复网络后重新读取并验证赛事数据。",
+    "REFRESH_REQUIRED": "请刷新以重新验证数据。",
+    "TIMEOUT": "请求超时，请重试。",
+    "RESULT_LIMIT_EXCEEDED": "结果过多，请缩小赛季范围后重试。"
   }
 }

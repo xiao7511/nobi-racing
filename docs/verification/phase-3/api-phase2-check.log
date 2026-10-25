@@ -1,0 +1,5 @@
+
+> nobi-racing@0.0.0 api:phase2:check D:\project\nobi-racing
+> node scripts/update-phase2-openapi.mjs --check
+
+PASS Phase 2 OpenAPI generation drift check

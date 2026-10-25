@@ -30,7 +30,11 @@
     "api:phase2:update": "node scripts/update-phase2-openapi.mjs",
     "api:phase2:check": "node scripts/update-phase2-openapi.mjs --check",
     "test:phase2:contracts": "node scripts/check-phase2-contracts.mjs",
-    "verify:phase2": "node scripts/verify-phase2.mjs"
+    "verify:phase2": "node scripts/verify-phase2.mjs",
+    "api:client:generate": "node scripts/generate-api-client.mjs",
+    "api:client:check": "node scripts/generate-api-client.mjs --check",
+    "test:e2e:fixture": "playwright test --grep-invert \"capture bilingual\"",
+    "verify:phase3": "node scripts/verify-phase3.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",

@@ -1,0 +1,221 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ---------------------< com.nobi.racing:racing-api >---------------------
+[INFO] Building racing-api 0.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- resources:3.5.0:resources (default-resources) @ racing-api ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO]
+[INFO] --- compiler:3.15.0:compile (default-compile) @ racing-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] --- build-helper:3.6.1:add-test-source (add-it-source) @ racing-api ---
+[INFO] Test Source directory: D:\project\nobi-racing\services\racing-api\src\it\java added.
+[INFO]
+[INFO] --- build-helper:3.6.1:add-test-source (add-browser-it-source) @ racing-api ---
+[INFO] Test Source directory: D:\project\nobi-racing\services\racing-api\src\browser-it\java added.
+[INFO]
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ racing-api ---
+[INFO] skip non existing resourceDirectory D:\project\nobi-racing\services\racing-api\src\test\resources
+[INFO]
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ racing-api ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO]
+[INFO] --- surefire:3.5.6:test (default-test) @ racing-api ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.nobi.racing.BatchTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.186 s -- in com.nobi.racing.BatchTest
+[INFO] Running com.nobi.racing.CacheAuthorityTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (D:\project\nobi-racing\.cache\m2\net\bytebuddy\byte-buddy-agent\1.18.15\byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.855 s -- in com.nobi.racing.CacheAuthorityTest
+[INFO] Running com.nobi.racing.FoundationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.517 s -- in com.nobi.racing.FoundationTest
+[INFO] Running com.nobi.racing.PolicyTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.099 s -- in com.nobi.racing.PolicyTest
+[INFO] Running com.nobi.racing.RateLimitTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.727 s -- in com.nobi.racing.RateLimitTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.5.1:jar (default-jar) @ racing-api ---
+[INFO]
+[INFO] --- spring-boot:4.1.2:repackage (repackage) @ racing-api ---
+[INFO] Replacing main artifact D:\project\nobi-racing\services\racing-api\target\racing-api-0.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to D:\project\nobi-racing\services\racing-api\target\racing-api-0.0.0-SNAPSHOT.jar.original
+[INFO]
+[INFO] --- failsafe:3.5.6:integration-test (default) @ racing-api ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.nobi.racing.BrowserIT
+16:56:08.969 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.nobi.racing.BrowserIT]: BrowserIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:56:09.339 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.nobi.racing.RacingApplication for test class com.nobi.racing.BrowserIT
+16:56:09.855 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.nobi.racing.BrowserIT]: BrowserIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:56:09.860 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.nobi.racing.RacingApplication for test class com.nobi.racing.BrowserIT
+16:56:10.157 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+16:56:10.171 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+16:56:10.614 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+16:56:11.354 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+16:56:12.039 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+16:56:12.041 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+16:56:12.081 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker:
+  Server Version: 29.7.2
+  API Version: 1.55
+  Operating System: Docker Desktop
+  Total Memory: 7832 MB
+  Labels:
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+16:56:12.592 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+16:56:12.734 [main] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+16:56:12.990 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: eddbe8b4a84ddcbbbdc18910a28a6fee44d989f50be3860da23d68d40ea655f2
+16:56:13.504 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.9125958S
+16:56:13.528 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+16:56:13.529 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+16:56:13.529 [main] INFO org.testcontainers.DockerClientFactory -- ?? Docker server version should be at least 1.6.0
+16:56:13.530 [main] INFO tc.postgres:18.6-alpine -- Creating container for image: postgres:18.6-alpine
+16:56:13.664 [main] INFO tc.postgres:18.6-alpine -- Container postgres:18.6-alpine is starting: de1d2f6563531e8495b2147c53c8621424831feb41960864ba725c215b6fd78f
+16:56:15.437 [main] INFO tc.postgres:18.6-alpine -- Container postgres:18.6-alpine started in PT1.9065049S
+16:56:15.438 [main] INFO tc.postgres:18.6-alpine -- Container is started (JDBC URL: jdbc:postgresql://localhost:53673/nobi_phase3_browser?loggerLevel=OFF)
+16:56:15.439 [main] INFO tc.redis:8.2-alpine -- Creating container for image: redis:8.2-alpine
+16:56:15.655 [main] INFO tc.redis:8.2-alpine -- Container redis:8.2-alpine is starting: c9aa8249ec6b139d9d90cb76675731d1db1bd5e304214f413362b206356c772f
+16:56:16.246 [main] INFO tc.redis:8.2-alpine -- Container redis:8.2-alpine started in PT0.8071682S
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-25T16:56:16.673+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.nobi.racing.BrowserIT                : Starting BrowserIT using Java 21.0.12.1 with PID 37772 (started by yexiao in D:\project\nobi-racing\services\racing-api)
+2026-10-25T16:56:16.677+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.nobi.racing.BrowserIT                : No active profile set, falling back to 1 default profile: "default"
+2026-10-25T16:56:18.011+08:00  INFO 37772 --- [nobi-racing-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-25T16:56:18.016+08:00  INFO 37772 --- [nobi-racing-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-25T16:56:18.084+08:00  INFO 37772 --- [nobi-racing-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 0 Redis repository interfaces.
+2026-10-25T16:56:20.253+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-25T16:56:20.277+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-25T16:56:20.279+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-25T16:56:20.365+08:00  INFO 37772 --- [nobi-racing-api] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3651 ms
+2026-10-25T16:56:22.601+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:53673/nobi_phase3_browser?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:56:22.736+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-25T16:56:22.742+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.037s)
+2026-10-25T16:56:22.776+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-25T16:56:22.897+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-25T16:56:22.947+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - foundation"
+2026-10-25T16:56:23.420+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - racing data and sync"
+2026-10-25T16:56:23.810+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.757s)
+2026-10-25T16:56:24.264+08:00  INFO 37772 --- [nobi-racing-api] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2026-10-25T16:56:25.885+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 53738 (http) with context path '/'
+2026-10-25T16:56:25.927+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.nobi.racing.BrowserIT                : Started BrowserIT in 9.646 seconds (process running for 19.21)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (D:\project\nobi-racing\.cache\m2\net\bytebuddy\byte-buddy-agent\1.18.15\byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-10-25T16:56:26.861+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-25T16:56:26.880+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-25T16:56:35.568+08:00  INFO 37772 --- [nobi-racing-api] [1-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-25T16:56:35.568+08:00  INFO 37772 --- [nobi-racing-api] [1-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-25T16:56:35.570+08:00  INFO 37772 --- [nobi-racing-api] [1-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 76.79 s -- in com.nobi.racing.BrowserIT
+[INFO] Running com.nobi.racing.DatabaseIT
+2026-10-25T16:57:24.774+08:00  INFO 37772 --- [nobi-racing-api] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.nobi.racing.DatabaseIT]: DatabaseIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-25T16:57:24.778+08:00  INFO 37772 --- [nobi-racing-api] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.nobi.racing.RacingApplication for test class com.nobi.racing.DatabaseIT
+2026-10-25T16:57:24.780+08:00  INFO 37772 --- [nobi-racing-api] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.nobi.racing.DatabaseIT]: DatabaseIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-25T16:57:24.783+08:00  INFO 37772 --- [nobi-racing-api] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.nobi.racing.RacingApplication for test class com.nobi.racing.DatabaseIT
+2026-10-25T16:57:24.792+08:00  INFO 37772 --- [nobi-racing-api] [           main] tc.postgres:18.6-alpine                  : Creating container for image: postgres:18.6-alpine
+2026-10-25T16:57:25.096+08:00  INFO 37772 --- [nobi-racing-api] [           main] tc.postgres:18.6-alpine                  : Container postgres:18.6-alpine is starting: 1d64b53251a4cd627708ce670f284865e5bc952e395f38207b3d0103f417949e
+2026-10-25T16:57:27.597+08:00  INFO 37772 --- [nobi-racing-api] [           main] tc.postgres:18.6-alpine                  : Container postgres:18.6-alpine started in PT2.8040995S
+2026-10-25T16:57:27.597+08:00  INFO 37772 --- [nobi-racing-api] [           main] tc.postgres:18.6-alpine                  : Container is started (JDBC URL: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF)
+2026-10-25T16:57:27.598+08:00  INFO 37772 --- [nobi-racing-api] [           main] tc.redis:8.2-alpine                      : Creating container for image: redis:8.2-alpine
+2026-10-25T16:57:27.762+08:00  INFO 37772 --- [nobi-racing-api] [           main] tc.redis:8.2-alpine                      : Container redis:8.2-alpine is starting: 043e096e210c28da3a845ab0e9c843dff3c61d1f4892f96e7afb82fbb5a7975a
+2026-10-25T16:57:28.267+08:00  INFO 37772 --- [nobi-racing-api] [           main] tc.redis:8.2-alpine                      : Container redis:8.2-alpine started in PT0.6692982S
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-10-25T16:57:28.440+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.nobi.racing.DatabaseIT               : Starting DatabaseIT using Java 21.0.12.1 with PID 37772 (started by yexiao in D:\project\nobi-racing\services\racing-api)
+2026-10-25T16:57:28.441+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.nobi.racing.DatabaseIT               : No active profile set, falling back to 1 default profile: "default"
+2026-10-25T16:57:29.102+08:00  INFO 37772 --- [nobi-racing-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-10-25T16:57:29.102+08:00  INFO 37772 --- [nobi-racing-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-10-25T16:57:29.143+08:00  INFO 37772 --- [nobi-racing-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 0 Redis repository interfaces.
+2026-10-25T16:57:29.697+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-10-25T16:57:29.703+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-25T16:57:29.704+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-10-25T16:57:29.787+08:00  INFO 37772 --- [nobi-racing-api] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1343 ms
+2026-10-25T16:57:30.029+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:57:30.092+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-10-25T16:57:30.095+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.019s)
+2026-10-25T16:57:30.122+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-10-25T16:57:30.192+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-10-25T16:57:30.213+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - foundation"
+2026-10-25T16:57:30.529+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - racing data and sync"
+2026-10-25T16:57:30.737+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.437s)
+2026-10-25T16:57:30.842+08:00  INFO 37772 --- [nobi-racing-api] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name users
+2026-10-25T16:57:31.129+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 51273 (http) with context path '/'
+2026-10-25T16:57:31.171+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.nobi.racing.DatabaseIT               : Started DatabaseIT in 2.77 seconds (process running for 84.453)
+2026-10-25T16:57:31.209+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-10-25T16:57:31.210+08:00  INFO 37772 --- [nobi-racing-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-10-25T16:57:32.560+08:00  INFO 37772 --- [nobi-racing-api] [1-auto-2-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-25T16:57:32.561+08:00  INFO 37772 --- [nobi-racing-api] [1-auto-2-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-25T16:57:32.562+08:00  INFO 37772 --- [nobi-racing-api] [1-auto-2-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-25T16:57:40.163+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:57:40.193+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.012s)
+2026-10-25T16:57:40.218+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 2
+2026-10-25T16:57:40.220+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-25T16:57:40.241+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:57:40.274+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.010s)
+2026-10-25T16:57:40.327+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:57:40.411+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:57:40.433+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.database.base.Schema   : Creating schema "upgrade_29d4fe324f734b7eb95575ae75e31b1c" ...
+2026-10-25T16:57:40.439+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "upgrade_29d4fe324f734b7eb95575ae75e31b1c"."flyway_schema_history" ...
+2026-10-25T16:57:40.496+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "upgrade_29d4fe324f734b7eb95575ae75e31b1c": null
+2026-10-25T16:57:40.505+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "upgrade_29d4fe324f734b7eb95575ae75e31b1c" to version "1 - foundation"
+2026-10-25T16:57:40.716+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "upgrade_29d4fe324f734b7eb95575ae75e31b1c", now at version v1 (execution time 00:00.196s)
+2026-10-25T16:57:40.775+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:57:40.810+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.009s)
+2026-10-25T16:57:40.843+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "upgrade_29d4fe324f734b7eb95575ae75e31b1c": 1
+2026-10-25T16:57:40.858+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "upgrade_29d4fe324f734b7eb95575ae75e31b1c" to version "2 - racing data and sync"
+2026-10-25T16:57:41.080+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "upgrade_29d4fe324f734b7eb95575ae75e31b1c", now at version v2 (execution time 00:00.212s)
+2026-10-25T16:57:41.110+08:00  INFO 37772 --- [nobi-racing-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49699/nobi_phase2_it?loggerLevel=OFF (PostgreSQL 18.6)
+2026-10-25T16:57:41.141+08:00  INFO 37772 --- [nobi-racing-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 3 migrations (execution time 00:00.012s)
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.50 s -- in com.nobi.racing.DatabaseIT
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- failsafe:3.5.6:verify (default) @ racing-api ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:48 min
+[INFO] Finished at: 2026-10-25T16:57:44+08:00
+[INFO] ------------------------------------------------------------------------

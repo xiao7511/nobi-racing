@@ -1,0 +1,31 @@
+[WebServer] (node:20336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:29144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 1 worker
+
+(node:36112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [backend-chromium] › tests\e2e-backend\integration.spec.ts:15:1 › uses complete server snapshots and server team totals instead of client aggregation (3.2s)
+  ok  2 [backend-chromium] › tests\e2e-backend\integration.spec.ts:29:1 › reads database race sessions and named results with DNF (1.8s)
+  ok  3 [backend-chromium] › tests\e2e-backend\integration.spec.ts:39:1 › driver follows survive reload, translation and theme changes without invented career totals (2.6s)
+  ok  4 [backend-chromium] › tests\e2e-backend\integration.spec.ts:56:1 › real grant revocation removes previously displayed database facts and rechecks restoration (1.3s)
+  ok  5 [backend-chromium] › tests\e2e-backend\integration.spec.ts:69:1 › clears facts offline and does not substitute bundled data for a failed backend (1.2s)
+  ok  6 [backend-chromium] › tests\e2e-backend\integration.spec.ts:83:1 › rejects corrupt payloads and shows rate-limit cooldown (1.8s)
+  ok  7 [backend-chromium] › tests\e2e-backend\integration.spec.ts:96:1 › validates legacy identifiers and unavailable seasons without showing fabricated replacements (2.3s)
+  ok  8 [backend-chromium] › tests\e2e-backend\integration.spec.ts:115:1 › validates without unsafe-eval and sends no requests to third-party origins (1.5s)
+  ok  9 [backend-chromium] › tests\e2e-backend\integration.spec.ts:127:1 › captures bilingual backend views in both themes with no horizontal overflow (6.0s)
+(node:7992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 10 [backend-webkit] › tests\e2e-backend\integration.spec.ts:15:1 › uses complete server snapshots and server team totals instead of client aggregation (2.9s)
+  ok 11 [backend-webkit] › tests\e2e-backend\integration.spec.ts:29:1 › reads database race sessions and named results with DNF (2.1s)
+  ok 12 [backend-webkit] › tests\e2e-backend\integration.spec.ts:39:1 › driver follows survive reload, translation and theme changes without invented career totals (3.0s)
+  ok 13 [backend-webkit] › tests\e2e-backend\integration.spec.ts:56:1 › real grant revocation removes previously displayed database facts and rechecks restoration (1.7s)
+  ok 14 [backend-webkit] › tests\e2e-backend\integration.spec.ts:69:1 › clears facts offline and does not substitute bundled data for a failed backend (1.8s)
+  ok 15 [backend-webkit] › tests\e2e-backend\integration.spec.ts:83:1 › rejects corrupt payloads and shows rate-limit cooldown (2.3s)
+  ok 16 [backend-webkit] › tests\e2e-backend\integration.spec.ts:96:1 › validates legacy identifiers and unavailable seasons without showing fabricated replacements (1.9s)
+  ok 17 [backend-webkit] › tests\e2e-backend\integration.spec.ts:115:1 › validates without unsafe-eval and sends no requests to third-party origins (1.4s)
+  ok 18 [backend-webkit] › tests\e2e-backend\integration.spec.ts:127:1 › captures bilingual backend views in both themes with no horizontal overflow (8.6s)
+
+  18 passed (54.5s)

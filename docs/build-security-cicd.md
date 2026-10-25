@@ -1,5 +1,9 @@
 # 构建、环境变量、安全配置与 CI/CD 设计
 
+> Phase 3 更新：下文保留早期设计背景，实际实现/验收以 [Phase 3 报告](phases/phase-3-report.md) 为准。Web 默认通过同源 `/api/v1` 读取合成后端；开发代理使用仅服务端的 `NOBI_API_PROXY`（回环 HTTP origin），不使用旧 `VITE_API_BASE_URL`。`VITE_DATA_TRANSPORT=fixture` 为显式演示开关，不能触发错误自动回退。Phase 2 本地启动脚本覆盖 API 为 5280，PG 55473、Redis ACL 56379；原 compose 仅作历史参考。
+
+`phase-3-web-api.yml` 对 PR 和本阶段分支运行 frozen 安装、Chromium/WebKit 安装和 `pnpm verify:phase3`，上传七天的合成验收记录，无部署权限。远端实际运行和 required check 尚未设置。浏览器回归使用 Testcontainers 隔离 PG/Redis、测试源码控制服务器及 5276 Web；测试控制端点不会进入应用 JAR。OpenAPI 生成客户端与 standalone 校验器通过漂移检查，无动态编译求值；响应/超时限制和错误脱敏已实施，部署 CSP 与身份认证仍待后续。
+
 ## 环境隔离
 
 local、test、staging、production 使用独立数据库、Redis、OIDC client、密钥与域名。Phase 0 只有本地 compose 与验证型 CI，不创建云资源，不部署任何环境，也不申请付费服务。生产发布须未来单独授权。

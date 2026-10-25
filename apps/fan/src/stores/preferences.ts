@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { normalizeLocale, type Locale } from '@nobi/i18n';
-import { isTimeZone, parsePreferences, preferencesKey, type ThemePreference } from '../lib/preferences';
+import { isTimeZone, isFollowId, parsePreferences, preferencesKey, type ThemePreference } from '../lib/preferences';
 
 export const usePreferences = defineStore('preferences', {
   state: () => ({
@@ -32,7 +32,7 @@ export const usePreferences = defineStore('preferences', {
       this.persist();
     },
     toggleFollowed(id: string) {
-      if (!/^mock-[a-z0-9-]+$/.test(id)) return;
+      if (!isFollowId(id)) return;
       this.followedDriverIds = this.followedDriverIds.includes(id) ? this.followedDriverIds.filter(value => value !== id) : [...this.followedDriverIds, id].slice(0, 100);
       this.persist();
     },

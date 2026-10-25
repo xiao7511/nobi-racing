@@ -1,0 +1,28 @@
+{
+  "web": "http://127.0.0.1:5275",
+  "checkedAt": "2026-10-25T09:47:52.2586263Z",
+  "api": "http://127.0.0.1:5280",
+  "checks": [
+    {
+      "items": 0,
+      "httpStatus": 200,
+      "path": "readiness",
+      "status": "ready",
+      "dataMode": "mock"
+    },
+    {
+      "items": 1,
+      "httpStatus": 200,
+      "path": "seasons",
+      "status": null,
+      "dataMode": "mock"
+    },
+    {
+      "items": 4,
+      "httpStatus": 200,
+      "path": "standings?locale=zh-CN&seasonId=40a4a301-d58c-3467-8c35-e7acf6560762&type=driver",
+      "status": null,
+      "dataMode": "mock"
+    }
+  ]
+}

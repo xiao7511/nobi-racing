@@ -1,15 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { dataTransport } from './api/transport';
+const backend = dataTransport === 'backend';
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
-    { path: '/', name: 'home', component: () => import('./views/HomeView.vue') },
+    { path: '/', name: 'home', component: backend ? () => import('./views/backend/HomeView.vue') : () => import('./views/HomeView.vue') },
     { path: '/news', name: 'news', component: () => import('./views/NewsView.vue') },
     { path: '/news/:id', name: 'article', component: () => import('./views/ArticleView.vue') },
-    { path: '/races', name: 'races', component: () => import('./views/RacesView.vue') },
-    { path: '/races/:id', name: 'race', component: () => import('./views/RaceView.vue') },
-    { path: '/stats', name: 'stats', component: () => import('./views/StatsView.vue') },
-    { path: '/drivers/:id', name: 'driver', component: () => import('./views/DriverView.vue') },
-    { path: '/profile', name: 'profile', component: () => import('./views/ProfileView.vue') },
+    { path: '/races', name: 'races', component: backend ? () => import('./views/backend/RacesView.vue') : () => import('./views/RacesView.vue') },
+    { path: '/races/:id', name: 'race', component: backend ? () => import('./views/backend/RaceView.vue') : () => import('./views/RaceView.vue') },
+    { path: '/stats', name: 'stats', component: backend ? () => import('./views/backend/StatsView.vue') : () => import('./views/StatsView.vue') },
+    { path: '/drivers/:id', name: 'driver', component: backend ? () => import('./views/backend/DriverView.vue') : () => import('./views/DriverView.vue') },
+    { path: '/teams/:id', name: 'team', component: () => import('./views/backend/TeamView.vue') },
+    { path: '/profile', name: 'profile', component: backend ? () => import('./views/backend/ProfileView.vue') : () => import('./views/ProfileView.vue') },
     { path: '/settings', name: 'settings', component: () => import('./views/SettingsView.vue') },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('./views/NotFoundView.vue') },
   ],

@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
-  }
+    ".": "./src/index.ts",
+    "./api": "./src/generated/api.ts",
+    "./schemas": "./src/generated/schemas.json",
+    "./validators": "./src/generated/validators.mjs"
+  },
+  "dependencies": { "ajv": "8.17.1", "ajv-formats": "3.0.1" }
 }
