@@ -1,0 +1,6 @@
+
+> nobi-racing@0.0.0 check:baseline D:\project\nobi-racing
+> node scripts/check-baseline.mjs
+
+PASS baseline: workspace, locale parity, 5 navigation entries, OpenAPI references/permissions, credential patterns, documentation (225 files).
+Scope: static checks only; not a dependency audit, full OpenAPI validator, SQL execution or app build.

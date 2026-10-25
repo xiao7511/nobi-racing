@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-10-25T07:59:10.698Z",
+  "scope": "Phase 2 synthetic backend; real isolated PostgreSQL/Redis tests; no third-party data",
+  "checks": [
+    {
+      "command": "mvn -B -Dmaven.repo.local=.cache/m2 -f services/racing-api/pom.xml -Pdatabase-it verify",
+      "exitCode": 0,
+      "durationMs": 35825,
+      "log": "backend.log"
+    },
+    {
+      "command": "pnpm test:phase2:contracts",
+      "exitCode": 0,
+      "durationMs": 931,
+      "log": "test-phase2-contracts.log"
+    },
+    {
+      "command": "pnpm api:phase2:check",
+      "exitCode": 0,
+      "durationMs": 526,
+      "log": "api-phase2-check.log"
+    },
+    {
+      "command": "pnpm check:api",
+      "exitCode": 0,
+      "durationMs": 1847,
+      "log": "check-api.log"
+    },
+    {
+      "command": "pnpm check:phase1",
+      "exitCode": 0,
+      "durationMs": 30248,
+      "log": "check-phase1.log"
+    },
+    {
+      "command": "pnpm check:baseline",
+      "exitCode": 0,
+      "durationMs": 573,
+      "log": "check-baseline.log"
+    }
+  ],
+  "complete": true
+}

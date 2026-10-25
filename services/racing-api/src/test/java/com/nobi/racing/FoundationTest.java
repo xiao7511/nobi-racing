@@ -1,28 +1,17 @@
 package com.nobi.racing;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.jdbc.core.JdbcTemplate;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FoundationTest {
-    @LocalServerPort int port;
-    private HttpResponse<String> get(String path) throws Exception {
-        return HttpClient.newHttpClient().send(HttpRequest.newBuilder(URI.create("http://127.0.0.1:" + port + path)).GET().build(), HttpResponse.BodyHandlers.ofString());
-    }
-    @Test void foundationIsExplicitlyMock() throws Exception {
-        var response = get("/api/v1/readiness");
-        assertEquals(200, response.statusCode());
-        assertTrue(response.body().contains("\"dataMode\":\"mock\""));
-    }
-    @Test void staffRoutesFailClosed() throws Exception {
-        var response = get("/api/v1/admin/sources");
-        assertEquals(401, response.statusCode());
-        assertTrue(response.body().contains("AUTH_REQUIRED"));
+    @Test void readinessChecksDatabaseAndReportsCacheDegradation() {
+        JdbcTemplate jdbc=mock(JdbcTemplate.class);RedisSupport redis=mock(RedisSupport.class);
+        when(jdbc.queryForObject("SELECT 1",Integer.class)).thenReturn(1);when(redis.enabled()).thenReturn(true);
+        var response=new FoundationController(jdbc,redis).readiness();
+        assertEquals(200,response.getStatusCode().value()); assertTrue(response.getBody().toString().contains("degraded"));
+        when(jdbc.queryForObject("SELECT 1",Integer.class)).thenThrow(new org.springframework.dao.DataAccessResourceFailureException("internal address must not leak"));
+        response=new FoundationController(jdbc,redis).readiness();assertEquals(503,response.getStatusCode().value());assertFalse(response.getBody().toString().contains("internal address"));
     }
 }

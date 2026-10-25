@@ -1,5 +1,7 @@
 # PostgreSQL Schema 与迁移策略
 
+> Phase 2 当前实现：保留 V1 校验和并执行 V2 前进迁移；season/circuit/race/race_session/driver/team 等已改为要求的复数表名，新增 season_entries、driver_standings、team_standings、sync_run。下文基线表格为 Phase 0 原设计记录。真实 PostgreSQL 18 的空库、重复、validate、V1 升级和跨源/跨站约束均已通过，详细模型与权限见 [Phase 2 报告](phases/phase-2-report.md)。
+
 ## 基线
 
 选择 PostgreSQL 18 系列，compose / Testcontainers 候选镜像为 18.6-alpine。正式上线前按实际发布状态复核补丁、扫描镜像并固定 digest。SQL 位于 services/racing-api/src/main/resources/db/migration/V1__foundation.sql；共 20 张表，无种子、用户凭据或商业数据。当前未连接 DB，迁移执行尚未验证。

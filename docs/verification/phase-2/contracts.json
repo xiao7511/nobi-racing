@@ -1,0 +1,177 @@
+{
+  "checkedAt": "2026-10-25T07:58:37.449Z",
+  "source": "Actual HTTP responses captured by DatabaseIT; no fabricated examples",
+  "count": 34,
+  "checks": [
+    {
+      "path": "/api/v1/seasons",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/circuits",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/teams",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers/{id}",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/teams",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/teams/{id}",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/seasons/{id}",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/circuits",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/circuits/{id}",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/seasons/{id}/entries",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/races",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/races/{id}",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/races/{id}/sessions",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/sessions/{id}/results",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/standings",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/standings",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/readiness",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/drivers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "path": "/api/v1/readiness",
+      "status": 200,
+      "passed": true
+    }
+  ]
+}

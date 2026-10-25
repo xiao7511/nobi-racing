@@ -1,0 +1,5 @@
+
+> nobi-racing@0.0.0 test:phase2:contracts D:\project\nobi-racing
+> node scripts/check-phase2-contracts.mjs
+
+PASS 34 actual backend responses against OpenAPI 3.1 schemas

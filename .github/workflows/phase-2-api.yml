@@ -1,0 +1,31 @@
+name: Phase 2 racing API
+on:
+  pull_request:
+  push:
+    branches: [feature/nobi-racing-phase2]
+permissions:
+  contents: read
+jobs:
+  api-phase2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.8
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify:phase2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-2-verification
+          path: docs/verification/phase-2/
+          retention-days: 7

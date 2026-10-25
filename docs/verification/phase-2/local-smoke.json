@@ -1,0 +1,47 @@
+{
+  "checks": [
+    {
+      "status": "ready",
+      "httpStatus": 200,
+      "items": 0,
+      "path": "readiness",
+      "dataMode": "mock"
+    },
+    {
+      "status": null,
+      "httpStatus": 200,
+      "items": 1,
+      "path": "seasons",
+      "dataMode": "mock"
+    },
+    {
+      "status": null,
+      "httpStatus": 200,
+      "items": 2,
+      "path": "circuits",
+      "dataMode": "mock"
+    },
+    {
+      "status": null,
+      "httpStatus": 200,
+      "items": 3,
+      "path": "races?locale=zh-CN",
+      "dataMode": "mock"
+    },
+    {
+      "status": null,
+      "httpStatus": 200,
+      "items": 4,
+      "path": "drivers",
+      "dataMode": "mock"
+    },
+    {
+      "status": null,
+      "httpStatus": 200,
+      "items": 3,
+      "path": "teams",
+      "dataMode": "mock"
+    }
+  ],
+  "checkedAt": "2026-10-25T07:51:47.3218863Z"
+}

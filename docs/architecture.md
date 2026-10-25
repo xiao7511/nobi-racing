@@ -1,5 +1,7 @@
 # 架构与核心领域模型
 
+> Phase 2 当前状态：用户端仍使用 Phase 1 Mock transport；独立 Spring Boot 后端已接线 JDBC/Flyway/PostgreSQL、Redis ACL 与合成适配器。目录、赛事、成绩、积分读取和受许可检查的本地同步已经验证，Web DB 账号只读。下文 Phase 0 的未实现说明属于历史基线；当前交付、阶段重划分与尚未实施的身份/资讯/管理能力见 [Phase 2 报告](phases/phase-2-report.md)。
+
 ## 决策与边界
 
 采用 pnpm Monorepo、两个独立 Vue SPA 和一个 Java 21 / Spring Boot 模块化单体。PostgreSQL 是唯一业务事实存储，Redis 后续用于短期缓存、限流和可重建任务状态。第一阶段不引入微服务、消息队列或搜索集群。REST 是稳定接口；SSE 为可选后续能力。

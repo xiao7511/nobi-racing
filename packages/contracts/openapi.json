@@ -1,17 +1,17 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "NOBI Racing API draft",
-    "version": "0.0.0",
-    "description": "Phase 0 design. Only GET /api/v1/readiness exists. Draft operations must not be treated as a live service. No licensed real-time data is connected.",
+    "title": "NOBI Racing API",
+    "version": "0.2.0",
+    "description": "Phase 2 implements source-authorized synthetic racing data, PostgreSQL and Redis. Identity, editorial and staff writes remain disabled/draft. No commercial or real-time provider is connected.",
     "contact": {
       "name": "NOBI Racing project maintainers"
     }
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
-      "description": "Local development only"
+      "url": "http://127.0.0.1:5280",
+      "description": "Loopback development only; not a production service"
     }
   ],
   "tags": [
@@ -55,12 +55,22 @@
         "tags": [
           "Foundation"
         ],
-        "summary": "Get foundation status",
-        "description": "Process status only; does not assert DB, Redis or provider readiness.",
+        "summary": "Check database and cache readiness",
         "security": [],
+        "x-phase-status": "implemented-phase2",
         "responses": {
           "200": {
             "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Readiness"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database unavailable",
             "content": {
               "application/json": {
                 "schema": {
@@ -74,98 +84,30 @@
     },
     "/api/v1/races": {
       "get": {
-        "operationId": "listRaces",
+        "operationId": "listRaceEvents",
         "tags": [
-          "Races"
+          "Data"
         ],
-        "summary": "List race calendar",
-        "description": "Phase 1–6 contract draft; not implemented in Phase 0. All source rights and freshness rules apply.",
-        "x-phase-status": "draft",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RacePage"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Authentication required",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Permission or source grant denied",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "Retry-After": {
-                "schema": {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                "description": "Seconds before retry"
-              }
-            }
-          },
-          "503": {
-            "description": "Source temporarily unavailable",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        },
+        "summary": "list Race Events",
         "security": [],
+        "x-phase-status": "implemented-phase2",
         "parameters": [
           {
-            "name": "cursor",
+            "name": "locale",
             "in": "query",
+            "required": false,
             "schema": {
-              "type": "string",
-              "maxLength": 512
-            },
-            "description": "Opaque cursor, stable sort with UUID tie breaker"
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
           },
           {
             "name": "limit",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -174,50 +116,69 @@
             }
           },
           {
-            "name": "locale",
+            "name": "cursor",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "en",
-                "zh-CN"
-              ],
-              "default": "en"
+              "minLength": 1,
+              "maxLength": 512
             }
           },
           {
             "name": "seasonId",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "scheduled",
+                "completed",
+                "cancelled"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
           }
-        ]
-      }
-    },
-    "/api/v1/races/{id}": {
-      "get": {
-        "operationId": "getRace",
-        "tags": [
-          "Races"
         ],
-        "summary": "Get race",
-        "description": "Phase 1–6 contract draft; not implemented in Phase 0. All source rights and freshness rules apply.",
-        "x-phase-status": "draft",
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Race"
+                  "$ref": "#/components/schemas/RaceEventPageV2"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid request",
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -226,28 +187,8 @@
               }
             }
           },
-          "401": {
-            "description": "Authentication required",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Permission or source grant denied",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Race not found",
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -257,7 +198,7 @@
             }
           },
           "429": {
-            "description": "Rate limit exceeded",
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -268,15 +209,24 @@
             "headers": {
               "Retry-After": {
                 "schema": {
-                  "type": "integer",
-                  "minimum": 1
+                  "type": "integer"
                 },
                 "description": "Seconds before retry"
               }
             }
           },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "503": {
-            "description": "Source temporarily unavailable",
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -285,8 +235,18 @@
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/api/v1/races/{id}": {
+      "get": {
+        "operationId": "getRaceEvent",
+        "tags": [
+          "Data"
+        ],
+        "summary": "get Race Event",
         "security": [],
+        "x-phase-status": "implemented-phase2",
         "parameters": [
           {
             "name": "id",
@@ -296,8 +256,91 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
           }
-        ]
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RaceEventDetailV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/articles": {
@@ -526,94 +569,26 @@
         "tags": [
           "Data"
         ],
-        "summary": "List latest complete standing snapshot",
-        "description": "Phase 1–6 contract draft; not implemented in Phase 0. All source rights and freshness rules apply.",
-        "x-phase-status": "draft",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StandingPage"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Authentication required",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Permission or source grant denied",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "Retry-After": {
-                "schema": {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                "description": "Seconds before retry"
-              }
-            }
-          },
-          "503": {
-            "description": "Source temporarily unavailable",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
-          }
-        },
+        "summary": "list Standings",
         "security": [],
+        "x-phase-status": "implemented-phase2",
         "parameters": [
           {
-            "name": "cursor",
+            "name": "locale",
             "in": "query",
+            "required": false,
             "schema": {
-              "type": "string",
-              "maxLength": 512
-            },
-            "description": "Opaque cursor, stable sort with UUID tie breaker"
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
           },
           {
             "name": "limit",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -622,15 +597,13 @@
             }
           },
           {
-            "name": "locale",
+            "name": "cursor",
             "in": "query",
+            "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "en",
-                "zh-CN"
-              ],
-              "default": "en"
+              "minLength": 1,
+              "maxLength": 512
             }
           },
           {
@@ -643,18 +616,98 @@
             }
           },
           {
-            "name": "kind",
+            "name": "type",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": "string",
               "enum": [
                 "driver",
                 "team"
-              ]
+              ],
+              "default": "driver"
+            }
+          },
+          {
+            "name": "snapshotId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
-        ]
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandingRowPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/me": {
@@ -1041,6 +1094,1290 @@
           }
         ]
       }
+    },
+    "/api/v1/seasons": {
+      "get": {
+        "operationId": "listSeasons",
+        "tags": [
+          "Data"
+        ],
+        "summary": "list Seasons",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1900,
+              "maximum": 2200
+            }
+          },
+          {
+            "name": "seriesCode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeasonPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/seasons/{id}": {
+      "get": {
+        "operationId": "getSeason",
+        "tags": [
+          "Data"
+        ],
+        "summary": "get Season",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeasonDetailV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/circuits": {
+      "get": {
+        "operationId": "listCircuits",
+        "tags": [
+          "Data"
+        ],
+        "summary": "list Circuits",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CircuitPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/circuits/{id}": {
+      "get": {
+        "operationId": "getCircuit",
+        "tags": [
+          "Data"
+        ],
+        "summary": "get Circuit",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CircuitDetailV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/drivers": {
+      "get": {
+        "operationId": "listDrivers",
+        "tags": [
+          "Data"
+        ],
+        "summary": "list Drivers",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriverPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/drivers/{id}": {
+      "get": {
+        "operationId": "getDriver",
+        "tags": [
+          "Data"
+        ],
+        "summary": "get Driver",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DriverDetailV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams": {
+      "get": {
+        "operationId": "listTeams",
+        "tags": [
+          "Data"
+        ],
+        "summary": "list Teams",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/teams/{id}": {
+      "get": {
+        "operationId": "getTeam",
+        "tags": [
+          "Data"
+        ],
+        "summary": "get Team",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamDetailV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/races/{id}/sessions": {
+      "get": {
+        "operationId": "listRaceSessions",
+        "tags": [
+          "Data"
+        ],
+        "summary": "list Race Sessions",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RaceSessionPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sessions/{id}/results": {
+      "get": {
+        "operationId": "listSessionResults",
+        "tags": [
+          "Data"
+        ],
+        "summary": "list Session Results",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResultPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/seasons/{id}/entries": {
+      "get": {
+        "operationId": "listSeasonEntrys",
+        "tags": [
+          "Data"
+        ],
+        "summary": "list Season Entrys",
+        "security": [],
+        "x-phase-status": "implemented-phase2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "en-US",
+                "zh-CN"
+              ],
+              "default": "en-US"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            }
+          }
+        ],
+        "description": "Server-side territory and a complete approved source grant are checked before database or cache facts are returned. All current fixtures are synthetic. Cursors bind filters, source and grant revisions. Sensitive responses use Cache-Control: no-store.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeasonEntryPageV2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "integer"
+                },
+                "description": "Seconds before retry"
+              }
+            }
+          },
+          "500": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Safe RFC 9457 problem; no provider payload or internal details",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1061,63 +2398,68 @@
     "schemas": {
       "Problem": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "type",
           "title",
           "status",
-          "code"
+          "code",
+          "traceId"
         ],
         "properties": {
           "type": {
-            "type": "string",
-            "format": "uri"
+            "type": "string"
           },
           "title": {
             "type": "string"
           },
           "status": {
-            "type": "integer",
-            "minimum": 400,
-            "maximum": 599
+            "type": "integer"
           },
           "code": {
-            "type": "string",
-            "enum": [
-              "VALIDATION_FAILED",
-              "AUTH_REQUIRED",
-              "AUTH_FORBIDDEN",
-              "RESOURCE_NOT_FOUND",
-              "VERSION_CONFLICT",
-              "SOURCE_NOT_AUTHORIZED",
-              "SOURCE_UNAVAILABLE",
-              "RATE_LIMITED",
-              "INTERNAL_ERROR"
-            ]
-          },
-          "traceId": {
             "type": "string"
           },
-          "detail": {
+          "traceId": {
             "type": "string"
           }
         }
       },
       "Readiness": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
           "status",
           "phase",
-          "dataMode"
+          "dataMode",
+          "database",
+          "cache"
         ],
         "properties": {
           "status": {
-            "const": "foundation"
+            "enum": [
+              "ready",
+              "degraded",
+              "unavailable"
+            ]
           },
           "phase": {
-            "const": "0"
+            "const": "2"
           },
           "dataMode": {
             "const": "mock"
+          },
+          "database": {
+            "enum": [
+              "up",
+              "down"
+            ]
+          },
+          "cache": {
+            "enum": [
+              "up",
+              "down",
+              "disabled"
+            ]
           }
         }
       },
@@ -1151,45 +2493,6 @@
           "stale": {
             "type": "boolean",
             "description": "Only true when stale display is explicitly licensed"
-          }
-        }
-      },
-      "Race": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "startsAt",
-          "timeZone",
-          "status",
-          "provenance"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "startsAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "timeZone": {
-            "type": "string",
-            "description": "IANA timezone, e.g. Asia/Shanghai"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "scheduled",
-              "completed",
-              "cancelled"
-            ]
-          },
-          "provenance": {
-            "$ref": "#/components/schemas/Provenance"
           }
         }
       },
@@ -1233,52 +2536,6 @@
               "string",
               "null"
             ],
-            "format": "date-time"
-          },
-          "provenance": {
-            "$ref": "#/components/schemas/Provenance"
-          }
-        }
-      },
-      "Standing": {
-        "type": "object",
-        "required": [
-          "id",
-          "subjectId",
-          "kind",
-          "position",
-          "points",
-          "capturedAt",
-          "provenance"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Snapshot UUID"
-          },
-          "subjectId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "kind": {
-            "type": "string",
-            "enum": [
-              "driver",
-              "team"
-            ]
-          },
-          "position": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "points": {
-            "type": "string",
-            "pattern": "^-?[0-9]+(\\.[0-9]{1,3})?$",
-            "description": "Decimal string avoids binary floating point loss"
-          },
-          "capturedAt": {
-            "type": "string",
             "format": "date-time"
           },
           "provenance": {
@@ -1434,27 +2691,6 @@
           }
         }
       },
-      "RacePage": {
-        "type": "object",
-        "required": [
-          "items",
-          "nextCursor"
-        ],
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Race"
-            }
-          },
-          "nextCursor": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
       "ArticlePage": {
         "type": "object",
         "required": [
@@ -1466,27 +2702,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Article"
-            }
-          },
-          "nextCursor": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "StandingPage": {
-        "type": "object",
-        "required": [
-          "items",
-          "nextCursor"
-        ],
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Standing"
             }
           },
           "nextCursor": {
@@ -1514,6 +2729,1107 @@
             "type": [
               "string",
               "null"
+            ]
+          }
+        }
+      },
+      "Phase2Provenance": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "sourceCode",
+          "mode",
+          "fetchedAt",
+          "attribution",
+          "timeZone"
+        ],
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sourceCode": {
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "mock",
+              "licensed"
+            ]
+          },
+          "fetchedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "attribution": {
+            "type": "string"
+          },
+          "timeZone": {
+            "type": "string"
+          }
+        }
+      },
+      "Season": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "year",
+          "seriesCode",
+          "seriesName",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "year": {
+            "type": "integer"
+          },
+          "seriesCode": {
+            "type": "string"
+          },
+          "seriesName": {
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SeasonPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Season"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "SeasonDetailV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "dataMode"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Season"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed"
+            ]
+          }
+        }
+      },
+      "Circuit": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "countryCode",
+          "timeZone",
+          "lengthKm",
+          "turns",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "lengthKm": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^-?[0-9]+(?:\\.[0-9]{1,3})?$"
+          },
+          "turns": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CircuitPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Circuit"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "CircuitDetailV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "dataMode"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Circuit"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed"
+            ]
+          }
+        }
+      },
+      "RaceEvent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "seasonId",
+          "circuitId",
+          "round",
+          "startsAt",
+          "status",
+          "laps",
+          "revision",
+          "timeZone",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "seasonId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "circuitId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "round": {
+            "type": "integer"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "enum": [
+              "scheduled",
+              "completed",
+              "cancelled"
+            ]
+          },
+          "laps": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "revision": {
+            "type": "integer"
+          },
+          "timeZone": {
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RaceEventPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RaceEvent"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "RaceEventDetailV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "dataMode"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RaceEvent"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed"
+            ]
+          }
+        }
+      },
+      "RaceSession": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "raceId",
+          "kind",
+          "sequence",
+          "startsAt",
+          "endsAt",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "raceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "kind": {
+            "enum": [
+              "practice",
+              "qualifying",
+              "sprint",
+              "race"
+            ]
+          },
+          "sequence": {
+            "type": "integer"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endsAt": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RaceSessionPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RaceSession"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "Driver": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "countryCode",
+          "carNumber",
+          "biography",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "carNumber": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "biography": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DriverPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Driver"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "DriverDetailV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "dataMode"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Driver"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed"
+            ]
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "countryCode",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TeamPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Team"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "TeamDetailV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data",
+          "dataMode"
+        ],
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Team"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed"
+            ]
+          }
+        }
+      },
+      "SeasonEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "seasonId",
+          "driverId",
+          "teamId",
+          "carNumber",
+          "fromRound",
+          "toRound",
+          "driverName",
+          "teamName",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "seasonId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "driverId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "carNumber": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "fromRound": {
+            "type": "integer"
+          },
+          "toRound": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "driverName": {
+            "type": "string"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SeasonEntryPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SeasonEntry"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "SessionResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "sessionId",
+          "raceId",
+          "driverId",
+          "teamId",
+          "position",
+          "resultStatus",
+          "points",
+          "elapsedMs",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "raceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "driverId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "teamId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "position": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "resultStatus": {
+            "enum": [
+              "classified",
+              "dnf",
+              "dns",
+              "dsq"
+            ]
+          },
+          "points": {
+            "type": "string",
+            "pattern": "^-?[0-9]+(?:\\.[0-9]{1,3})?$"
+          },
+          "elapsedMs": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SessionResultPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SessionResult"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
+            ]
+          }
+        }
+      },
+      "StandingRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "snapshotId",
+          "seasonId",
+          "afterRaceId",
+          "capturedAt",
+          "snapshotRevision",
+          "position",
+          "points",
+          "wins",
+          "name",
+          "provenance",
+          "dataStatus",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "snapshotId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "seasonId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "afterRaceId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "capturedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "snapshotRevision": {
+            "type": "integer"
+          },
+          "position": {
+            "type": "integer"
+          },
+          "points": {
+            "type": "string",
+            "pattern": "^-?[0-9]+(?:\\.[0-9]{1,3})?$"
+          },
+          "wins": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Phase2Provenance"
+          },
+          "dataStatus": {
+            "enum": [
+              "synthetic",
+              "current",
+              "stale",
+              "corrected"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "StandingRowPageV2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "items",
+          "nextCursor",
+          "snapshotVersion",
+          "snapshotId",
+          "dataMode"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StandingRow"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 512
+          },
+          "snapshotVersion": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "snapshotId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "dataMode": {
+            "enum": [
+              "mock",
+              "licensed",
+              "mixed",
+              "empty"
             ]
           }
         }
