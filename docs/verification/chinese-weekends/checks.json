@@ -1,0 +1,35 @@
+{
+  "limits": [
+    "RSS short summaries, not full articles",
+    "Personal local non-commercial use",
+    "No official live results or production publication",
+    "Full database integration regression not repeated"
+  ],
+  "backend": {
+    "status": "passed",
+    "unitTests": 28
+  },
+  "live": {
+    "cancelledRecords": 2,
+    "chineseNews": 20,
+    "weekendRecords": 25
+  },
+  "browser": {
+    "actualUpstreamDesktopAndMobile": "passed",
+    "isolatedTests": 8
+  },
+  "translation": {
+    "location": "local-only",
+    "engine": "Argos en-zh 1.9 / CTranslate2 / OpenCC",
+    "editedTranslations": "bound to URL, title and summary content hashes",
+    "modelSha256": "433e7c4f034d87fbe2353161e05f18646d7999452f801a4e1f0378522b9850ab"
+  },
+  "checkedAt": "2026-11-01T04:35:02.2804240Z",
+  "frontend": {
+    "typecheck": "passed",
+    "build": "passed",
+    "baselineTests": 3,
+    "lint": "passed",
+    "unitTests": 40
+  }
+}

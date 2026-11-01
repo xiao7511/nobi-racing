@@ -1,0 +1,35 @@
+[WebServer] (node:10972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:21656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 2 workers
+
+(node:14304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [desktop] › tests\e2e-official\latest.spec.ts:13:1 › personal reader preserves source links, searches and hides expired headlines (5.1s)
+  ok  2 [desktop] › tests\e2e-official\insights.spec.ts:9:1 › season insights show source standings, exact gaps, search, comparison and race history (5.8s)
+  ok  3 [desktop] › tests\e2e-official\latest.spec.ts:33:1 › disabled and invalid news never fall back to fictional headlines (2.7s)
+  ok  4 [desktop] › tests\e2e-official\insights.spec.ts:24:1 › missing selections and unavailable or expired source never display fabricated standings (3.6s)
+  ok  6 [desktop] › tests\e2e-official\weekends.spec.ts:3:1 › weekend reference shows Chinese sessions, matched translated news and track time (4.6s)
+  ok  7 [desktop] › tests\e2e-official\world.spec.ts:16:1 › real-source follows and original-link bookmarks work across pages, reloads and clearing (4.3s)
+  ok  8 [desktop] › tests\e2e-official\world.spec.ts:32:1 › unavailable sources preserve removable selections without stale headlines, points or schedules (2.2s)
+  ok  9 [desktop] › tests\e2e-official\world.spec.ts:38:1 › storage failures are visible while session-only follows remain usable (1.6s)
+  ok  5 [desktop] › tests\e2e-official\news.spec.ts:2:1 › official sync, expiry, revocation, real photography and source policy (15.5s)
+(node:7700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 10 [mobile] › tests\e2e-official\latest.spec.ts:13:1 › personal reader preserves source links, searches and hides expired headlines (3.2s)
+  ok 11 [mobile] › tests\e2e-official\latest.spec.ts:33:1 › disabled and invalid news never fall back to fictional headlines (2.3s)
+(node:39180) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 13 [mobile] › tests\e2e-official\insights.spec.ts:9:1 › season insights show source standings, exact gaps, search, comparison and race history (3.1s)
+  ok 14 [mobile] › tests\e2e-official\insights.spec.ts:24:1 › missing selections and unavailable or expired source never display fabricated standings (4.1s)
+  ok 12 [mobile] › tests\e2e-official\news.spec.ts:2:1 › official sync, expiry, revocation, real photography and source policy (14.1s)
+  ok 15 [mobile] › tests\e2e-official\weekends.spec.ts:3:1 › weekend reference shows Chinese sessions, matched translated news and track time (3.9s)
+  ok 16 [mobile] › tests\e2e-official\world.spec.ts:16:1 › real-source follows and original-link bookmarks work across pages, reloads and clearing (6.9s)
+  ok 17 [mobile] › tests\e2e-official\world.spec.ts:32:1 › unavailable sources preserve removable selections without stale headlines, points or schedules (3.4s)
+  ok 18 [mobile] › tests\e2e-official\world.spec.ts:38:1 › storage failures are visible while session-only follows remain usable (1.4s)
+
+  18 passed (1.7m)

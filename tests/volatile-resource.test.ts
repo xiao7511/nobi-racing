@@ -7,6 +7,16 @@ import { createPinia, setActivePinia } from 'pinia';
 import { usePreferences } from '../apps/fan/src/stores/preferences';
 beforeEach(() => { vi.useFakeTimers();vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('visible');vi.spyOn(navigator, 'onLine', 'get').mockReturnValue(true); });
 afterEach(() => { vi.useRealTimers();vi.restoreAllMocks(); });
+it('keeps a personal reader visible during refresh but clears it on failure or offline', async () => {
+  const scope=effectScope(); let rejectRefresh!: (error: Error) => void;
+  const loader=vi.fn().mockResolvedValueOnce(['current headlines']).mockImplementationOnce(()=>new Promise((_resolve,reject)=>{rejectRefresh=reject;}));
+  const state=scope.run(()=>useResource(loader,[],{volatile:true,preserveWhileRefreshing:true}))!;
+  await flushPromises(); const refresh=state.reload();
+  expect(state.data.value).toEqual(['current headlines']); expect(state.loading.value).toBe(true);
+  rejectRefresh(new ApiError('SOURCE_UNAVAILABLE')); await refresh; expect(state.data.value).toBeNull();
+  loader.mockResolvedValue(['new headlines']); await state.reload(); window.dispatchEvent(new Event('offline'));
+  expect(state.data.value).toBeNull(); scope.stop();
+});
 it('clears displayed facts on offline/hidden and rechecks on visibility/focus', async () => {
   const scope = effectScope();const loader = vi.fn().mockResolvedValue(['authorized fact']);
   const state = scope.run(() => useResource(loader, [], { volatile: true }))!;

@@ -1,0 +1,30 @@
+import {test,expect} from '@playwright/test';
+const now='2026-11-01T06:00:00Z';
+const entrant=(id:string,name:string,position:number,points:string,pointsStart:string,positionStart:number)=>({id,name,team:'Mercedes',color:'00D7B6',position,positionStart,points,pointsStart});
+const kimi=entrant('12','Kimi ANTONELLI',1,'100.5','75.25',2),george=entrant('63','George RUSSELL',2,'90','90',1),lewis={...entrant('44','Lewis HAMILTON',3,'75','63',3),team:'Ferrari'};
+const teams=[entrant('Mercedes','Mercedes',1,'500.125','475.125',1),{...entrant('Ferrari','Ferrari',2,'75','63',2),team:'Ferrari'}];
+const rounds=[{id:10,meetingId:1,circuit:'Shanghai',circuitZh:'上海',endsAt:'2026-03-15T09:00:00Z',drivers:[{...george,position:1,points:'40',pointsStart:'15'},{...kimi,position:2,points:'20',pointsStart:'2'}, {...lewis,points:'18',pointsStart:'8'}],teams:teams.map(row=>({...row,points:row.position===1?'60':'18',pointsStart:'0'}))},{id:20,meetingId:2,circuit:'Austin',circuitZh:'奥斯汀',endsAt:'2026-10-25T21:00:00Z',drivers:[kimi,george,lewis],teams}];
+const ready=()=>({status:'ready',year:2026,source:'OpenF1',sourceUrl:'https://openf1.org/',license:'CC BY-NC-SA 4.0',licenseUrl:'https://creativecommons.org/licenses/by-nc-sa/4.0/',syncedAt:now,expiresAt:'2026-11-01T12:00:00Z',rounds});
+test.beforeEach(async({page})=>{await page.clock.install({time:new Date(now)});await page.addInitScript(()=>localStorage.setItem('nobi-racing:preferences:v1',JSON.stringify({locale:'zh-CN',theme:'dark',timeZone:'Asia/Shanghai'})));});
+test('season insights show source standings, exact gaps, search, comparison and race history',async({page})=>{
+  const legacy:string[]=[];page.on('request',request=>{if(/\/api\/v1\/(seasons|standings)\?/.test(request.url()))legacy.push(request.url());});
+  await page.route('**/api/v1/season-insights',route=>route.fulfill({json:ready()}));
+  await page.goto('/#/stats?type=driver');const panel=page.getByTestId('season-insights'),table=page.getByTestId('insight-standings');
+  await expect(table.locator('tbody tr')).toHaveCount(3);await expect(panel.locator('.insight-metrics')).toContainText('100.5');await expect(panel.locator('.insight-metrics')).toContainText('10.5');
+  await expect(table.locator('tbody tr').first()).toContainText('25.25');await expect(page.locator('.preview-banner')).not.toContainText('MOCK');
+  await panel.getByLabel('搜索榜单',{exact:true}).fill('汉密尔顿');await expect(table.locator('tbody tr')).toHaveCount(1);
+  await panel.getByLabel('搜索榜单',{exact:true}).fill('not-a-driver');await expect(panel.getByText('没有找到匹配的参赛方。')).toBeVisible();await panel.getByRole('button',{name:'清除搜索'}).click();
+  await panel.getByLabel('对比对象 2',{exact:true}).selectOption('44');await expect(panel.locator('.insight-legend')).toContainText('刘易斯·汉密尔顿');
+  await panel.getByText('展开逐站积分表',{exact:true}).click();await expect(panel.locator('.insight-history tbody tr')).toHaveCount(2);
+  await panel.getByLabel('统计截至',{exact:true}).selectOption('10');await expect(page).toHaveURL(/round=10/);await expect(table.locator('tbody tr').first()).toContainText('乔治·拉塞尔');await expect(panel.locator('.insight-history tbody tr')).toHaveCount(1);
+  await panel.getByLabel('统计截至',{exact:true}).selectOption('');await panel.getByRole('button',{name:'车队',exact:true}).click();await expect(table.locator('tbody tr')).toHaveCount(2);await expect(table.locator('tbody tr').first()).toContainText('500.125');
+  await page.locator('.language-control select').selectOption('en-US');await expect(panel.getByRole('heading',{name:'The points story'})).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(legacy).toEqual([]);
+});
+test('missing selections and unavailable or expired source never display fabricated standings',async({page})=>{
+  let body:unknown=ready();await page.route('**/api/v1/season-insights',route=>route.fulfill({json:body}));
+  await page.goto('/#/stats?round=999');await expect(page.getByText('未找到所选场次的积分记录')).toBeVisible();await expect(page.getByTestId('insight-standings')).toHaveCount(0);
+  await page.getByRole('button',{name:'最新已结束正赛',exact:true}).click();await expect(page.getByTestId('insight-standings')).toBeVisible();
+  body={...ready(),status:'disabled',rounds:[],syncedAt:null,expiresAt:null};await page.reload();await expect(page.getByRole('heading',{name:'历史积分尚未启用'})).toBeVisible();await expect(page.locator('.insight-metrics')).toHaveCount(0);
+  body={...ready(),syncedAt:'2026-10-31T00:00:00Z',expiresAt:'2026-10-31T06:00:00Z'};await page.reload();await expect(page.getByRole('alert')).toBeVisible();await expect(page.getByTestId('insight-standings')).toHaveCount(0);
+});

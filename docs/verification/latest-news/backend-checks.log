@@ -1,0 +1,63 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.nobi.racing:racing-api >---------------------
+[INFO] Building racing-api 0.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ racing-api ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ racing-api ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 23 source files with javac [debug parameters release 21] to target\classes
+[INFO] /D:/project/nobi-racing/services/racing-api/src/main/java/com/nobi/racing/OpenRacingCatalog.java: D:\project\nobi-racing\services\racing-api\src\main\java\com\nobi\racing\OpenRacingCatalog.javaʹ�û򸲸����ѹ�ʱ�� API��
+[INFO] /D:/project/nobi-racing/services/racing-api/src/main/java/com/nobi/racing/OpenRacingCatalog.java: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ racing-api ---
+[INFO] skip non existing resourceDirectory D:\project\nobi-racing\services\racing-api\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ racing-api ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ racing-api ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.nobi.racing.BatchTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.181 s -- in com.nobi.racing.BatchTest
+[INFO] Running com.nobi.racing.CacheAuthorityTest
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\yexiao\.m2\repository\net\bytebuddy\byte-buddy-agent\1.18.15\byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.426 s -- in com.nobi.racing.CacheAuthorityTest
+[INFO] Running com.nobi.racing.FoundationTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.913 s -- in com.nobi.racing.FoundationTest
+[INFO] Running com.nobi.racing.LatestNewsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.604 s -- in com.nobi.racing.LatestNewsTest
+[INFO] Running com.nobi.racing.OfficialNewsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.479 s -- in com.nobi.racing.OfficialNewsTest
+[INFO] Running com.nobi.racing.OpenRacingCatalogTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in com.nobi.racing.OpenRacingCatalogTest
+[INFO] Running com.nobi.racing.PolicyTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s -- in com.nobi.racing.PolicyTest
+[INFO] Running com.nobi.racing.RateLimitTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.789 s -- in com.nobi.racing.RateLimitTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 24, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.894 s
+[INFO] Finished at: 2026-11-01T11:50:37+08:00
+[INFO] ------------------------------------------------------------------------

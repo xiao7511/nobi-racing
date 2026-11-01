@@ -1,0 +1,29 @@
+[WebServer] (node:12148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:22380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 2 workers
+
+(node:16924) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [desktop] › tests\e2e-official\insights.spec.ts:9:1 › season insights show source standings, exact gaps, search, comparison and race history (4.7s)
+  ok  2 [desktop] › tests\e2e-official\latest.spec.ts:13:1 › personal reader preserves source links, searches and hides expired headlines (5.0s)
+  ok  4 [desktop] › tests\e2e-official\latest.spec.ts:33:1 › disabled and invalid news never fall back to fictional headlines (4.2s)
+  ok  3 [desktop] › tests\e2e-official\insights.spec.ts:24:1 › missing selections and unavailable or expired source never display fabricated standings (6.0s)
+  ok  6 [desktop] › tests\e2e-official\weekends.spec.ts:3:1 › weekend reference shows Chinese sessions, matched translated news and track time (3.0s)
+(node:40728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  7 [mobile] › tests\e2e-official\insights.spec.ts:9:1 › season insights show source standings, exact gaps, search, comparison and race history (3.5s)
+  ok  5 [desktop] › tests\e2e-official\news.spec.ts:2:1 › official sync, expiry, revocation, real photography and source policy (14.6s)
+  ok  8 [mobile] › tests\e2e-official\insights.spec.ts:24:1 › missing selections and unavailable or expired source never display fabricated standings (5.0s)
+  ok  9 [mobile] › tests\e2e-official\news.spec.ts:2:1 › official sync, expiry, revocation, real photography and source policy (22.8s)
+  ok 10 [mobile] › tests\e2e-official\weekends.spec.ts:3:1 › weekend reference shows Chinese sessions, matched translated news and track time (5.7s)
+(node:31708) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 11 [mobile] › tests\e2e-official\latest.spec.ts:13:1 › personal reader preserves source links, searches and hides expired headlines (2.4s)
+  ok 12 [mobile] › tests\e2e-official\latest.spec.ts:33:1 › disabled and invalid news never fall back to fictional headlines (2.8s)
+
+  12 passed (2.7m)

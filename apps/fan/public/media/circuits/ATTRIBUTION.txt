@@ -1,0 +1,8 @@
+Circuit SVG assets: Jules Roy / F1DB contributors.
+Source: https://github.com/f1db/f1db
+Revision: f35a8c61d15d275061475e543b8dc79ac3daad97
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+https://creativecommons.org/licenses/by/4.0/
+The SVG files are unmodified; display size is responsive.
+NOBI Racing selected layouts applicable to 2026 and added Chinese labels.
+These are reference diagrams, not official live circuit maps or navigation data.

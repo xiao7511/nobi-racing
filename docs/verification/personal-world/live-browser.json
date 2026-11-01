@@ -1,0 +1,109 @@
+{
+  "checkedAt": "2026-11-01T07:04:51.876Z",
+  "results": [
+    {
+      "device": "desktop",
+      "locale": "zh-CN",
+      "theme": "dark",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    },
+    {
+      "device": "desktop",
+      "locale": "zh-CN",
+      "theme": "light",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    },
+    {
+      "device": "desktop",
+      "locale": "en-US",
+      "theme": "dark",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    },
+    {
+      "device": "desktop",
+      "locale": "en-US",
+      "theme": "light",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "zh-CN",
+      "theme": "dark",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "zh-CN",
+      "theme": "light",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "en-US",
+      "theme": "dark",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "en-US",
+      "theme": "light",
+      "passed": true,
+      "driverFollows": 2,
+      "teamFollows": 1,
+      "weekendFollows": 1,
+      "newsBookmarks": 1,
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local Java APIs; no browser API replacements"
+    }
+  ]
+}

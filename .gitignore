@@ -12,7 +12,12 @@ test-results/
 *.jks
 *.keystore
 *.p12
+*.p8
+*.pfx
+*.csr
 *.mobileprovision
 *.pem
 *.key
 .DS_Store
+__pycache__/
+*.pyc

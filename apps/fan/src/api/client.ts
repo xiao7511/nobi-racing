@@ -1,8 +1,10 @@
 import { responseSchemas, type ApiResponses, type ApiSchemas } from '@nobi/contracts/api';
 import * as validators from '@nobi/contracts/validators';
 import { ApiError } from './errors';
+import {apiUrl} from '../lib/urls';
 export type { ApiSchemas };
-export type PagePath = { [P in keyof ApiResponses]: ApiResponses[P] extends { items: unknown[] } ? P : never }[keyof ApiResponses];
+type RacingPath = Exclude<keyof ApiResponses, '/api/v1/official-news' | '/api/v1/open-catalog' | '/api/v1/latest-news' | '/api/v1/weekends' | '/api/v1/season-insights'>;
+export type PagePath = { [P in RacingPath]: ApiResponses[P] extends { items: unknown[] } ? P : never }[RacingPath];
 export interface RequestOptions { signal?: AbortSignal; locale?: string }
 export const isUuid = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 function validate(name: keyof typeof validators, value: unknown) {
@@ -10,7 +12,7 @@ function validate(name: keyof typeof validators, value: unknown) {
   if (!checker(value)) throw new ApiError('INVALID_RESPONSE');
 }
 const codes = new Set(['VALIDATION_FAILED', 'RESOURCE_NOT_FOUND', 'SOURCE_NOT_AUTHORIZED', 'SOURCE_UNAVAILABLE', 'RATE_LIMITED', 'SNAPSHOT_CHANGED', 'AUTH_REQUIRED', 'AUTH_FORBIDDEN']);
-export async function get<P extends keyof ApiResponses>(path: P, query: Record<string, string | number> = {}, options: RequestOptions = {}, id?: string): Promise<ApiResponses[P]> {
+export async function get<P extends RacingPath>(path: P, query: Record<string, string | number> = {}, options: RequestOptions = {}, id?: string): Promise<ApiResponses[P]> {
   if (path.includes('{id}') && !isUuid(id)) throw new ApiError('RESOURCE_NOT_FOUND');
   const controller = new AbortController();
   let timedOut = false;
@@ -22,7 +24,7 @@ export async function get<P extends keyof ApiResponses>(path: P, query: Record<s
     const params = new URLSearchParams();
     for (const [key, value] of Object.entries({ ...(path === '/api/v1/readiness' ? {} : { locale: options.locale || 'en-US' }), ...query })) params.set(key, String(value));
     const url = path.replace('{id}', encodeURIComponent(id || '')) + (params.size ? '?' + params : '');
-    const response = await fetch(url, { signal: controller.signal, cache: 'no-store', credentials: 'omit', redirect: 'error', headers: { Accept: 'application/json' } });
+    const response = await fetch(apiUrl(url), { signal: controller.signal, cache: 'no-store', credentials: 'omit', redirect: 'error', headers: { Accept: 'application/json' } });
     const trace = response.headers.get('X-Request-ID');
     const traceId = trace && /^[A-Za-z0-9-]{1,64}$/.test(trace) ? trace : undefined;
     const contentType = response.headers.get('Content-Type') || '';

@@ -1,0 +1,26 @@
+[Unit]
+Description=NOBI Racing public CC BY reference API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=true
+WorkingDirectory=/opt/nobi-racing/current/reference
+ExecStart=/opt/nobi-racing/runtime/bin/node --max-old-space-size=96 server.mjs
+Environment=PORT=5292
+Environment=STATE_DIR=/var/lib/nobi-racing
+StateDirectory=nobi-racing
+Restart=on-failure
+RestartSec=10
+MemoryMax=192M
+CPUQuota=40%
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+[WebServer] (node:20364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:20016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 2 workers
+
+(node:34900) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 [desktop] › tests\e2e-official\latest.spec.ts:13:1 › personal reader preserves source links, searches and hides expired headlines (4.7s)
+  ok 3 [desktop] › tests\e2e-official\latest.spec.ts:33:1 › disabled and invalid news never fall back to fictional headlines (2.4s)
+[WebServer] 12:31:01 [vite] http proxy error: /api/v1/seasons?locale=zh-CN&limit=100
+[WebServer] Error: connect ECONNREFUSED 127.0.0.1:5280
+[WebServer]     at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1864:16)
+  ok 4 [desktop] › tests\e2e-official\weekends.spec.ts:3:1 › weekend reference shows Chinese sessions, matched translated news and track time (2.3s)
+  ok 1 [desktop] › tests\e2e-official\news.spec.ts:2:1 › official sync, expiry, revocation, real photography and source policy (15.7s)
+(node:40396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:28320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 5 [mobile] › tests\e2e-official\latest.spec.ts:13:1 › personal reader preserves source links, searches and hides expired headlines (3.5s)
+  ok 7 [mobile] › tests\e2e-official\latest.spec.ts:33:1 › disabled and invalid news never fall back to fictional headlines (4.5s)
+[WebServer] 12:31:21 [vite] http proxy error: /api/v1/seasons?locale=zh-CN&limit=100
+[WebServer] Error: connect ECONNREFUSED 127.0.0.1:5280
+[WebServer]     at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1864:16)
+  ok 8 [mobile] › tests\e2e-official\weekends.spec.ts:3:1 › weekend reference shows Chinese sessions, matched translated news and track time (2.7s)
+  ok 6 [mobile] › tests\e2e-official\news.spec.ts:2:1 › official sync, expiry, revocation, real photography and source policy (14.4s)
+
+  8 passed (38.6s)

@@ -242,6 +242,354 @@
         }
       }
     },
+    "LatestNewsItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "url",
+        "publishedAt",
+        "summary",
+        "titleZh",
+        "summaryZh",
+        "translationStatus"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2000
+        },
+        "publishedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 1200
+        },
+        "titleZh": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 600
+        },
+        "summaryZh": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 1800
+        },
+        "translationStatus": {
+          "enum": [
+            "machine",
+            "edited",
+            "unavailable",
+            "original"
+          ]
+        }
+      }
+    },
+    "LatestNewsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "sourceName",
+        "sourceUrl",
+        "termsUrl",
+        "usage",
+        "checkedAt",
+        "syncedAt",
+        "expiresAt",
+        "sourceUpdatedAt",
+        "newestPublishedAt",
+        "items"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "pending",
+            "upstream_error",
+            "disabled"
+          ]
+        },
+        "sourceName": {
+          "enum": [
+            "BBC Sport",
+            "NOBI Racing"
+          ]
+        },
+        "sourceUrl": {
+          "enum": [
+            "https://www.bbc.co.uk/sport/formula1",
+            "https://github.com/f1db/f1db"
+          ]
+        },
+        "termsUrl": {
+          "enum": [
+            "https://www.bbc.co.uk/usingthebbc/terms-of-use/#15metadataandrssfeeds",
+            "https://creativecommons.org/licenses/by/4.0/"
+          ]
+        },
+        "usage": {
+          "enum": [
+            "personal-local-only",
+            "public-open-data"
+          ]
+        },
+        "checkedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "syncedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "sourceUpdatedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "newestPublishedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "$ref": "#/$defs/LatestNewsItem"
+          }
+        }
+      }
+    },
+    "OfficialNewsItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "url",
+        "publishedAt"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2000
+        },
+        "publishedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "OfficialNewsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sources"
+      ],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/OfficialNewsSource"
+          }
+        }
+      }
+    },
+    "OfficialNewsSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "homepage",
+        "status",
+        "syncedAt",
+        "expiresAt",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "formula1",
+            "fia"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "homepage": {
+          "type": "string",
+          "format": "uri"
+        },
+        "status": {
+          "enum": [
+            "ready",
+            "rights_required",
+            "pending",
+            "upstream_error"
+          ]
+        },
+        "syncedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "$ref": "#/$defs/OfficialNewsItem"
+          }
+        }
+      }
+    },
+    "OpenCatalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "license",
+        "licenseUrl",
+        "syncedAt",
+        "expiresAt",
+        "items"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "pending",
+            "upstream_error",
+            "disabled"
+          ]
+        },
+        "license": {
+          "const": "CC0 1.0"
+        },
+        "licenseUrl": {
+          "const": "https://creativecommons.org/publicdomain/zero/1.0/"
+        },
+        "syncedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/OpenCatalogEntry"
+          }
+        }
+      }
+    },
+    "OpenCatalogEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "nameZh",
+        "description",
+        "descriptionZh",
+        "sourceUrl",
+        "sourceUpdatedAt",
+        "revision"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "Q173365",
+            "Q9673",
+            "Q2239218"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "nameZh": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "descriptionZh": {
+          "type": "string"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sourceUpdatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
     "Phase2Provenance": {
       "type": "object",
       "additionalProperties": false,
@@ -555,6 +903,74 @@
         }
       }
     },
+    "RaceWeekend": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "nameZh",
+        "circuit",
+        "circuitZh",
+        "location",
+        "locationZh",
+        "startsAt",
+        "endsAt",
+        "gmtOffset",
+        "cancelled",
+        "sprint",
+        "sessions"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "nameZh": {
+          "type": "string"
+        },
+        "circuit": {
+          "type": "string"
+        },
+        "circuitZh": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "locationZh": {
+          "type": "string"
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "gmtOffset": {
+          "type": "string",
+          "pattern": "^-?(?:0[0-9]|1[0-4]):[0-5][0-9]:00$"
+        },
+        "cancelled": {
+          "type": "boolean"
+        },
+        "sprint": {
+          "type": "boolean"
+        },
+        "sessions": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "$ref": "#/$defs/WeekendSession"
+          }
+        }
+      }
+    },
     "Readiness": {
       "type": "object",
       "additionalProperties": false,
@@ -770,6 +1186,187 @@
             "mixed",
             "empty"
           ]
+        }
+      }
+    },
+    "SeasonInsightEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "team",
+        "color",
+        "position",
+        "positionStart",
+        "points",
+        "pointsStart"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "team": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^[A-F0-9]{6}$"
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40
+        },
+        "positionStart": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 40
+        },
+        "points": {
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]{1,3})?$"
+        },
+        "pointsStart": {
+          "type": "string",
+          "pattern": "^[0-9]+(?:\\.[0-9]{1,3})?$"
+        }
+      }
+    },
+    "SeasonInsightRound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "meetingId",
+        "circuit",
+        "circuitZh",
+        "endsAt",
+        "drivers",
+        "teams"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "meetingId": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "circuit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "circuitZh": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "endsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "drivers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "$ref": "#/$defs/SeasonInsightEntry"
+          }
+        },
+        "teams": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "$ref": "#/$defs/SeasonInsightEntry"
+          }
+        }
+      }
+    },
+    "SeasonInsightsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "year",
+        "source",
+        "sourceUrl",
+        "license",
+        "licenseUrl",
+        "syncedAt",
+        "expiresAt",
+        "rounds"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "empty",
+            "pending",
+            "upstream_error",
+            "disabled"
+          ]
+        },
+        "year": {
+          "const": 2026
+        },
+        "source": {
+          "enum": [
+            "OpenF1",
+            "F1DB"
+          ]
+        },
+        "sourceUrl": {
+          "enum": [
+            "https://openf1.org/",
+            "https://github.com/f1db/f1db"
+          ]
+        },
+        "license": {
+          "enum": [
+            "CC BY-NC-SA 4.0",
+            "CC BY 4.0"
+          ]
+        },
+        "licenseUrl": {
+          "enum": [
+            "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "https://creativecommons.org/licenses/by/4.0/"
+          ]
+        },
+        "syncedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "rounds": {
+          "type": "array",
+          "maxItems": 30,
+          "items": {
+            "$ref": "#/$defs/SeasonInsightRound"
+          }
         }
       }
     },
@@ -1173,6 +1770,122 @@
             "mixed",
             "empty"
           ]
+        }
+      }
+    },
+    "WeekendSession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "startsAt",
+        "endsAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "practice1",
+            "practice2",
+            "practice3",
+            "qualifying",
+            "sprintQualifying",
+            "sprint",
+            "race",
+            "other"
+          ]
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endsAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endEstimated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "WeekendsResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "year",
+        "source",
+        "sourceUrl",
+        "license",
+        "licenseUrl",
+        "syncedAt",
+        "expiresAt",
+        "items"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "pending",
+            "upstream_error",
+            "disabled"
+          ]
+        },
+        "year": {
+          "const": 2026
+        },
+        "source": {
+          "enum": [
+            "OpenF1",
+            "F1DB"
+          ]
+        },
+        "sourceUrl": {
+          "enum": [
+            "https://openf1.org/",
+            "https://github.com/f1db/f1db"
+          ]
+        },
+        "license": {
+          "enum": [
+            "CC BY-NC-SA 4.0",
+            "CC BY 4.0"
+          ]
+        },
+        "licenseUrl": {
+          "enum": [
+            "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+            "https://creativecommons.org/licenses/by/4.0/"
+          ]
+        },
+        "syncedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "expiresAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 30,
+          "items": {
+            "$ref": "#/$defs/RaceWeekend"
+          }
         }
       }
     }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { nextTick, watch, ref, onScopeDispose } from 'vue';
-const props = defineProps<{ loading: boolean; error?: string | null; empty?: boolean; traceId?: string; retryAfter?: number }>();
+const props = defineProps<{ loading: boolean; error?: string | null; empty?: boolean; traceId?: string; retryAfter?: number; focusOnLoad?: boolean }>();
 defineEmits<{ retry: [] }>();
 const { t } = useI18n();
 const seconds = ref(0);
@@ -13,7 +13,7 @@ watch([() => props.error, () => props.retryAfter], () => {
 }, { immediate: true });
 onScopeDispose(() => clearInterval(countdown));
 watch(() => props.loading, async loading => {
-  if (!loading) { await nextTick(); document.querySelector<HTMLElement>('main h1')?.focus({ preventScroll: true }); }
+  if (!loading && props.focusOnLoad !== false) { await nextTick(); document.querySelector<HTMLElement>('main h1')?.focus({ preventScroll: true }); }
 });
 </script>
 <template>

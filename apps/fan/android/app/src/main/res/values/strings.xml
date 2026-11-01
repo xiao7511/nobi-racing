@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">NOBI Racing</string>
+    <string name="title_activity_main">NOBI Racing</string>
+    <string name="package_name">com.nobistudio.racing</string>
+    <string name="custom_url_scheme">com.nobistudio.racing</string>
+</resources>

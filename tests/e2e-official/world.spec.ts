@@ -1,0 +1,41 @@
+import {test,expect,type Page} from '@playwright/test';
+const now='2026-11-01T06:00:00Z',expires='2026-11-01T12:00:00Z';
+const url='https://www.bbc.co.uk/sport/formula1/articles/abc123';
+const driver={id:'12',name:'Kimi ANTONELLI',team:'Mercedes',color:'00D7B6',position:1,positionStart:1,points:'365',pointsStart:'340'};
+const insight={status:'ready',year:2026,source:'OpenF1',sourceUrl:'https://openf1.org/',license:'CC BY-NC-SA 4.0',licenseUrl:'https://creativecommons.org/licenses/by-nc-sa/4.0/',syncedAt:now,expiresAt:expires,rounds:[{id:11396,meetingId:1297,circuit:'Austin',circuitZh:'奥斯汀',endsAt:'2026-10-25T22:00:00Z',drivers:[driver,{...driver,id:'63',name:'George RUSSELL',position:2,positionStart:2,points:'242',pointsStart:'238'}],teams:[{...driver,id:'Mercedes',name:'Mercedes',points:'607',pointsStart:'578'},{...driver,id:'Ferrari',name:'Ferrari',team:'Ferrari',position:2,positionStart:2,points:'474',pointsStart:'444'}]}]};
+const calendar={status:'ready',year:2026,source:'OpenF1',sourceUrl:'https://openf1.org/',license:'CC BY-NC-SA 4.0',licenseUrl:'https://creativecommons.org/licenses/by-nc-sa/4.0/',syncedAt:now,expiresAt:expires,items:[{id:1298,name:'Mexico City Grand Prix',nameZh:'墨西哥城大奖赛',circuit:'Mexico City',circuitZh:'墨西哥城',location:'Mexico City',locationZh:'墨西哥城',startsAt:'2026-10-30T18:30:00Z',endsAt:'2026-11-02T06:00:00Z',gmtOffset:'-06:00:00',cancelled:false,sprint:false,sessions:[{id:11404,name:'Race',kind:'race',startsAt:'2026-11-02T04:00:00Z',endsAt:'2026-11-02T06:00:00Z'}]}]};
+const news={status:'ready',sourceName:'BBC Sport',sourceUrl:'https://www.bbc.co.uk/sport/formula1',termsUrl:'https://www.bbc.co.uk/usingthebbc/terms-of-use/#15metadataandrssfeeds',usage:'personal-local-only',checkedAt:now,syncedAt:now,expiresAt:'2026-11-01T06:15:00Z',sourceUpdatedAt:now,newestPublishedAt:now,items:[{title:'Original Mexico report',titleZh:'墨西哥城赛车资讯',summary:'A source summary.',summaryZh:'来源短摘要。',translationStatus:'machine',url:url+'?at_medium=RSS&at_campaign=rss',publishedAt:now}]};
+async function sources(page:Page,enabled:()=>boolean=()=>true){
+ await page.route('**/api/v1/season-insights',route=>route.fulfill({json:enabled()?insight:{...insight,status:'disabled',syncedAt:null,expiresAt:null,rounds:[]}}));
+ await page.route('**/api/v1/weekends',route=>route.fulfill({json:enabled()?calendar:{...calendar,status:'disabled',syncedAt:null,expiresAt:null,items:[]}}));
+ await page.route('**/api/v1/latest-news',route=>route.fulfill({json:enabled()?news:{...news,status:'disabled',syncedAt:null,expiresAt:null,sourceUpdatedAt:null,newestPublishedAt:null,items:[]}}));
+ await page.route('**/api/v1/open-catalog',route=>route.fulfill({json:{status:'disabled',license:'CC0 1.0',licenseUrl:'https://creativecommons.org/publicdomain/zero/1.0/',syncedAt:null,expiresAt:null,items:[]}}));
+ await page.route('**/api/v1/official-news',route=>route.fulfill({json:{sources:[{id:'formula1',name:'www.formula1.com',homepage:'https://www.formula1.com/en/latest',status:'rights_required',syncedAt:null,expiresAt:null,items:[]},{id:'fia',name:'FIA',homepage:'https://www.fia.com/news',status:'rights_required',syncedAt:null,expiresAt:null,items:[]}]}}));
+}
+test.beforeEach(async({page})=>{await page.clock.install({time:new Date(now)});await page.addInitScript(()=>{if(!localStorage.getItem('nobi-racing:preferences:v1'))localStorage.setItem('nobi-racing:preferences:v1',JSON.stringify({locale:'zh-CN',theme:'dark',timeZone:'Asia/Shanghai'}));});});
+test('real-source follows and original-link bookmarks work across pages, reloads and clearing',async({page})=>{
+ await sources(page);const legacy:string[]=[];page.on('request',request=>{if(/\/api\/v1\/(seasons|drivers|standings)\?/.test(request.url()))legacy.push(request.url());});
+ await page.goto('/#/stats?type=driver');await page.getByRole('button',{name:'关注基米·安东内利',exact:true}).click();
+ await page.getByRole('button',{name:'车队',exact:true}).click();await page.getByRole('button',{name:'关注梅赛德斯',exact:true}).click();
+ await page.goto('/#/races');await page.getByRole('button',{name:'关注墨西哥城大奖赛周末',exact:true}).click();
+ await page.goto('/#/news');await page.getByRole('button',{name:'收藏资讯：墨西哥城赛车资讯',exact:true}).click();
+ await page.goto('/#/profile');const panel=page.getByTestId('personal-world');await expect(panel.locator('.world-counts dd')).toHaveText(['1','1','1','1']);await expect(panel.locator('.world-next')).toContainText('墨西哥城大奖赛');
+ await expect(page.getByTestId('world-drivers').locator('.world-card-facts')).toContainText('365');await expect(page.getByTestId('world-teams').locator('.world-card-facts')).toContainText('607');await expect(page.getByTestId('world-news').getByRole('link',{name:'墨西哥城赛车资讯 ↗'})).toHaveAttribute('href',url);
+ await page.reload();await expect(panel.locator('.world-counts dd')).toHaveText(['1','1','1','1']);await expect(page.locator('.preview-banner')).not.toContainText('MOCK');
+ await panel.getByRole('group',{name:'筛选你的赛车世界'}).getByRole('button',{name:'车队',exact:true}).click();await expect(page.getByTestId('world-drivers')).toHaveCount(0);await expect(page.getByTestId('world-teams')).toBeVisible();
+ await panel.getByRole('group',{name:'筛选你的赛车世界'}).getByRole('button',{name:'全部',exact:true}).click();
+ await page.getByTestId('world-drivers').getByRole('link',{name:'查看积分榜 ↗'}).click();await expect(page.getByTestId('insight-standings').locator('tbody tr')).toHaveCount(1);await expect(page.getByRole('button',{name:'取消关注基米·安东内利',exact:true})).toHaveAttribute('aria-pressed','true');
+ await page.goto('/#/settings');await page.locator('#theme').selectOption('light');await page.getByRole('button',{name:'清空收藏与关注',exact:true}).click();await expect(page.getByRole('status')).toContainText('已清空所有收藏与关注');
+ await page.goto('/#/profile');await expect(panel.locator('.world-counts dd')).toHaveText(['0','0','0','0']);await expect(page.locator('html')).toHaveAttribute('data-theme','light');
+ const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('nobi-racing:preferences:v1')!));expect(stored.timeZone).toBe('Asia/Shanghai');expect(stored.savedNewsUrls).toEqual([]);expect(legacy).toEqual([]);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+test('unavailable sources preserve removable selections without stale headlines, points or schedules',async({page})=>{
+ let enabled=true;await sources(page,()=>enabled);await page.addInitScript(()=>localStorage.setItem('nobi-racing:preferences:v1',JSON.stringify({locale:'zh-CN',theme:'dark',timeZone:'Asia/Shanghai',followedDriverIds:['openf1:driver:12'],followedTeamIds:['openf1:team:Mercedes'],followedWeekendIds:[1298],savedNewsUrls:['https://www.bbc.co.uk/sport/formula1/articles/abc123']})));
+ await page.goto('/#/profile');await expect(page.getByTestId('world-news')).toContainText('墨西哥城赛车资讯');enabled=false;await page.reload();
+ const panel=page.getByTestId('personal-world');await expect(panel.locator('.world-counts dd')).toHaveText(['1','1','1','1']);await expect(panel.locator('.world-card-facts')).toHaveCount(0);await expect(panel.locator('.world-next')).toHaveCount(0);await expect(panel).not.toContainText('墨西哥城赛车资讯');await expect(panel.getByRole('link',{name:'已收藏的 BBC Sport 原文链接 ↗'})).toHaveAttribute('href',url);
+ await page.getByTestId('world-drivers').getByRole('button',{name:'取消关注#12',exact:true}).click();await page.getByTestId('world-teams').getByRole('button',{name:'取消关注梅赛德斯',exact:true}).click();await page.getByTestId('world-weekends').getByRole('button',{name:'取消关注1298周末',exact:true}).click();await page.getByTestId('world-news').getByRole('button',{name:/移除资讯收藏/}).click();await expect(panel.locator('.world-counts dd')).toHaveText(['0','0','0','0']);
+});
+test('storage failures are visible while session-only follows remain usable',async({page})=>{
+ await sources(page);await page.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Denied','SecurityError');};});
+ await page.goto('/#/profile');await page.getByRole('button',{name:'关注所选车手',exact:true}).click();await expect(page.getByRole('alert')).toContainText('浏览器存储不可用');await expect(page.getByTestId('world-drivers').locator('.world-card')).toHaveCount(1);
+});

@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-01T03:29:27.2056598Z",
+  "openapi": {
+    "warnings": 1,
+    "status": "passed",
+    "generationDrift": "passed"
+  },
+  "frontend": {
+    "build": "passed",
+    "baselineTests": 3,
+    "unitTests": 32,
+    "lint": "passed",
+    "typecheck": "passed"
+  },
+  "boundaries": [
+    "Reference metadata only; racing schedules and standings remain MOCK",
+    "No official headline ingestion without a valid grant",
+    "No production deployment; operator and jurisdiction details remain outstanding",
+    "Full PostgreSQL/Redis integration regression not repeated"
+  ],
+  "browser": {
+    "isolatedTests": 4,
+    "realUpstreamDesktopAndMobile": "passed"
+  },
+  "backend": {
+    "unitTests": 19,
+    "status": "passed"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "source": {
+    "refreshMinutes": 15,
+    "itemCount": 20,
+    "usage": "personal-local-only",
+    "feed": "https://feeds.bbci.co.uk/sport/formula1/rss.xml",
+    "publisherPhotosCopied": false,
+    "fullArticleBodiesCopied": false,
+    "publisher": "BBC Sport"
+  },
+  "checkedAt": "2026-11-01T04:00:08.6705333Z",
+  "openapi": {
+    "warnings": 1,
+    "generationDrift": "passed",
+    "status": "passed"
+  },
+  "frontend": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "build": "passed",
+    "unitTests": 37,
+    "baselineTests": 3
+  },
+  "backend": {
+    "status": "passed",
+    "unitTests": 24
+  },
+  "boundaries": [
+    "Personal local reading only; not an open-content license",
+    "No public deployment or commercial syndication grant",
+    "Racing calendars and standings retain existing MOCK mode",
+    "Full PostgreSQL/Redis regression not repeated"
+  ],
+  "browser": {
+    "realUpstreamDesktopAndMobile": "passed",
+    "isolatedTests": 6,
+    "engines": [
+      "Edge",
+      "WebKit"
+    ]
+  }
+}

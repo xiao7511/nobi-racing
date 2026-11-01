@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-01T04:31:47.431Z",
+  "results": [
+    {
+      "name": "desktop",
+      "passed": true,
+      "news": 20,
+      "translated": 20,
+      "weekends": 25,
+      "cancelled": 2,
+      "source": "Actual Java RSS + offline translations + OpenF1, no browser API mocks"
+    },
+    {
+      "name": "mobile",
+      "passed": true,
+      "news": 20,
+      "translated": 20,
+      "weekends": 25,
+      "cancelled": 2,
+      "source": "Actual Java RSS + offline translations + OpenF1, no browser API mocks"
+    }
+  ]
+}

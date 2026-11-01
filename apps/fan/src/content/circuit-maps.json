@@ -1,0 +1,252 @@
+{
+  "Melbourne": {
+    "id": "melbourne-2",
+    "src": "/media/circuits/melbourne-2.svg",
+    "name": "Albert Park Circuit",
+    "nameZh": "阿尔伯特公园赛道",
+    "latitude": -37.849722,
+    "longitude": 144.968333,
+    "layoutYears": "2022-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/melbourne-2.svg"
+  },
+  "Shanghai": {
+    "id": "shanghai-1",
+    "src": "/media/circuits/shanghai-1.svg",
+    "name": "Shanghai International Circuit",
+    "nameZh": "上海国际赛车场",
+    "latitude": 31.338889,
+    "longitude": 121.219722,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/shanghai-1.svg"
+  },
+  "Suzuka": {
+    "id": "suzuka-2",
+    "src": "/media/circuits/suzuka-2.svg",
+    "name": "Suzuka Circuit",
+    "nameZh": "铃鹿赛道",
+    "latitude": 34.843056,
+    "longitude": 136.540556,
+    "layoutYears": "2003-2006, 2009-2019, 2022-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/suzuka-2.svg"
+  },
+  "Sakhir": {
+    "id": "bahrain-1",
+    "src": "/media/circuits/bahrain-1.svg",
+    "name": "Bahrain International Circuit",
+    "nameZh": "巴林国际赛道",
+    "latitude": 26.0325,
+    "longitude": 50.510556,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/bahrain-1.svg"
+  },
+  "Jeddah": {
+    "id": "jeddah-1",
+    "src": "/media/circuits/jeddah-1.svg",
+    "name": "Jeddah Corniche Circuit",
+    "nameZh": "吉达滨海赛道",
+    "latitude": 21.543333,
+    "longitude": 39.172778,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/jeddah-1.svg"
+  },
+  "Miami": {
+    "id": "miami-1",
+    "src": "/media/circuits/miami-1.svg",
+    "name": "Miami International Autodrome",
+    "nameZh": "迈阿密国际赛道",
+    "latitude": 25.958056,
+    "longitude": -80.238889,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/miami-1.svg"
+  },
+  "Montreal": {
+    "id": "montreal-6",
+    "src": "/media/circuits/montreal-6.svg",
+    "name": "Circuit Gilles Villeneuve",
+    "nameZh": "吉尔·维伦纽夫赛道",
+    "latitude": 45.500578,
+    "longitude": -73.522461,
+    "layoutYears": "2002-2008, 2010-2019, 2022-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/montreal-6.svg"
+  },
+  "Monte Carlo": {
+    "id": "monaco-6",
+    "src": "/media/circuits/monaco-6.svg",
+    "name": "Circuit de Monaco",
+    "nameZh": "摩纳哥赛道",
+    "latitude": 43.734722,
+    "longitude": 7.420556,
+    "layoutYears": "2003-2019, 2021-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/monaco-6.svg"
+  },
+  "Catalunya": {
+    "id": "catalunya-6",
+    "src": "/media/circuits/catalunya-6.svg",
+    "name": "Circuit de Barcelona-Catalunya",
+    "nameZh": "巴塞罗那-加泰罗尼亚赛道",
+    "latitude": 41.57,
+    "longitude": 2.261111,
+    "layoutYears": "2023-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/catalunya-6.svg"
+  },
+  "Spielberg": {
+    "id": "spielberg-3",
+    "src": "/media/circuits/spielberg-3.svg",
+    "name": "Red Bull Ring",
+    "nameZh": "红牛环赛道",
+    "latitude": 47.219722,
+    "longitude": 14.764722,
+    "layoutYears": "1997-2003, 2014-2026",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/spielberg-3.svg"
+  },
+  "Silverstone": {
+    "id": "silverstone-8",
+    "src": "/media/circuits/silverstone-8.svg",
+    "name": "Silverstone Circuit",
+    "nameZh": "银石赛道",
+    "latitude": 52.078611,
+    "longitude": -1.016944,
+    "layoutYears": "2010-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/silverstone-8.svg"
+  },
+  "Spa-Francorchamps": {
+    "id": "spa-francorchamps-4",
+    "src": "/media/circuits/spa-francorchamps-4.svg",
+    "name": "Circuit de Spa-Francorchamps",
+    "nameZh": "斯帕-弗朗科尔尚赛道",
+    "latitude": 50.437222,
+    "longitude": 5.971389,
+    "layoutYears": "2007-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/spa-francorchamps-4.svg"
+  },
+  "Hungaroring": {
+    "id": "hungaroring-3",
+    "src": "/media/circuits/hungaroring-3.svg",
+    "name": "Hungaroring",
+    "nameZh": "亨格罗宁赛道",
+    "latitude": 47.582222,
+    "longitude": 19.251111,
+    "layoutYears": "2003-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/hungaroring-3.svg"
+  },
+  "Zandvoort": {
+    "id": "zandvoort-5",
+    "src": "/media/circuits/zandvoort-5.svg",
+    "name": "Circuit Zandvoort",
+    "nameZh": "赞德沃特赛道",
+    "latitude": 52.388819,
+    "longitude": 4.540922,
+    "layoutYears": "2021-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/zandvoort-5.svg"
+  },
+  "Monza": {
+    "id": "monza-7",
+    "src": "/media/circuits/monza-7.svg",
+    "name": "Autodromo Nazionale Monza",
+    "nameZh": "蒙扎赛道",
+    "latitude": 45.620556,
+    "longitude": 9.289444,
+    "layoutYears": "2000-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/monza-7.svg"
+  },
+  "Madring": {
+    "id": "madring-1",
+    "src": "/media/circuits/madring-1.svg",
+    "name": "Circuito de Madring",
+    "nameZh": "马德里赛道",
+    "latitude": 40.465278,
+    "longitude": -3.615278,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/madring-1.svg"
+  },
+  "Baku": {
+    "id": "baku-1",
+    "src": "/media/circuits/baku-1.svg",
+    "name": "Baku City Circuit",
+    "nameZh": "巴库城市赛道",
+    "latitude": 40.3725,
+    "longitude": 49.853333,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/baku-1.svg"
+  },
+  "Kuala Lumpur": {
+    "id": "sepang-1",
+    "src": "/media/circuits/sepang-1.svg",
+    "name": "Sepang International Circuit",
+    "nameZh": "雪邦国际赛道",
+    "latitude": 2.760556,
+    "longitude": 101.7375,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/sepang-1.svg"
+  },
+  "Singapore": {
+    "id": "marina-bay-4",
+    "src": "/media/circuits/marina-bay-4.svg",
+    "name": "Marina Bay Street Circuit",
+    "nameZh": "滨海湾街道赛道",
+    "latitude": 1.291531,
+    "longitude": 103.86385,
+    "layoutYears": "2023-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/marina-bay-4.svg"
+  },
+  "Austin": {
+    "id": "austin-1",
+    "src": "/media/circuits/austin-1.svg",
+    "name": "Circuit of the Americas",
+    "nameZh": "美洲赛道",
+    "latitude": 30.132778,
+    "longitude": -97.641111,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/austin-1.svg"
+  },
+  "Mexico City": {
+    "id": "mexico-city-3",
+    "src": "/media/circuits/mexico-city-3.svg",
+    "name": "Autódromo Hermanos Rodríguez",
+    "nameZh": "罗德里格斯兄弟赛道",
+    "latitude": 19.404197,
+    "longitude": -99.088747,
+    "layoutYears": "2015-2019, 2021-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/mexico-city-3.svg"
+  },
+  "Interlagos": {
+    "id": "interlagos-2",
+    "src": "/media/circuits/interlagos-2.svg",
+    "name": "Autódromo José Carlos Pace",
+    "nameZh": "英特拉格斯赛道",
+    "latitude": -23.701111,
+    "longitude": -46.697222,
+    "layoutYears": "1990-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/interlagos-2.svg"
+  },
+  "Las Vegas": {
+    "id": "las-vegas-1",
+    "src": "/media/circuits/las-vegas-1.svg",
+    "name": "Las Vegas Street Circuit",
+    "nameZh": "拉斯维加斯街道赛道",
+    "latitude": 36.175,
+    "longitude": -115.136389,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/las-vegas-1.svg"
+  },
+  "Lusail": {
+    "id": "lusail-1",
+    "src": "/media/circuits/lusail-1.svg",
+    "name": "Lusail International Circuit",
+    "nameZh": "卢赛尔国际赛道",
+    "latitude": 25.49,
+    "longitude": 51.454167,
+    "layoutYears": "",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/lusail-1.svg"
+  },
+  "Yas Marina Circuit": {
+    "id": "yas-marina-2",
+    "src": "/media/circuits/yas-marina-2.svg",
+    "name": "Yas Marina Circuit",
+    "nameZh": "亚斯码头赛道",
+    "latitude": 24.467222,
+    "longitude": 54.603056,
+    "layoutYears": "2021-present",
+    "source": "https://github.com/f1db/f1db/blob/f35a8c61d15d275061475e543b8dc79ac3daad97/src/assets/circuits/white-outline/yas-marina-2.svg"
+  }
+}

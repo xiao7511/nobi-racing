@@ -11,6 +11,8 @@ import NewsView from '../apps/fan/src/views/NewsView.vue';
 import ArticleView from '../apps/fan/src/views/ArticleView.vue';
 import StatsView from '../apps/fan/src/views/StatsView.vue';
 import SettingsView from '../apps/fan/src/views/SettingsView.vue';
+// These tests exercise the explicit original-story fixture experience.
+vi.mock('../apps/fan/src/api/transport', () => ({ dataTransport: 'fixture' }));
 beforeEach(() => { localStorage.clear(); vi.useFakeTimers(); });
 afterEach(() => vi.useRealTimers());
 const setup = async () => {

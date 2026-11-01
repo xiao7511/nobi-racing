@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-11-01T03:23:13.9519697Z",
+  "officialNews": {
+    "sources": [
+      {
+        "id": "formula1",
+        "name": "www.formula1.com",
+        "homepage": "https://www.formula1.com/en/latest",
+        "status": "rights_required",
+        "syncedAt": null,
+        "expiresAt": null,
+        "items": []
+      },
+      {
+        "id": "fia",
+        "name": "FIA",
+        "homepage": "https://www.fia.com/news",
+        "status": "rights_required",
+        "syncedAt": null,
+        "expiresAt": null,
+        "items": []
+      }
+    ]
+  },
+  "openCatalog": {
+    "status": "ready",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "syncedAt": "2026-11-01T03:22:59.614987600Z",
+    "expiresAt": "2026-11-01T09:22:59.614987600Z",
+    "items": [
+      {
+        "id": "Q173365",
+        "name": "Ferrari F2005",
+        "nameZh": "法拉利F2005",
+        "description": "racing automobile",
+        "descriptionZh": "",
+        "sourceUrl": "https://www.wikidata.org/wiki/Q173365",
+        "sourceUpdatedAt": "2025-04-12T18:17:59Z",
+        "revision": 2337316388
+      },
+      {
+        "id": "Q9673",
+        "name": "Lewis Hamilton",
+        "nameZh": "劉易斯·咸美頓",
+        "description": "British racing driver",
+        "descriptionZh": "英國一級方程式賽車手",
+        "sourceUrl": "https://www.wikidata.org/wiki/Q9673",
+        "sourceUpdatedAt": "2026-10-30T01:58:29Z",
+        "revision": 2562400537
+      },
+      {
+        "id": "Q2239218",
+        "name": "Max Verstappen",
+        "nameZh": "馬克斯·維斯塔潘",
+        "description": "Dutch and Belgian racing driver",
+        "descriptionZh": "荷蘭賽車手",
+        "sourceUrl": "https://www.wikidata.org/wiki/Q2239218",
+        "sourceUpdatedAt": "2026-10-17T23:49:11Z",
+        "revision": 2558164798
+      }
+    ]
+  }
+}

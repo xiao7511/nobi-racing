@@ -1,0 +1,26 @@
+import {test,expect} from '@playwright/test';
+const event={id:1298,name:'Mexico City Grand Prix',nameZh:'墨西哥城大奖赛',circuit:'Mexico City',circuitZh:'墨西哥城',location:'Mexico City',locationZh:'墨西哥城',startsAt:'2026-10-30T18:30:00Z',endsAt:'2026-11-01T22:00:00Z',gmtOffset:'-06:00:00',cancelled:false,sprint:false,sessions:[{id:11,name:'Practice 1',kind:'practice1',startsAt:'2026-10-30T18:30:00Z',endsAt:'2026-10-30T19:30:00Z'},{id:12,name:'Qualifying',kind:'qualifying',startsAt:'2026-10-31T21:00:00Z',endsAt:'2026-10-31T22:00:00Z'},{id:13,name:'Race',kind:'race',startsAt:'2026-11-01T20:00:00Z',endsAt:'2026-11-01T22:00:00Z'}]};
+test('weekend reference shows Chinese sessions, matched translated news and track time',async({page})=>{
+  await page.clock.install({time:new Date('2026-11-01T05:00:00Z')});
+  await page.addInitScript(()=>localStorage.setItem('nobi-racing:preferences:v1',JSON.stringify({locale:'zh-CN',theme:'dark',timeZone:'Asia/Shanghai'})));
+  const now='2026-11-01T05:00:00Z';
+  await page.route('**/api/v1/weekends',route=>route.fulfill({json:{status:'ready',year:2026,source:'OpenF1',sourceUrl:'https://openf1.org/',license:'CC BY-NC-SA 4.0',licenseUrl:'https://creativecommons.org/licenses/by-nc-sa/4.0/',syncedAt:now,expiresAt:'2026-11-01T11:00:00Z',items:[event,{...event,id:2,name:'Bahrain Grand Prix',nameZh:'巴林大奖赛',cancelled:true,sessions:[]}]}}));
+  await page.route('**/api/v1/latest-news',route=>route.fulfill({json:{status:'ready',sourceName:'BBC Sport',sourceUrl:'https://www.bbc.co.uk/sport/formula1',termsUrl:'https://www.bbc.co.uk/usingthebbc/terms-of-use/#15metadataandrssfeeds',usage:'personal-local-only',checkedAt:now,syncedAt:now,expiresAt:'2026-11-01T05:15:00Z',sourceUpdatedAt:now,newestPublishedAt:'2026-11-01T01:00:00Z',items:[{title:'Mexico City test report',summary:'A source test summary',titleZh:'墨西哥城测试报道',summaryZh:'来源测试短摘要的中文翻译。',translationStatus:'machine',url:'https://www.bbc.co.uk/sport/formula1/articles/abc123',publishedAt:'2026-11-01T01:00:00Z'}]}}));
+  await page.goto('/#/weekends/1298');const panel=page.getByTestId('weekend-calendar');
+  await expect(panel.getByRole('link',{name:'墨西哥城大奖赛 ↗',exact:true})).toBeVisible();
+  await expect(panel.getByText('第一次自由练习',{exact:true})).toBeVisible();
+  await expect(panel.getByText('正赛',{exact:true})).toBeVisible();
+  const map=panel.locator('.circuit-map-preview img');await expect(map).toHaveAttribute('src','/media/circuits/mexico-city-3.svg');
+  await expect.poll(()=>map.evaluate((image:HTMLImageElement)=>image.naturalWidth)).toBeGreaterThan(0);
+  await panel.getByRole('button',{name:'放大查看罗德里格斯兄弟赛道赛道地图',exact:true}).click();
+  await expect(page.getByRole('dialog')).toBeVisible();await page.getByRole('button',{name:'关闭赛道地图'}).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(panel.getByRole('link',{name:'墨西哥城测试报道 ↗'})).toBeVisible();
+  const time=panel.locator('.weekend-schedule time').last();await expect(time).toContainText('04:00');
+  await panel.getByRole('button',{name:'赛道时间',exact:true}).click();await expect(time).toContainText('14:00');await expect(time).toContainText('UTC-06:00');
+  await page.getByRole('link',{name:/赛事日历/}).click();
+  await expect(page.locator('.mock-calendar')).toHaveCount(0);
+  await expect(page.getByText('开发样例赛历 / MOCK',{exact:true})).toHaveCount(0);
+  await panel.getByRole('button',{name:'已取消',exact:true}).click();await expect(panel.locator('.weekend-card')).toHaveCount(1);await expect(panel).toContainText('巴林大奖赛');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+});

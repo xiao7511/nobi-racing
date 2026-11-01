@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-01T04:52:37.722Z",
+  "results": [
+    {
+      "name": "desktop",
+      "passed": true,
+      "weekends": 25,
+      "mapsVerified": 25,
+      "mockCalendarRemoved": true,
+      "databaseRequests": 0,
+      "source": "Real local API and locally served F1DB SVG assets; no API mocks"
+    },
+    {
+      "name": "mobile",
+      "passed": true,
+      "weekends": 25,
+      "mapsVerified": 25,
+      "mockCalendarRemoved": true,
+      "databaseRequests": 0,
+      "source": "Real local API and locally served F1DB SVG assets; no API mocks"
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "checkedAt": "2026-11-01T06:43:35.876Z",
+  "results": [
+    {
+      "device": "desktop",
+      "locale": "zh-CN",
+      "theme": "dark",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    },
+    {
+      "device": "desktop",
+      "locale": "zh-CN",
+      "theme": "light",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    },
+    {
+      "device": "desktop",
+      "locale": "en-US",
+      "theme": "dark",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    },
+    {
+      "device": "desktop",
+      "locale": "en-US",
+      "theme": "light",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "zh-CN",
+      "theme": "dark",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "zh-CN",
+      "theme": "light",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "en-US",
+      "theme": "dark",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    },
+    {
+      "device": "mobile",
+      "locale": "en-US",
+      "theme": "light",
+      "passed": true,
+      "rounds": 18,
+      "drivers": 23,
+      "teams": 11,
+      "lastCircuit": "Austin",
+      "externalRequests": 0,
+      "syntheticRequests": 0,
+      "source": "Real local API; no browser API replacements"
+    }
+  ]
+}

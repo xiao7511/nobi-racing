@@ -71,7 +71,7 @@ GRANT SELECT ON series,seasons,circuits,race_events,race_sessions,drivers,teams,
     $sql | & docker compose --project-name nobi-racing-phase2 --env-file $envPath -f $composePath exec -T postgres psql -q -v ON_ERROR_STOP=1 -U nobi_migrator -d nobi_racing
     if($LASTEXITCODE -ne 0) { throw 'Reader role provisioning failed.' }
     $env:DB_USER='nobi_reader';$env:DB_PASSWORD=$settings['PHASE2_DB_READER_PASSWORD'];$env:DB_MIGRATE='false'
-    $process=Start-Process -FilePath (Get-Command java).Source -ArgumentList @('-jar',('"'+$jarPath+'"'),'--spring.profiles.active=local','--spring.flyway.enabled=false','--nobi.demo.seed=false','--nobi.sync.on-start=false') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $stateDir 'api.log') -RedirectStandardError (Join-Path $stateDir 'api-error.log')
+    $process=Start-Process -FilePath (Get-Command java).Source -ArgumentList @('-Djava.net.useSystemProxies=true','-jar',('"'+$jarPath+'"'),'--spring.profiles.active=local','--spring.flyway.enabled=false','--nobi.demo.seed=false','--nobi.sync.on-start=false') -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $stateDir 'api.log') -RedirectStandardError (Join-Path $stateDir 'api-error.log')
     @{ processId=$process.Id; startedAt=$process.StartTime.ToUniversalTime().ToString('o') } | ConvertTo-Json | Set-Content -LiteralPath $statePath -Encoding UTF8
     for($attempt=0;$attempt -lt 40;$attempt++) {
         if($process.HasExited) { throw 'Phase 2 API exited. Inspect .cache/phase2/api.log.' }

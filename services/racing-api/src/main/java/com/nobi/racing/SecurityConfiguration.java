@@ -15,7 +15,7 @@ public class SecurityConfiguration {
 
     @Bean SecurityFilterChain security(HttpSecurity http, Problems problems) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.GET,"/api/v1/readiness","/api/v1/seasons/**","/api/v1/circuits/**","/api/v1/races/**","/api/v1/sessions/**","/api/v1/drivers/**","/api/v1/teams/**","/api/v1/standings").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/v1/season-insights","/api/v1/weekends","/api/v1/latest-news","/api/v1/open-catalog","/api/v1/official-news","/api/v1/readiness","/api/v1/seasons/**","/api/v1/circuits/**","/api/v1/races/**","/api/v1/sessions/**","/api/v1/drivers/**","/api/v1/teams/**","/api/v1/standings").permitAll()
                 .anyRequest().denyAll())
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable())

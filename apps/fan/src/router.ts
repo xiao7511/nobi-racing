@@ -1,11 +1,14 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { dataTransport } from './api/transport';
+import {publicReference} from './lib/urls';
 const backend = dataTransport === 'backend';
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', name: 'home', component: backend ? () => import('./views/backend/HomeView.vue') : () => import('./views/HomeView.vue') },
-    { path: '/news', name: 'news', component: () => import('./views/NewsView.vue') },
+    { path: '/weekends/:id', name: 'weekend', component: () => import('./views/WeekendView.vue') },
+    { path: '/legal', name: 'legal', component: () => import('./views/LegalView.vue') },
+    { path: '/', name: 'home', component: publicReference?()=>import('./views/PublicHomeView.vue'):backend ? () => import('./views/backend/HomeView.vue') : () => import('./views/HomeView.vue') },
+    { path: '/news', name: 'news', component: publicReference?()=>import('./views/PublicNewsView.vue'):() => import('./views/NewsView.vue') },
     { path: '/news/:id', name: 'article', component: () => import('./views/ArticleView.vue') },
     { path: '/races', name: 'races', component: backend ? () => import('./views/backend/RacesView.vue') : () => import('./views/RacesView.vue') },
     { path: '/races/:id', name: 'race', component: backend ? () => import('./views/backend/RaceView.vue') : () => import('./views/RaceView.vue') },

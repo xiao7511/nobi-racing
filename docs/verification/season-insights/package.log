@@ -1,0 +1,40 @@
+Access is denied.
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.nobi.racing:racing-api >---------------------
+[INFO] Building racing-api 0.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ racing-api ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ racing-api ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 26 source files with javac [debug parameters release 21] to target\classes
+[INFO] /D:/project/nobi-racing/services/racing-api/src/main/java/com/nobi/racing/LocalNewsTranslation.java: ĳЩ�����ļ�ʹ�û򸲸����ѹ�ʱ�� API��
+[INFO] /D:/project/nobi-racing/services/racing-api/src/main/java/com/nobi/racing/LocalNewsTranslation.java: �й���ϸ��Ϣ, ��ʹ�� -Xlint:deprecation ���±��롣
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ racing-api ---
+[INFO] skip non existing resourceDirectory D:\project\nobi-racing\services\racing-api\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ racing-api ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 9 source files with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ racing-api ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ racing-api ---
+[INFO] Building jar: D:\project\nobi-racing\services\racing-api\target\racing-api-0.0.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.2:repackage (repackage) @ racing-api ---
+[INFO] Replacing main artifact D:\project\nobi-racing\services\racing-api\target\racing-api-0.0.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to D:\project\nobi-racing\services\racing-api\target\racing-api-0.0.0-SNAPSHOT.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  34.437 s
+[INFO] Finished at: 2026-11-01T14:24:55+08:00
+[INFO] ------------------------------------------------------------------------

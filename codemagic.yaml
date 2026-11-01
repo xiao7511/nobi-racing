@@ -1,0 +1,43 @@
+workflows:
+  ios-archive:
+    name: NOBI Racing - signed iOS archive
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment: &ios_environment
+      groups:
+        - nobi_racing_signing
+      node: 24.19.0
+      xcode: latest
+      vars:
+        NOBI_APP_ID: com.nobistudio.racing
+        VITE_REFERENCE_MODE: public
+        VITE_API_BASE_URL: https://api.nobistudio.com/racing
+    scripts: &ios_scripts
+      - name: Install workspace dependencies
+        script: |
+          corepack enable
+          corepack prepare pnpm@10.34.8 --activate
+          pnpm install --frozen-lockfile
+      - name: Build bundled public app and synchronize Capacitor
+        script: |
+          pnpm --filter @nobi/fan build
+          pnpm --filter @nobi/fan exec cap sync ios
+      - name: Archive and export signed IPA
+        script: bash scripts/ios-archive.sh
+    artifacts: &ios_artifacts
+      - output/ios/*.ipa
+      - output/ios/*.log
+  ios-testflight:
+    name: NOBI Racing - TestFlight upload
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment: *ios_environment
+    scripts: *ios_scripts
+    artifacts: *ios_artifacts
+    publishing:
+      app_store_connect:
+        api_key: $ASC_PRIVATE_KEY
+        key_id: $ASC_KEY_ID
+        issuer_id: $ASC_ISSUER_ID
+        submit_to_testflight: false
+        submit_to_app_store: false

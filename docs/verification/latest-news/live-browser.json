@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-11-01T03:56:43.726Z",
+  "results": [
+    {
+      "name": "desktop",
+      "passed": true,
+      "source": "Actual Java BBC Sport RSS fetch; no browser API mocks",
+      "count": 20,
+      "checkedAt": "2026-11-01T03:54:31.116185700Z",
+      "syncedAt": "2026-11-01T03:54:33.477824500Z",
+      "newestPublishedAt": "2026-11-01T01:37:50Z"
+    },
+    {
+      "name": "mobile",
+      "passed": true,
+      "source": "Actual Java BBC Sport RSS fetch; no browser API mocks",
+      "count": 20,
+      "checkedAt": "2026-11-01T03:54:31.116185700Z",
+      "syncedAt": "2026-11-01T03:54:33.477824500Z",
+      "newestPublishedAt": "2026-11-01T01:37:50Z"
+    }
+  ]
+}

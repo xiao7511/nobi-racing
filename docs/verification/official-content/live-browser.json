@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-11-01T03:29:15.405Z",
+  "results": [
+    {
+      "name": "desktop",
+      "passed": true,
+      "status": "ready",
+      "source": "Real Java HTTP synchronization from Wikidata, no browser API mocks",
+      "syncedAt": "2026-11-01T03:22:59.614987600Z",
+      "revisions": [
+        {
+          "id": "Q173365",
+          "revision": 2337316388
+        },
+        {
+          "id": "Q9673",
+          "revision": 2562400537
+        },
+        {
+          "id": "Q2239218",
+          "revision": 2558164798
+        }
+      ]
+    },
+    {
+      "name": "mobile",
+      "passed": true,
+      "status": "ready",
+      "source": "Real Java HTTP synchronization from Wikidata, no browser API mocks",
+      "syncedAt": "2026-11-01T03:22:59.614987600Z",
+      "revisions": [
+        {
+          "id": "Q173365",
+          "revision": 2337316388
+        },
+        {
+          "id": "Q9673",
+          "revision": 2562400537
+        },
+        {
+          "id": "Q2239218",
+          "revision": 2558164798
+        }
+      ]
+    }
+  ]
+}

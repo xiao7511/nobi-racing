@@ -4,7 +4,7 @@ import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import standalone from 'ajv/dist/standalone/index.js';
 const api = JSON.parse(await readFile(new URL('../packages/contracts/openapi.json', import.meta.url), 'utf8'));
-const operations = Object.entries(api.paths).filter(([, path]) => path.get?.['x-phase-status'] === 'implemented-phase2');
+const operations = Object.entries(api.paths).filter(([, path]) => ['implemented-phase2', 'implemented'].includes(path.get?.['x-phase-status']));
 const used = new Set();
 function collect(value) {
   if (!value || typeof value !== 'object') return;

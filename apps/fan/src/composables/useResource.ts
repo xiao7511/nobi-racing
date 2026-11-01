@@ -2,7 +2,7 @@ import { computed, onScopeDispose, ref, shallowRef, watch, type WatchSource } fr
 import { MockApiError } from '../api/mock-api';
 import { ApiError } from '../api/errors';
 
-export function useResource<T>(loader: (signal: AbortSignal) => Promise<T>, dependencies: WatchSource[] = [], config: { volatile?: boolean; refreshMs?: number } = {}) {
+export function useResource<T>(loader: (signal: AbortSignal) => Promise<T>, dependencies: WatchSource[] = [], config: { volatile?: boolean; refreshMs?: number; preserveWhileRefreshing?: boolean } = {}) {
   const data = shallowRef<T | null>(null);
   const loading = ref(true);
   const error = ref<string | null>(null);
@@ -21,13 +21,14 @@ export function useResource<T>(loader: (signal: AbortSignal) => Promise<T>, depe
     controller = new AbortController();
     loading.value = true;
     error.value = null;
-    data.value = null;
+    if (!config.preserveWhileRefreshing) data.value = null;
     traceId.value = undefined; retryAfter.value = undefined;
     try {
       const result = await loader(controller.signal);
       if (current === ticket) data.value = result;
     } catch (cause) {
       if (current === ticket && !controller.signal.aborted) {
+        data.value = null;
         error.value = cause instanceof MockApiError || cause instanceof ApiError ? cause.code : 'MOCK_UNAVAILABLE';
         if (cause instanceof ApiError) { traceId.value = cause.traceId; retryAfter.value = cause.retryAfter; if (cause.code === 'RATE_LIMITED') notBefore = Date.now() + (cause.retryAfter || 0) * 1000; }
       }
