@@ -196,6 +196,7 @@
     "about": "Meet the driver"
   },
   "publicData": {
+    "privacy": "Language, theme, time zone, follows and original news links stay on this device and can be cleared in Settings. Source bodies, headlines and points snapshots are not saved. There are no accounts, advertising or analytics SDKs. Images are served locally. This app does not write API/page access logs; IP rate-limit counters remain in memory for up to two minutes. Cloudflare provides HTTPS/CDN and may process connection and security data under its privacy policy. External links follow the destination privacy policy.",
     "publicEdition": "Public fan edition",
     "banner": "Public edition: F1DB open reference and NOBI factual summaries with CC BY 4.0 attribution. Not live or official.",
     "newsTitle": "Latest race briefs",

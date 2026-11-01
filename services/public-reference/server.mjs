@@ -41,12 +41,14 @@ async function sync(){
  finally{running=false;}
 }
 const cors=new Set(['capacitor://localhost','https://localhost']);const limits=new Map();
+// Only the trusted loopback Nginx can reach this server; it overwrites X-Real-IP.
+setInterval(()=>{const minute=Math.floor(Date.now()/60000);for(const [key,value]of limits)if(value.minute<minute)limits.delete(key);},60000).unref();
 const server=http.createServer((request,response)=>{
  response.setHeader('Content-Type','application/json; charset=utf-8');response.setHeader('Cache-Control','no-store');response.setHeader('X-Content-Type-Options','nosniff');
  const origin=request.headers.origin;if(origin&&cors.has(origin)){response.setHeader('Access-Control-Allow-Origin',origin);response.setHeader('Vary','Origin');response.setHeader('Access-Control-Allow-Methods','GET, OPTIONS');response.setHeader('Access-Control-Allow-Headers','Accept');}
  if(request.method==='OPTIONS'){response.writeHead(cors.has(origin)?204:403);response.end();return;}
  if(request.method!=='GET'){response.writeHead(405);response.end('{}');return;}
- const ip=request.socket.remoteAddress,minute=Math.floor(Date.now()/60000),previous=limits.get(ip);const count=previous?.minute===minute?previous.count+1:1;limits.set(ip,{minute,count});if(limits.size>1000)for(const [key,value]of limits)if(value.minute!==minute)limits.delete(key);
+ const forwarded=request.headers['x-real-ip'];const ip=typeof forwarded==='string'&&forwarded.length<=45?forwarded:request.socket.remoteAddress,minute=Math.floor(Date.now()/60000),previous=limits.get(ip);const count=previous?.minute===minute?previous.count+1:1;limits.set(ip,{minute,count});if(limits.size>1000)for(const [key,value]of limits)if(value.minute!==minute)limits.delete(key);
  if(count>180){response.setHeader('Retry-After','60');response.writeHead(429);response.end('{}');return;}
  const ready=snapshot&&Date.now()-Date.parse(snapshot.checkedAt)<TTL,status=ready?'ready':failed?'upstream_error':'pending';
  const syncedAt=ready?snapshot.checkedAt:null,expiresAt=ready?new Date(Date.parse(snapshot.checkedAt)+TTL).toISOString():null,data=ready?snapshot.data:null;

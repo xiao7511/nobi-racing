@@ -16,6 +16,11 @@ const identifier=process.env.NOBI_APP_ID||'com.nobistudio.racing';
 const [apps,bundles,certificates]=await Promise.all([apple('/v1/apps?filter%5BbundleId%5D='+identifier),apple('/v1/bundleIds?filter%5Bidentifier%5D='+identifier),apple('/v1/certificates?filter%5BcertificateType%5D=DISTRIBUTION')]);
 await mkdir('.cache/release/ios',{recursive:true});const result={checkedAt:new Date().toISOString(),identifier,appRecords:apps.data.map(app=>({id:app.id,name:app.attributes.name,bundleId:app.attributes.bundleId})),bundleRecords:bundles.data.map(bundle=>({id:bundle.id,identifier:bundle.attributes.identifier})),distributionCertificateCount:certificates.data.length};
 await writeFile('.cache/release/ios/account-check.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
+if(process.argv.includes('--builds')&&apps.data.length===1){
+ const builds=await apple('/v1/builds?filter%5Bapp%5D='+apps.data[0].id+'&sort=-uploadedDate&limit=10');
+ const status={checkedAt:new Date().toISOString(),appId:apps.data[0].id,builds:await Promise.all(builds.data.map(async build=>({id:build.id,version:build.attributes.version,processingState:build.attributes.processingState,uploadedDate:build.attributes.uploadedDate,expired:build.attributes.expired,beta:(await apple('/v1/builds/'+build.id+'/buildBetaDetail')).data.attributes})))};
+ await writeFile('.cache/release/ios/apple-builds.json',JSON.stringify(status,null,2));console.log(JSON.stringify(status,null,2));
+}
 if(process.argv.includes('--provision')){
  if(certificates.data.length>=3)throw Error('Distribution certificate limit: provide an existing signing identity instead');
  let bundle=bundles.data[0];if(!bundle)bundle=(await apple('/v1/bundleIds','POST',{data:{type:'bundleIds',attributes:{identifier,name:'NOBI Racing',platform:'IOS'}}})).data;

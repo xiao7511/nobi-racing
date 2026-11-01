@@ -15,7 +15,7 @@ try{
   page.on('pageerror',error=>errors.push(error.message));
   page.on('response',response=>{if(response.url().startsWith(base)&&response.status()>=400)failed.push({url:response.url(),status:response.status()});});
   page.on('request',request=>{if(!request.url().startsWith(base)&&!request.url().startsWith('data:'))unexpected.push(request.url());});
-  await page.addInitScript(()=>localStorage.setItem('nobi-racing:preferences:v1',JSON.stringify({locale:'zh-CN',theme:'dark',timeZone:'Asia/Shanghai'})));
+  await page.addInitScript(()=>{if(!localStorage.getItem('nobi-racing:preferences:v1'))localStorage.setItem('nobi-racing:preferences:v1',JSON.stringify({locale:'zh-CN',theme:'dark',timeZone:'Asia/Shanghai'}));});
   await page.goto(base,{waitUntil:'networkidle'});
   await expect(page.locator('.podium-card')).toHaveCount(3,{timeout:30000});
   await expect(page.locator('.hero .latest-race-photo img')).toBeVisible();
@@ -31,7 +31,7 @@ try{
   await page.getByTestId('insight-standings').locator('tbody tr').first().locator('.entrant-follow').click();
   await page.goto(base+'#/races');
   await expect(page.locator('.circuit-map img').first()).toBeVisible();
-  assert.ok(await page.locator('.circuit-map img').first().evaluate(img=>img.complete&&img.naturalWidth>0));
+  await expect.poll(()=>page.locator('.circuit-map img').first().evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
   await expect(page.locator('body')).not.toContainText('开发样例赛历');
   await page.goto(base+'#/profile');
   await expect(page.getByTestId('personal-world').locator('.world-counts dd')).toHaveText(['1','0','0','1']);

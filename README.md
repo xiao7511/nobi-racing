@@ -1,4 +1,8 @@
-# NOBI Racing · Phase 3 Web 联调
+# NOBI Racing
+
+公开版本已部署至 [香港站点](https://api.nobistudio.com/racing/)，[Android 测试安装包](https://api.nobistudio.com/racing/downloads/NOBI-Racing.apk)可直接下载。公开版本由 `services/public-reference` 定时同步 F1DB CC BY 4.0 赛历和成绩，提供原创中英文赛况简报、赛道图和本机关注收藏；不启用个人用途的 BBC/OpenF1 接入。最新分站照片使用有条件允许非商业编辑用途的 Audi 官方实拍，并显示出处和权利说明。
+
+原生包名为 `com.nobistudio.racing`。Android 测试 APK 已构建并验证签名；iOS 使用根目录 `codemagic.yaml` 的 `ios-archive` / `ios-testflight` 工作流，签名资料仅存在 Codemagic 加密变量组中。发布和验证详情见 [公开与移动发布报告](docs/phases/public-mobile-release.md)。以下早期阶段记录保留历史范围，以该发布报告描述的当前版本为准。
 
 个人中心更新：`/#/profile` 可集中管理真实车手／车队／周末关注及资讯原文书签，查看所关注周末的下一场会话，支持取消关注、移除收藏及本机数据清理。选择仅存本机，来源失效时不保留旧事实。范围与验证见 [个人中心报告](docs/phases/personal-world-report.md)。
 
@@ -87,7 +91,7 @@ pnpm verify:phase3
 
 修改读取契约后运行 `pnpm api:phase2:update`、`pnpm api:client:generate`，提交 OpenAPI、生成类型与无需动态求值的响应校验器。`pnpm api:client:check` 检测漂移，完整回归保存到 `docs/verification/phase-3/`。测试专用控制服务器仅编译进测试，不能打入应用 JAR。
 
-Capacitor 的 `webDir=dist`、HTTPS scheme、禁明文传输与 Android 返回键适配已保留。App ID 仍为 `com.example.nobiracing` 占位；未生成原生项目、未签名或上传商店。iOS 需 Mac/Xcode，Android 需 SDK/设备，原生包的构建与真机验收待后续阶段。
+Capacitor 的 `webDir=dist`、HTTPS scheme、禁明文传输与 Android 返回键适配已保留。Android/iOS 原生工程已生成，使用 `com.nobistudio.racing`，移动包通过 HTTPS 读取公开站点 API。Android 7.0+、iOS 16+；云端构建与签名结果见发布报告。尚未进行实体手机安装验收。
 
 ## 本地数据库
 
@@ -95,4 +99,4 @@ Phase 2 使用 `infra/phase2-compose.yaml` 和 `scripts/local-phase2.ps1` 管理
 
 ## 范围与约束
 
-已实施用户指定的 Phase 1 前端、Phase 2 后端及 Phase 3 Web 数据联调里程碑，后续本机资讯、真实周末参考及历史积分开发见本文顶部更新报告。原阶段计划中尚未完成的身份、编辑、物理留存清理和移动端能力见对应阶段报告。不连接商业实时数据、不抓取受保护媒体或正文、不使用官方 F1 Logo、不写入其他 NOBI 仓库、不部署生产、不购买服务、不提交凭据。原数据库赛事与成绩保留合成来源标记；OpenF1 周末及积分参考分别标注来源、截至时间和许可。
+已实施用户指定的 Phase 1 前端、Phase 2 后端及 Phase 3 Web 数据联调里程碑，后续更新见本文顶部报告。原阶段计划中尚未完成的身份、编辑、物理留存清理能力见对应阶段报告。公开站点使用独立 Node 服务，不连接其他 NOBI 应用数据库。原本地数据库赛事与成绩仍保留合成来源标记；本地个人参考与公开 F1DB 版本分别标注来源、截至时间和许可。签名资料、Token、服务器私钥与构建缓存均排除在 Git 外。

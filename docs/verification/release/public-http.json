@@ -1,0 +1,44 @@
+{
+  "release": "20261101093003",
+  "checkedAt": "2026-11-01T09:35:57.1193572Z",
+  "apk": {
+    "sha256": "1EB8CB98ED82D84240D545A581C30AD48E699907C5C3BFC039FBCE5C388387EA",
+    "matchesLocal": true,
+    "httpStatus": 200
+  },
+  "checks": [
+    {
+      "rounds": 0,
+      "httpStatus": 200,
+      "items": 0,
+      "source": null,
+      "path": "public-reference",
+      "status": "ready"
+    },
+    {
+      "rounds": 18,
+      "httpStatus": 200,
+      "items": 0,
+      "source": "F1DB",
+      "path": "season-insights",
+      "status": "ready"
+    },
+    {
+      "rounds": 0,
+      "httpStatus": 200,
+      "items": 23,
+      "source": "F1DB",
+      "path": "weekends",
+      "status": "ready"
+    },
+    {
+      "rounds": 0,
+      "httpStatus": 200,
+      "items": 20,
+      "source": null,
+      "path": "latest-news",
+      "status": "ready"
+    }
+  ],
+  "site": "https://api.nobistudio.com/racing/"
+}
