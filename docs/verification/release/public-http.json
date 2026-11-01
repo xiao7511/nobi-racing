@@ -1,44 +1,46 @@
 {
-  "release": "20261101093003",
-  "checkedAt": "2026-11-01T09:35:57.1193572Z",
-  "apk": {
-    "sha256": "1EB8CB98ED82D84240D545A581C30AD48E699907C5C3BFC039FBCE5C388387EA",
-    "matchesLocal": true,
-    "httpStatus": 200
-  },
   "checks": [
     {
-      "rounds": 0,
       "httpStatus": 200,
-      "items": 0,
-      "source": null,
       "path": "public-reference",
-      "status": "ready"
-    },
-    {
-      "rounds": 18,
-      "httpStatus": 200,
-      "items": 0,
-      "source": "F1DB",
-      "path": "season-insights",
-      "status": "ready"
-    },
-    {
       "rounds": 0,
-      "httpStatus": 200,
-      "items": 23,
-      "source": "F1DB",
-      "path": "weekends",
-      "status": "ready"
-    },
-    {
-      "rounds": 0,
-      "httpStatus": 200,
-      "items": 20,
       "source": null,
+      "status": "ready",
+      "items": 0
+    },
+    {
+      "httpStatus": 200,
+      "path": "season-insights",
+      "rounds": 18,
+      "source": "F1DB",
+      "status": "ready",
+      "items": 0
+    },
+    {
+      "httpStatus": 200,
+      "path": "weekends",
+      "rounds": 0,
+      "source": "F1DB",
+      "status": "ready",
+      "items": 23
+    },
+    {
+      "httpStatus": 200,
       "path": "latest-news",
-      "status": "ready"
+      "rounds": 0,
+      "source": null,
+      "status": "ready",
+      "items": 20
     }
   ],
-  "site": "https://api.nobistudio.com/racing/"
+  "site": "https://api.nobistudio.com/racing/",
+  "checkedAt": "2026-11-01T09:57:13.4185842Z",
+  "release": "20261101095031",
+  "apk": {
+    "httpStatus": 200,
+    "version": "1.0 (2)",
+    "matchesLocal": true,
+    "signing": "debug test APK",
+    "sha256": "A1B84BB0375B3CDF5333B5E9EB2349794A3BDA24E5165010C1D22D43CDDF2C34"
+  }
 }

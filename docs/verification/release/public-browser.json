@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-11-01T09:53:57.080Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "results": [
+    {
+      "device": "desktop",
+      "passed": true,
+      "photo": "Mexico City 2026-10-31 / Audi Motorsport AG",
+      "follows": 1,
+      "bookmarks": 1,
+      "source": "Public F1DB API, no test fixtures",
+      "pageErrors": 0,
+      "failedRequests": 0,
+      "externalRequests": 0
+    },
+    {
+      "device": "mobile",
+      "passed": true,
+      "photo": "Mexico City 2026-10-31 / Audi Motorsport AG",
+      "follows": 1,
+      "bookmarks": 1,
+      "source": "Public F1DB API, no test fixtures",
+      "pageErrors": 0,
+      "failedRequests": 0,
+      "externalRequests": 0
+    }
+  ]
+}

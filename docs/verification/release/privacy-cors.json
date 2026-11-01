@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-11-01T09:54:04.5035772Z",
+  "cors": [
+    {
+      "edgeAllowedOrigin": "capacitor://localhost",
+      "origin": "capacitor://localhost"
+    },
+    {
+      "edgeAllowedOrigin": "https://localhost",
+      "origin": "https://localhost"
+    },
+    {
+      "edgeAllowedOrigin": "https://untrusted.example",
+      "origin": "https://untrusted.example"
+    }
+  ],
+  "cacheControl": "no-transform, public, must-revalidate, max-age=0",
+  "note": "Existing Cloudflare edge reflects origins for public API. Direct Node and origin Nginx restrict to native origins. No credentials, identity or private data are exposed by racing endpoints.",
+  "noAnalyticsInjection": true
+}
