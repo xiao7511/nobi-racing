@@ -214,7 +214,7 @@
     "photoRights": "Editorial, non-commercial use only",
     "photoPending": "No verified image is available for the latest weekend yet.",
     "dataLicense": "Public schedules, standings and race brief data come from F1DB under CC BY 4.0 with attribution. NOBI adds Chinese labels, charts and factual summaries. Start times come from the dataset; marked end times are estimates. No paid live timing feed is provided.",
-    "operator": "NOBI Racing is an independent fan project, not an official F1, FIA or team service. Maintenance and rights feedback can be submitted through Issues at https://github.com/xiao7511/nobi-racing.",
+    "operator": "NOBI Racing is an independent fan project, unaffiliated with F1, the FIA or teams. Submit maintenance or rights feedback through the forum and reporting tools.",
     "contentPolicy": "The public edition uses F1DB CC BY 4.0 structured data and NOBI factual summaries. Current weekend photos use the team's expressly offered non-commercial editorial media permission, with copyright and terms preserved; no advertising, merchandise or resale use. Official links support source verification, not republication of official news or logos.",
     "heroCopy": "Follow the latest weekend through Chinese race briefs and traceable open classifications. Photos identify their real session and capture date."
   },
@@ -335,7 +335,8 @@
     "legal": "Privacy, copyright & sources",
     "weekend": "Race weekend details",
     "forum": "Fan forum",
-    "brief": "Race brief"
+    "brief": "Race brief",
+    "sources": "Data sources & licensing"
   },
   "api": {
     "database": "Database preview",

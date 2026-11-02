@@ -5,6 +5,7 @@ const backend = dataTransport === 'backend';
 export const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
+    {path:'/sources',name:'sources',component:()=>import('./views/SourcesView.vue')},
     { path: '/forum', name: 'forum', component: () => import('./views/ForumView.vue') },
     { path: '/brief', name: 'brief', component: () => import('./views/BriefView.vue') },
     { path: '/weekends/:id', name: 'weekend', component: () => import('./views/WeekendView.vue') },
