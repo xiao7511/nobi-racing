@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-11-02T15:36:24.7021836Z",
+  "android": {
+    "downloadStatus": 200,
+    "version": "1.0 (4)",
+    "signatureVerified": true,
+    "serverHashMatches": true,
+    "sha256": "d0f192e77992f16e9ae72a4025532a1a807a6f4e94aa00fe5b67743b93f585ea"
+  },
+  "release": "20261102153422"
+}

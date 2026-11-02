@@ -1,0 +1,150 @@
+{
+  "checkedAt": "2026-11-02T15:42:02.703Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "results": [
+    {
+      "engine": "webkit-320",
+      "width": 320,
+      "passed": true,
+      "measurements": [
+        {
+          "innerWidth": 320,
+          "clientWidth": 320,
+          "scale": 1,
+          "navWidth": 320,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 320,
+          "clientWidth": 320,
+          "scale": 1,
+          "navWidth": 320,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 320,
+          "clientWidth": 320,
+          "scale": 1,
+          "navWidth": 320,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 320,
+          "clientWidth": 320,
+          "scale": 1,
+          "navWidth": 320,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 320,
+          "clientWidth": 320,
+          "scale": 1,
+          "navWidth": 320,
+          "navHeight": 64,
+          "navBottom": 844
+        }
+      ],
+      "repositoryRequests": 0
+    },
+    {
+      "engine": "webkit-390",
+      "width": 390,
+      "passed": true,
+      "measurements": [
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        }
+      ],
+      "repositoryRequests": 0
+    },
+    {
+      "engine": "edge-390",
+      "width": 390,
+      "passed": true,
+      "measurements": [
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        },
+        {
+          "innerWidth": 390,
+          "clientWidth": 390,
+          "scale": 1,
+          "navWidth": 390,
+          "navHeight": 64,
+          "navBottom": 844
+        }
+      ],
+      "repositoryRequests": 0
+    }
+  ]
+}
