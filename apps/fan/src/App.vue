@@ -12,7 +12,7 @@ const router = useRouter();
 const preferences = usePreferences();
 const historicalStats = computed(() => dataTransport === 'backend' && route.path === '/stats');
 const personalWorld = computed(() => dataTransport === 'backend' && route.path === '/profile');
-const links = [{ key: 'home', path: '/', icon: '⌂' }, { key: 'news', path: '/news', icon: '▤' }, { key: 'races', path: '/races', icon: '⚑' }, { key: 'data', path: '/stats', icon: '▥' }, { key: 'profile', path: '/profile', icon: '◎' }];
+const links = [{ key: 'home', path: '/', icon: '⌂' }, { key: 'news', path: '/news', icon: '▤' }, { key: 'races', path: '/races', icon: '⚑' }, { key: 'data', path: '/stats', icon: '▥' }, { key: 'profile', path: '/profile', icon: '◎' }, { key: 'forum', path: '/forum', icon: '☷' }];
 const online = ref(navigator.onLine);
 const media = window.matchMedia('(prefers-color-scheme: dark)');
 const systemDark = ref(media.matches);

@@ -15,7 +15,7 @@
     "updated": "Updated",
     "independentTitle": "Independent fan project",
     "independent": "NOBI Racing is independent, with no affiliation, sponsorship or endorsement from the Formula 1 companies, FIA, teams or drivers. Names and trademarks belong to their respective owners.",
-    "disclaimer": "Independent fan project with no official affiliation to the Formula 1 companies or FIA. Trademarks belong to their owners. Archive photos do not depict current events or fictional teams, or imply endorsement.",
+    "disclaimer": "Independent fan project, unaffiliated with Formula 1 or the FIA. Trademarks belong to their owners. Photo dates, events and licenses appear in captions; no official endorsement.",
     "contentTitle": "Sources and accuracy",
     "content": "The personal local reader displays source RSS headlines and short summaries with local machine translation or AI-assisted Chinese editorial corrections. Original text and publisher links are retained. Chinese versions may contain errors and are not publisher-provided translations. Summaries are not full articles; article bodies, publisher images and video are not fetched. F1/FIA headline ingestion still requires a valid grant. Weekend reference is adapted from OpenF1 under CC BY-NC-SA 4.0 for personal non-commercial use; basic reference metadata comes from Wikidata CC0. Standings and development samples marked MOCK are synthetic or fictional. Verify actual arrangements and results at official sources.",
     "privacyTitle": "Local preferences and requests",
@@ -37,7 +37,8 @@
     "races": "Races",
     "news": "News",
     "data": "Stats",
-    "profile": "Profile"
+    "profile": "Profile",
+    "forum": "Forum"
   },
   "common": {
     "language": "Language",
@@ -196,13 +197,13 @@
     "about": "Meet the driver"
   },
   "publicData": {
-    "privacy": "Language, theme, time zone, follows and original news links stay on this device and can be cleared in Settings. Source bodies, headlines and points snapshots are not saved. There are no accounts, advertising or analytics SDKs. Images are served locally. This app does not write API/page access logs; IP rate-limit counters remain in memory for up to two minutes. Cloudflare provides HTTPS/CDN and may process connection and security data under its privacy policy. External links follow the destination privacy policy.",
+    "privacy": "Preferences and follows stay on-device. Forum usernames, salted password hashes and submitted content are stored on the Hong Kong server. Usernames and approved content are public. Session tokens stay in page memory; sign out or delete your account in the forum. No page access logs are written; IP counters last up to two minutes. Cloudflare processes connection/security data under its policy. Forum content is moderated and can be reported/deleted.",
     "publicEdition": "Public fan edition",
     "banner": "Public edition: F1DB open reference and NOBI factual summaries with CC BY 4.0 attribution. Not live or official.",
     "newsTitle": "Latest race briefs",
     "newsDescription": "NOBI bilingual factual briefs based on F1DB open race and qualifying classifications.",
     "newsUsage": "NOBI generates factual summaries from CC BY 4.0 race data and links to the original data. No BBC or official news bodies are republished. Dates refer to the session; source classifications may be revised.",
-    "interval": "Open data checked hourly",
+    "interval": "Source checked every 2 minutes; dependent on source publication",
     "read": "View source classification",
     "original": "NOBI bilingual race brief",
     "weekendDescription": "Calendar and start times come from F1DB open data. Session end times marked ≈ are NOBI estimates, not final organizer schedules. Check the organizer for changes.",
@@ -332,7 +333,9 @@
     "not-found": "Page not found",
     "team": "Team details",
     "legal": "Privacy, copyright & sources",
-    "weekend": "Race weekend details"
+    "weekend": "Race weekend details",
+    "forum": "Fan forum",
+    "brief": "Race brief"
   },
   "api": {
     "database": "Database preview",
@@ -478,5 +481,9 @@
     "note": "Reference circuit layout; not a navigation map. Confirm current circuit arrangements with the organizer.",
     "unavailable": "A verified map for this circuit is not yet available.",
     "attribution": "Circuit SVGs by Jules Roy / F1DB, used under CC BY 4.0. Original SVGs are unmodified and scaled for display; NOBI selected applicable layouts and supplied Chinese labels. Reference diagrams are not official live circuit or navigation data."
+  },
+  "community": {
+    "enter": "Sign in / Register · Open forum",
+    "readBrief": "Read brief"
   }
 }

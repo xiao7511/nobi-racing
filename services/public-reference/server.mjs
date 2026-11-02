@@ -3,13 +3,15 @@ import {readFile,mkdir,writeFile,rename} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {setTimeout as delay} from 'node:timers/promises';
 import {buildDataset} from './dataset.mjs';
+import {community} from './community.mjs';
 import {YEAR,SOURCE,LICENSE,LICENSE_URL,TTL} from './config.mjs';
 const port=Number(process.env.PORT||5292),stateDir=resolve(process.env.STATE_DIR||'.cache/public-reference');
 if(!Number.isSafeInteger(port)||port<1024||port>65535)throw Error('Invalid local port');
 const labels=JSON.parse(await readFile(new URL('./labels.json',import.meta.url),'utf8'));
 const names=JSON.parse(await readFile(new URL('./names.json',import.meta.url),'utf8'));
-let snapshot=null,attempted=null,failed=false,running=false,nextFetch=0;
+let snapshot=null,attempted=null,failed=false,running=false,nextFetch=0,sourceCache=null;
 const cacheFile=resolve(stateDir,'snapshot.json');await mkdir(stateDir,{recursive:true});
+const handleCommunity=community(stateDir);
 try{const cached=JSON.parse(await readFile(cacheFile,'utf8'));if(cached.checkedAt&&Date.now()-Date.parse(cached.checkedAt)<TTL&&/^[a-f0-9]{40}$/.test(cached.data?.revision)&&cached.data.rounds?.length)snapshot=cached;}catch{/* No verified local snapshot yet. */}
 async function download(url,optional=false,max=200000){
  const address=new URL(url);if(address.protocol!=='https:'||!['api.github.com','raw.githubusercontent.com'].includes(address.hostname)||address.username||address.password)throw Error('Source allowlist');
@@ -27,26 +29,32 @@ async function sync(){
   const revision=commits[0]?.sha,sourceUpdatedAt=commits[0]?.commit?.committer?.date;if(!/^[a-f0-9]{40}$/.test(revision)||!Number.isFinite(Date.parse(sourceUpdatedAt)))throw Error('Invalid source revision');
   let data=snapshot?.data;
   // Rebuild even on unchanged revisions: newly finished sessions become eligible by time.
-  const tree=JSON.parse(await download(`https://api.github.com/repos/f1db/f1db/contents/src/data/seasons/${YEAR}/races?ref=${revision}`));
-  const directories=tree.filter(entry=>entry.type==='dir').map(entry=>entry.name);
+  if(sourceCache?.revision!==revision){
+   const tree=JSON.parse(await download(`https://api.github.com/repos/f1db/f1db/contents/src/data/seasons/${YEAR}/races?ref=${revision}`));
+   sourceCache={revision,directories:tree.filter(entry=>entry.type==='dir').map(entry=>entry.name),files:new Map()};
+  }
+  const directories=sourceCache.directories;
   let active=0;const queue=[];
   const read=async(path,optional=false)=>{
+   if(sourceCache.files.has(path))return sourceCache.files.get(path);
    if(active>=4)await new Promise(resolve=>queue.push(resolve));active++;
-   try{return await download(`https://raw.githubusercontent.com/f1db/f1db/${revision}/${path}`,optional);}
+   try{const value=await download(`https://raw.githubusercontent.com/f1db/f1db/${revision}/${path}`,optional);sourceCache.files.set(path,value);return value;}
    finally{active--;queue.shift()?.();}
   };
   data=await buildDataset({revision,directories,read,labels,names});data.sourceUpdatedAt=new Date(sourceUpdatedAt).toISOString();
   const next={checkedAt:new Date().toISOString(),data};const temporary=cacheFile+'.tmp';await writeFile(temporary,JSON.stringify(next));await rename(temporary,cacheFile);snapshot=next;failed=false;console.log('F1DB public reference verified: '+data.revision+' / '+data.rounds.length+' rounds');
- }catch(error){failed=true;snapshot=null;console.error('F1DB public reference unavailable: '+error.name);}
+ }catch(error){failed=true;console.error('F1DB public reference unavailable: '+error.name);}
  finally{running=false;}
 }
 const cors=new Set(['capacitor://localhost','https://localhost']);const limits=new Map();
 // Only the trusted loopback Nginx can reach this server; it overwrites X-Real-IP.
 setInterval(()=>{const minute=Math.floor(Date.now()/60000);for(const [key,value]of limits)if(value.minute<minute)limits.delete(key);},60000).unref();
-const server=http.createServer((request,response)=>{
+const server=http.createServer(async(request,response)=>{
  response.setHeader('Content-Type','application/json; charset=utf-8');response.setHeader('Cache-Control','no-store');response.setHeader('X-Content-Type-Options','nosniff');
- const origin=request.headers.origin;if(origin&&cors.has(origin)){response.setHeader('Access-Control-Allow-Origin',origin);response.setHeader('Vary','Origin');response.setHeader('Access-Control-Allow-Methods','GET, OPTIONS');response.setHeader('Access-Control-Allow-Headers','Accept');}
+ const origin=request.headers.origin;if(origin&&cors.has(origin)){response.setHeader('Access-Control-Allow-Origin',origin);response.setHeader('Vary','Origin');response.setHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS');response.setHeader('Access-Control-Allow-Headers','Accept, Content-Type, Authorization');}
  if(request.method==='OPTIONS'){response.writeHead(cors.has(origin)?204:403);response.end();return;}
+ const route=new URL(request.url,'http://127.0.0.1').pathname;
+ if(await handleCommunity(request,response,route))return;
  if(request.method!=='GET'){response.writeHead(405);response.end('{}');return;}
  const forwarded=request.headers['x-real-ip'];const ip=typeof forwarded==='string'&&forwarded.length<=45?forwarded:request.socket.remoteAddress,minute=Math.floor(Date.now()/60000),previous=limits.get(ip);const count=previous?.minute===minute?previous.count+1:1;limits.set(ip,{minute,count});if(limits.size>1000)for(const [key,value]of limits)if(value.minute!==minute)limits.delete(key);
  if(count>180){response.setHeader('Retry-After','60');response.writeHead(429);response.end('{}');return;}
@@ -64,4 +72,4 @@ const server=http.createServer((request,response)=>{
  else {response.writeHead(404);body={code:'RESOURCE_NOT_FOUND'};}
  response.end(JSON.stringify(body));
 });
-server.listen(port,'127.0.0.1',()=>console.log('Public reference listens on loopback port '+port));void sync();setInterval(()=>{void sync();},3600000).unref();
+server.listen(port,'127.0.0.1',()=>console.log('Public reference listens on loopback port '+port));void sync();setInterval(()=>{void sync();},120000).unref();

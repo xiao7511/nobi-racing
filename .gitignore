@@ -18,6 +18,10 @@ test-results/
 *.mobileprovision
 *.pem
 *.key
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+administrator-password
 .DS_Store
 __pycache__/
 *.pyc

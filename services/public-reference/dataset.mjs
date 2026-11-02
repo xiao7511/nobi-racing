@@ -41,7 +41,7 @@ export async function buildDataset({revision,directories,read,labels={},names={}
   const numberFor=driverId=>String(numbers.get(driverId)||people.get(driverId)?.number||'');
   const driverName=driverId=>people.get(driverId)?.name||text(driverId);
   const zhName=driverId=>names[driverName(driverId)]||driverName(driverId);
-  if(row.results.length&&Date.parse(raceEnd)+1800000<=now){
+  if(row.results.length&&Date.parse(raceEnd)+60000<=now){
    assert.ok(row.driverStandings.length&&row.teamStandings.length,'Completed race is missing standings');
    const racePoints=new Map(row.results.map(entry=>[entry.driverId,points(entry.points)])),teamPoints=new Map();
    for(const entry of row.results){const key=text(entry.constructorId);teamPoints.set(key,(teamPoints.get(key)||0)+points(entry.points));}
@@ -52,7 +52,8 @@ export async function buildDataset({revision,directories,read,labels={},names={}
    rounds.push({id:r.id,meetingId:r.id,circuit:track[0],circuitZh:meeting.circuitZh,endsAt,drivers,teams:constructors});
   }
   for(const [kind,classification,at] of [['race',row.results,raceStart],['qualifying',row.qualifying,start(r.qualifyingDate,r.qualifyingTime)]]){
-   if(!at||Date.parse(at)+3*3600000>now||classification.length<3)continue;
+   const available=kind==='race'?Date.parse(raceEnd)+60000:Date.parse(at||'')+3600000;
+   if(!at||available>now||classification.length<3)continue;
    const top=classification.filter(entry=>Number.isInteger(entry.position)&&entry.position>0).sort((a,b)=>a.position-b.position).slice(0,3);if(top.length<3)continue;
    const title=kind==='race'?`${gp[0]}: ${driverName(top[0].driverId)} wins`:`${gp[0]} qualifying: ${driverName(top[0].driverId)} leads the classification`;
    const titleZh=kind==='race'?`${gp[1]}正赛：${zhName(top[0].driverId)}夺冠`:`${gp[1]}排位赛：${zhName(top[0].driverId)}位列第一`;

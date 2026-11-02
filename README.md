@@ -1,5 +1,7 @@
 # NOBI Racing
 
+2026-11-02 更新：资讯源两分钟检查、站内战报阅读、F1 规则入门、11 支关注主队图片轮播、持久化注册及人工审核车迷论坛，见[本次更新报告](docs/phases/community-news-update.md)。
+
 公开版本已部署至 [香港站点](https://api.nobistudio.com/racing/)，[Android 测试安装包](https://api.nobistudio.com/racing/downloads/NOBI-Racing.apk)可直接下载。公开版本由 `services/public-reference` 定时同步 F1DB CC BY 4.0 赛历和成绩，提供原创中英文赛况简报、赛道图和本机关注收藏；不启用个人用途的 BBC/OpenF1 接入。最新分站照片使用有条件允许非商业编辑用途的 Audi 官方实拍，并显示出处和权利说明。
 
 原生包名为 `com.nobistudio.racing`。Android 测试 APK 已构建并验证签名；iOS 使用根目录 `codemagic.yaml` 的 `ios-archive` / `ios-testflight` 工作流，签名资料仅存在 Codemagic 加密变量组中。发布和验证详情见 [公开与移动发布报告](docs/phases/public-mobile-release.md)。以下早期阶段记录保留历史范围，以该发布报告描述的当前版本为准。
