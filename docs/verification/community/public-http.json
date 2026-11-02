@@ -1,0 +1,28 @@
+{
+  "apk": {
+    "versionCode": 3,
+    "httpStatus": 200,
+    "sha256": "3b7fd605ebd8cd208c806dd9d3de25afcd9a1d01332b6bce775e1a46d754751e",
+    "deployedHashMatches": true,
+    "signatureVerified": true
+  },
+  "reference": {
+    "status": "ready",
+    "revision": "76e95f35120e1e3aae3183088131ada11a9a8361",
+    "sourceUpdatedAt": "2026-11-02T08:13:13Z",
+    "checkedAt": "2026-11-02T14:48:28.25Z",
+    "sourceUrl": "https://github.com/f1db/f1db",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "release": "20261102145638",
+  "checkedAt": "2026-11-02T15:00:53.9512045Z",
+  "community": {
+    "httpReady": true,
+    "authCounterMaxMinutes": 2,
+    "sourceCheckMinutes": 2,
+    "serviceHashMatches": true,
+    "anonymousIdentityIsNull": true,
+    "postCount": 0
+  }
+}

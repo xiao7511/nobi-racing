@@ -23,7 +23,7 @@ export function community(directory){
   if(!path.startsWith('/api/v1/community/'))return false;
   try{
    const key=request.headers['x-real-ip']||request.socket.remoteAddress,now=Date.now();
-   for(const [ip,value]of attempts)if(now-value.at>600000)attempts.delete(ip);
+   for(const [ip,value]of attempts)if(now-value.at>120000)attempts.delete(ip);
    db.prepare('DELETE FROM sessions WHERE expires < ?').run(now);
    const bearer=request.headers.authorization?.match(/^Bearer ([a-f0-9]{64})$/)?.[1];
    const user=bearer?db.prepare('SELECT users.id,users.name FROM sessions JOIN users ON users.id=sessions.user_id WHERE sessions.hash=? AND expires>?').get(digest(bearer),now):null;
@@ -37,7 +37,7 @@ export function community(directory){
    if(request.headers['content-type']?.split(';')[0]!=='application/json'){send(415,{error:'JSON required'});return true;}
    const input=await body(request);
    if(path.endsWith('/register')||path.endsWith('/login')){
-    const limit=attempts.get(key)||{at:now,count:0};limit.count++;attempts.set(key,limit);if(limit.count>12||hashing>=2){send(429,{error:'操作频繁，请稍后再试 / Try later'});return true;}
+    const limit=attempts.get(key)||{at:now,count:0};if(!attempts.has(key))setTimeout(()=>{if(attempts.get(key)===limit)attempts.delete(key);},120000).unref();limit.count++;attempts.set(key,limit);if(limit.count>12||hashing>=2){send(429,{error:'操作频繁，请稍后再试 / Try later'});return true;}
     if(!/^[A-Za-z0-9_]{3,24}$/.test(input.name||'')||!clean(input.password,12,128))throw Error('用户名需 3–24 位字母、数字或下划线；密码需 12–128 位 / Invalid username or password');
     let member=db.prepare('SELECT * FROM users WHERE name=?').get(input.name);
     hashing++;

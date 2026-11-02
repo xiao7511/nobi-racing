@@ -1,0 +1,12 @@
+✔ persistent accounts, moderation, authorization, reports, replies and account erasure (709.6429ms)
+✔ public data preserves source totals and derives race gains without inventing pre-race ranks (100.2402ms)
+✔ duplicate source ranks, wrong identities and unknown venues fail closed (13.5397ms)
+✔ future classifications are not presented as completed-race news (2.4648ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1123.728

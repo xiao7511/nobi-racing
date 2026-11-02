@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-11-02T14:45:03.0249933Z",
+  "testPostsCreated": false,
+  "testUsersCreated": false,
+  "administratorLogin": true,
+  "moderationQueue": true,
+  "credentialsStoredOutsideGit": true,
+  "pendingCount": 0
+}

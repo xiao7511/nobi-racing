@@ -12,7 +12,7 @@
 
 - 用户名 3–24 个 ASCII 字母/数字/下划线，密码 12–128 字符，scrypt 随机盐哈希，登录凭证为随机 256 位并仅在数据库保存 SHA-256。凭证在页面内存保存；站内导航保留，刷新后重新登录，服务端最长一天有效。
 - 无邮箱或手机号，不发送邮件；暂不支持自助找回密码。注册必须同意社区规则和账号隐私说明。全部发帖与回复默认待审核；举报暂停公开，管理员复核。禁止 HTML/脚本、图片上传、广告及侵权转载。
-- 注册/登录每来源十分钟至多十二次，同时至多两项密码计算；每账号每小时最多十条帖子/回复；请求体上限 16 KiB，服务资源沿用独立 systemd 限制。
+- 注册/登录每来源两分钟至多十二次，同时至多两项密码计算；每账号每小时最多十条帖子/回复；请求体上限 16 KiB，服务资源沿用独立 systemd 限制。本站 API 仅信任 Cloudflare 官方代理网段的 `CF-Connecting-IP`，直连者不能伪造该来源。
 - 普通用户不能访问待审核他人内容、审核或删除他人帖子。注销需键入用户名，级联删除账号、会话、帖子与回复；SQLite `secure_delete` 和 WAL checkpoint 用于清理已删内容。没有创建数据库备份或邮件测试邀请。
 - 首次运行在私有 StateDirectory 生成 `nobi_admin` 管理员及随机密码，写入权限 0600 的 `administrator-password`。登录论坛后可在页面审核，不显示数据库密钥或密码。生产资料仅交付给用户本机忽略文件；不要提交到 Git。
 
@@ -29,3 +29,11 @@
 - https://www.fia.com/system/files/documents/fia_2026_f1_regulations_-_section_b_sporting_-_iss_09_-_2026-10-01.pdf
 - https://corp.formula1.com/f1-2026-regulations-terminology-update/
 - 图片来源和许可逐张见相册 manifest。适用 CC BY-SA 的图片及其显示裁切仍保持相应图片许可，不对其他代码或照片更改许可。
+
+## 发布结果
+
+- 香港站点：<https://api.nobistudio.com/racing/>；论坛：<https://api.nobistudio.com/racing/#/forum>。最终 release `20261102145638`，未改动其他项目数据库。
+- Android `1.0 (3)`：[下载测试 APK](https://api.nobistudio.com/racing/downloads/NOBI-Racing.apk)。签名验证及服务器 SHA-256 一致：`3B7FD605EBD8CD208C806DD9D3DE25AFCD9A1D01332B6BCE775E1A46D754751E`。
+- iOS `1.0 (104)`：[Codemagic 成功记录](https://codemagic.io/app/6ae70684fd8c853064084b4a/build/6ae8a132ce391a57b0f3cad7)。Apple 状态 `VALID`、`IN_BETA_TESTING`，已进入现有内部测试。隐私清单已声明为账号功能收集用户名标识和用户发布内容，不用于追踪。
+- 公网桌面/手机尺寸浏览器全部通过；生产管理员登录、审核队列、退出均核验成功，没有创建公开测试帖或生产测试账号。
+- 管理员登录资料仅保存在用户本机 `.cache/release/forum-administrator.txt`（当前 Windows 用户权限），不包含于代码、截图或 Git。原始 SSH、Apple、Codemagic 密钥文件未改动。

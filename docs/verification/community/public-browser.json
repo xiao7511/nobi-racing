@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-11-02T14:49:50.893Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "checks": [
+    {
+      "device": "desktop",
+      "passed": true,
+      "realApi": true,
+      "registrationTested": false,
+      "productionTestAccountsCreated": false
+    },
+    {
+      "device": "mobile",
+      "passed": true,
+      "realApi": true,
+      "registrationTested": false,
+      "productionTestAccountsCreated": false
+    }
+  ]
+}
