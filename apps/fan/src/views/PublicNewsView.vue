@@ -4,4 +4,4 @@ import {usePage} from '../composables/usePage';
 import LatestNewsPanel from '../components/LatestNewsPanel.vue';
 const {t}=usePage();
 </script>
-<template><div class="page-heading"><div><p class="eyebrow">NOBI JOURNAL / F1DB</p><h1 tabindex="-1">{{t('news.title')}}</h1><p class="muted">{{t('publicData.newsDescription')}}</p></div></div><TeamCarousel/><LatestNewsPanel/></template>
+<template><div class="page-heading"><div><p class="eyebrow">NOBI JOURNAL / F1DB</p><h1 tabindex="-1">{{t('news.title')}}</h1><p class="muted">{{t('publicData.newsDescription')}}</p></div></div><section class="world-preferences newsroom-entry"><div><p class="eyebrow">NEWS / PHOTOS / VIDEOS</p><h2>{{t('newsroom.title')}}</h2><p>{{t('newsroom.entry')}}</p></div><RouterLink class="button primary" to="/newsroom">{{t('newsroom.open')}} ↗</RouterLink></section><TeamCarousel/><LatestNewsPanel/></template>

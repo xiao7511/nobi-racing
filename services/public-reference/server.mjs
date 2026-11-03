@@ -4,6 +4,7 @@ import {resolve} from 'node:path';
 import {setTimeout as delay} from 'node:timers/promises';
 import {buildDataset} from './dataset.mjs';
 import {community} from './community.mjs';
+import {createNewsroom,NEWS_INTERVAL} from './newsroom.mjs';
 import {YEAR,SOURCE,LICENSE,LICENSE_URL,TTL} from './config.mjs';
 const port=Number(process.env.PORT||5292),stateDir=resolve(process.env.STATE_DIR||'.cache/public-reference');
 if(!Number.isSafeInteger(port)||port<1024||port>65535)throw Error('Invalid local port');
@@ -12,6 +13,7 @@ const names=JSON.parse(await readFile(new URL('./names.json',import.meta.url),'u
 let snapshot=null,attempted=null,failed=false,running=false,nextFetch=0,sourceCache=null;
 const cacheFile=resolve(stateDir,'snapshot.json');await mkdir(stateDir,{recursive:true});
 const handleCommunity=community(stateDir);
+const newsroom=await createNewsroom(stateDir,names);
 try{const cached=JSON.parse(await readFile(cacheFile,'utf8'));if(cached.checkedAt&&Date.now()-Date.parse(cached.checkedAt)<TTL&&/^[a-f0-9]{40}$/.test(cached.data?.revision)&&cached.data.rounds?.length)snapshot=cached;}catch{/* No verified local snapshot yet. */}
 async function download(url,optional=false,max=200000){
  const address=new URL(url);if(address.protocol!=='https:'||!['api.github.com','raw.githubusercontent.com'].includes(address.hostname)||address.username||address.password)throw Error('Source allowlist');
@@ -62,7 +64,10 @@ const server=http.createServer(async(request,response)=>{
  const syncedAt=ready?snapshot.checkedAt:null,expiresAt=ready?new Date(Date.parse(snapshot.checkedAt)+TTL).toISOString():null,data=ready?snapshot.data:null;
  const common={status,year:YEAR,source:'F1DB',sourceUrl:SOURCE,license:LICENSE,licenseUrl:LICENSE_URL,syncedAt,expiresAt};
  const path=new URL(request.url,'http://127.0.0.1').pathname;let body;
- if(path==='/api/v1/season-insights')body={...common,rounds:data?.rounds||[]};
+ if(/^\/api\/v1\/newsroom\/photos\/[a-f0-9]{32}$/.test(path)){await newsroom.servePhoto(path.split('/').at(-1),response);return;}
+ else if(path==='/api/v1/newsroom/events'){newsroom.listen(request,response);return;}
+ else if(path==='/api/v1/newsroom')body=newsroom.state();
+ else if(path==='/api/v1/season-insights')body={...common,rounds:data?.rounds||[]};
  else if(path==='/api/v1/weekends')body={...common,items:data?.weekends||[]};
  else if(path==='/api/v1/latest-news')body={status,sourceName:'NOBI Racing',sourceUrl:SOURCE,termsUrl:LICENSE_URL,usage:'public-open-data',checkedAt:attempted,syncedAt,expiresAt,sourceUpdatedAt:data?.sourceUpdatedAt||null,newestPublishedAt:data?.news[0]?.publishedAt||null,items:data?.news||[]};
  else if(path==='/api/v1/open-catalog')body={status:'disabled',license:'CC0 1.0',licenseUrl:'https://creativecommons.org/publicdomain/zero/1.0/',syncedAt:null,expiresAt:null,items:[]};
@@ -73,3 +78,6 @@ const server=http.createServer(async(request,response)=>{
  response.end(JSON.stringify(body));
 });
 server.listen(port,'127.0.0.1',()=>console.log('Public reference listens on loopback port '+port));void sync();setInterval(()=>{void sync();},120000).unref();
+void newsroom.sync();setInterval(()=>{void newsroom.sync();},NEWS_INTERVAL).unref();
+
+void newsroom.syncPhotos();setInterval(()=>{void newsroom.syncPhotos();},1800000).unref();

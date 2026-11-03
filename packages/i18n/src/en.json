@@ -197,7 +197,7 @@
     "about": "Meet the driver"
   },
   "publicData": {
-    "privacy": "Preferences and follows stay on-device. Forum usernames, salted password hashes and submitted content are stored on the Hong Kong server. Usernames and approved content are public. Session tokens stay in page memory; sign out or delete your account in the forum. No page access logs are written; IP counters last up to two minutes. Cloudflare processes connection/security data under its policy. Forum content is moderated and can be reported/deleted.",
+    "privacy": "Preferences and follows stay on-device. Forum usernames, salted password hashes and submitted content are stored on the Hong Kong server. Usernames and approved content are public. Session tokens stay in page memory; sign out or delete your account in the forum. No page access logs are written; IP counters last up to two minutes. Cloudflare processes connection/security data under its policy. Forum content is moderated and can be reported/deleted. The newsroom indexes public metadata and links to publisher articles. Video players load only on request; YouTube/Google then process connection and playback data under their policy. Machine headline translation sends only public indexed titles to MyMemory, not forum accounts, search terms or personal information. Check original headlines for accuracy.",
     "publicEdition": "Public fan edition",
     "banner": "Public edition: F1DB open reference and NOBI factual summaries with CC BY 4.0 attribution. Not live or official.",
     "newsTitle": "Latest race briefs",
@@ -336,7 +336,8 @@
     "weekend": "Race weekend details",
     "forum": "Fan forum",
     "brief": "Race brief",
-    "sources": "Data sources & licensing"
+    "sources": "Data sources & licensing",
+    "newsroom": "F1 Newsroom"
   },
   "api": {
     "database": "Database preview",
@@ -486,5 +487,11 @@
   "community": {
     "enter": "Sign in / Register · Open forum",
     "readBrief": "Read brief"
+  },
+  "newsroom": {
+    "title": "F1 Newsroom",
+    "entry": "Follow driver, team and race news; browse licensed photos and official videos.",
+    "open": "Open newsroom",
+    "banner": "News index: GDELT Project. Photos separately credited; videos supplied by official channel players."
   }
 }

@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-11-03T04:06:26.655Z",
+  "base": "http://127.0.0.1:5276/",
+  "results": [
+    {
+      "engine": "webkit-320",
+      "width": 320,
+      "newsItems": 7,
+      "dynamicPhotos": 2,
+      "passed": true,
+      "thirdPartyRequestsBeforeConsent": 0,
+      "videoAvailability": "provider-controlled; official-channel fallback verified"
+    },
+    {
+      "engine": "webkit-390",
+      "width": 390,
+      "newsItems": 7,
+      "dynamicPhotos": 2,
+      "passed": true,
+      "thirdPartyRequestsBeforeConsent": 0,
+      "videoAvailability": "provider-controlled; official-channel fallback verified"
+    },
+    {
+      "engine": "edge-desktop",
+      "width": 1440,
+      "newsItems": 7,
+      "dynamicPhotos": 2,
+      "passed": true,
+      "thirdPartyRequestsBeforeConsent": 0,
+      "videoAvailability": "provider-controlled; official-channel fallback verified"
+    }
+  ]
+}
