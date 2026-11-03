@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-11-03T13:25:28.559Z",
+  "appId": "6829415439",
+  "id": "4fe88297-7f84-4ca5-a9d7-b38971e6071a",
+  "version": "108",
+  "processingState": "VALID",
+  "uploadedDate": "2026-11-03T05:22:12-08:00",
+  "expired": false,
+  "beta": {
+    "autoNotifyEnabled": true,
+    "internalBuildState": "IN_BETA_TESTING",
+    "externalBuildState": "READY_FOR_BETA_SUBMISSION"
+  }
+}

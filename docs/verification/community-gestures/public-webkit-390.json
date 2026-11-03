@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-03T13:22:02.921Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "results": [
+    {
+      "engine": "webkit-390",
+      "passed": true,
+      "originalBilingualBody": true,
+      "swipeBack": true,
+      "verticalScrollPreserved": true,
+      "doubleTapScale": 1,
+      "moderatedChatTested": false,
+      "publicTestDataCreated": false
+    }
+  ]
+}

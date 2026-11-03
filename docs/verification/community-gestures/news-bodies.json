@@ -1,0 +1,56 @@
+{
+  "status": "delayed",
+  "checks": [
+    {
+      "enParagraphs": 2,
+      "id": "151452aeb38f52e46009e15e",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    },
+    {
+      "enParagraphs": 2,
+      "id": "8495b5a8140ce0ca0063dbcc",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    },
+    {
+      "enParagraphs": 2,
+      "id": "91847eb78b18c3f6e34f78ac",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    },
+    {
+      "enParagraphs": 2,
+      "id": "cdf83643df17201e74a7501b",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    },
+    {
+      "enParagraphs": 2,
+      "id": "42aef768fe9d229684e2dc8d",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    },
+    {
+      "enParagraphs": 2,
+      "id": "9f0bcd43cd4a4d996fa9ee38",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    },
+    {
+      "enParagraphs": 2,
+      "id": "78f2cd817f9780cef4f6207d",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    },
+    {
+      "enParagraphs": 2,
+      "id": "4d7c6ef15112ff58300a676c",
+      "zhParagraphs": 2,
+      "format": "news-brief"
+    }
+  ],
+  "readableBriefs": 8,
+  "checkedAt": "2026-11-03T13:25:45.1386638Z",
+  "indexedItems": 8
+}

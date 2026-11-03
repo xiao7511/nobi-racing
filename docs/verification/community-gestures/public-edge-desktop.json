@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-03T13:24:42.175Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "results": [
+    {
+      "engine": "edge-desktop",
+      "passed": true,
+      "originalBilingualBody": true,
+      "swipeBack": true,
+      "verticalScrollPreserved": true,
+      "doubleTapScale": null,
+      "moderatedChatTested": false,
+      "publicTestDataCreated": false
+    }
+  ]
+}
