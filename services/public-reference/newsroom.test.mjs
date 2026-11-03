@@ -14,7 +14,7 @@ test('manifest URLs are constrained and ZIP stream parsing verifies raw compress
  await assert.rejects(readGkg(new Response(zipSync({'../../outside.csv':strToU8('x')})),topics));
 });
 test('reviewed Chinese headlines are tied to exact indexed titles and never require translation requests',async()=>{
- const directory=await mkdtemp(tmpdir()+'/nobi-headlines-');const translate=await createHeadlineTranslator(directory);const items=[{title:'George Russell breaks silence after Kimi Antonelli seals F1 2026 title',language:'en'},{title:'F1 车队动态测试',language:'zh'}];await translate(items);assert.equal(items[0].translation,'edited');assert.match(items[0].titleZh,/拉塞尔/);assert.equal(items[1].titleZh,items[1].title);
+ const directory=await mkdtemp(tmpdir()+'/nobi-headlines-');const translate=await createHeadlineTranslator(directory);const items=[{title:'George Russell breaks silence after Kimi Antonelli seals F1 2026 title',language:'en'},{title:'20岁零68天！安东内利成为F1历史上最年轻世界冠军',language:'zh'}];await translate(items,false);assert.equal(items[0].translation,'edited');assert.match(items[0].titleZh,/拉塞尔/);assert.equal(items[1].titleZh,items[1].title);assert.equal(items[1].translationEn,'edited');assert.match(items[1].titleEn,/youngest world champion/);
 });
 test('photo ingestion requires a named F1 subject, explicit reusable license, attribution and trusted image hosts',()=>{
  const page={title:'File:2026 F1 Lewis Hamilton Ferrari.jpg',imageinfo:[{descriptionurl:'https://commons.wikimedia.org/wiki/File:2026_F1.jpg',thumburl:'https://upload.wikimedia.org/test.jpg',extmetadata:{LicenseShortName:{value:'CC BY-SA 4.0'},LicenseUrl:{value:'https://creativecommons.org/licenses/by-sa/4.0/'},Artist:{value:'<a>Photographer</a>'},DateTimeOriginal:{value:'2026-03-01'}}}]};

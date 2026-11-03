@@ -5,6 +5,7 @@ import {setTimeout as delay} from 'node:timers/promises';
 import {buildDataset} from './dataset.mjs';
 import {community} from './community.mjs';
 import {createNewsroom,NEWS_INTERVAL} from './newsroom.mjs';
+import {originalArticles,indexedArticle} from './newsroom-reader.mjs';
 import {YEAR,SOURCE,LICENSE,LICENSE_URL,TTL} from './config.mjs';
 const port=Number(process.env.PORT||5292),stateDir=resolve(process.env.STATE_DIR||'.cache/public-reference');
 if(!Number.isSafeInteger(port)||port<1024||port>65535)throw Error('Invalid local port');
@@ -66,6 +67,10 @@ const server=http.createServer(async(request,response)=>{
  const path=new URL(request.url,'http://127.0.0.1').pathname;let body;
  if(/^\/api\/v1\/newsroom\/photos\/[a-f0-9]{32}$/.test(path)){await newsroom.servePhoto(path.split('/').at(-1),response);return;}
  else if(path==='/api/v1/newsroom/events'){newsroom.listen(request,response);return;}
+ else if(path==='/api/v1/newsroom/articles')body={status,items:originalArticles(data,names)};
+ else if(/^\/api\/v1\/newsroom\/articles\/(?:nobi-)?[a-f0-9]{24}$/.test(path)){
+  const id=path.split('/').at(-1),feed=newsroom.state();body=originalArticles(data,names).find(a=>a.id===id)||indexedArticle(feed.items.find(a=>a.id===id),feed,data,names);if(!body){response.writeHead(404);body={code:'ARTICLE_UNAVAILABLE'};}
+ }
  else if(path==='/api/v1/newsroom')body=newsroom.state();
  else if(path==='/api/v1/season-insights')body={...common,rounds:data?.rounds||[]};
  else if(path==='/api/v1/weekends')body={...common,items:data?.weekends||[]};

@@ -58,7 +58,7 @@ export async function createNewsroom(stateDir,names){
     const offsets=count<13?[0,1,2,4,8,12,16,24,32,48,64,80,96]:[0,1,2,3,4,5,6,7];
     const jobs=offsets.map((offset,i)=>{const stamp=new Date(date-offset*900000).toISOString().replace(/[-:TZ.]/g,'').slice(0,14);return {url:`https://${host}/gdeltv2/${stamp}${translated?'.translation':''}.gkg.csv.zip`,...(i===0?{md5:manifest.md5}:{})};});
     for(const [i,job]of jobs.entries()){
-     if(processed.includes(job.url)){if(i===0)sourceConfirmed=true;continue;}const response=await fetchSource(job.url);if(response.status===404){backfillMissing=true;if(i>0)processed.push(job.url);continue;}
+     if(processed.includes(job.url)){if(i===0)sourceConfirmed=true;continue;}const response=await fetchSource(job.url);if(response.status===404){if(i===0)backfillMissing=true;if(i>0)processed.push(job.url);continue;}
      const result=await readGkg(response,topics);if(job.md5&&job.md5!==result.md5)throw Error('Source checksum mismatch');sourceConfirmed=true;const map=new Map(items.map(item=>[item.url,item]));for(const item of result.records)map.set(item.url,item);items=[...map.values()].filter(item=>Date.now()-Date.parse(item.indexedAt)<7*86400000).sort((a,b)=>b.indexedAt.localeCompare(a.indexedAt)).slice(0,300);processed.push(job.url);processed=processed.slice(-256);syncedAt=new Date().toISOString();datasetAt=new Date(latest).toISOString();error=null;await writeFile(cache+'.tmp',JSON.stringify({version:1,items,processed,syncedAt,datasetAt}));await rename(cache+'.tmp',cache);publish();
     }
    }

@@ -4,7 +4,7 @@ for(const [engine,label,width]of [[webkit,'webkit-320',320],[webkit,'webkit-390'
  const browser=await engine.launch(engine===chromium?{channel:'msedge'}:{});try{
  const context=await browser.newContext({viewport:{width,height:844},isMobile:true,hasTouch:true});const page=await context.newPage();const errors=[],external=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(/^https?:\/\/(?:www\.)?github\.com\//.test(r.url()))external.push(r.url());});
  await page.addInitScript(()=>localStorage.setItem('nobi-racing:preferences:v1',JSON.stringify({locale:'zh-CN',theme:'dark',timeZone:'Asia/Shanghai'})));
- await page.goto(base);const nav=page.locator('.main-nav');await expect(nav.locator('a:visible')).toHaveText(['⌂首页','▤资讯','⚑赛事','◎我的']);const measurements=[];
+ await page.goto(base);const nav=page.locator('.main-nav');await expect(nav.locator('a:visible')).toHaveText(['⌂首页','▤资讯','▧新闻','⚑赛事','◎我的']);const measurements=[];
  for(const path of ['news','races','profile','','news']){
   await nav.locator(`a[href="#/${path}"]`).click();await expect(page).toHaveURL(base+'#/'+path);await expect(page.locator('main h1')).toBeVisible();
   await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

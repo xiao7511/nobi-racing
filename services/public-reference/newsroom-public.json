@@ -1,7 +1,0 @@
-{
-  "videos": [
-    {"id":"formula1","name":"FORMULA 1","nameZh":"F1 官方频道","username":"Formula1","url":"https://www.youtube.com/@Formula1/videos","team":null},
-    {"id":"mercedes","name":"Mercedes-AMG PETRONAS F1 Team","nameZh":"梅赛德斯官方频道","username":"MercedesAMGF1","url":"https://www.youtube.com/@MercedesAMGF1/videos","team":"Mercedes"},
-    {"id":"ferrari","name":"Ferrari","nameZh":"Ferrari 官方频道","username":"Ferrari","url":"https://www.youtube.com/@Ferrari/videos","team":"Ferrari"}
-  ]
-}

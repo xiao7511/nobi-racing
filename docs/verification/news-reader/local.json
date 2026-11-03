@@ -1,0 +1,108 @@
+{
+  "results": [
+    {
+      "engine": "webkit-320",
+      "passed": true,
+      "inlineRead": true,
+      "bilingualBody": true,
+      "unlicensedTextNotRepublished": true,
+      "foreignRequests": 0,
+      "clips": [
+        {
+          "id": "hill-australia-2026",
+          "duration": 35.485,
+          "currentTime": 0.4230202,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/hill-australia-2026.mp4"
+        },
+        {
+          "id": "tsunoda-australia-2026",
+          "duration": 28.2,
+          "currentTime": 0.3995827,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/tsunoda-australia-2026.mp4"
+        },
+        {
+          "id": "russia-warmup-2021",
+          "duration": 17.957,
+          "currentTime": 0.4154369,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/russia-warmup-2021.mp4"
+        }
+      ]
+    },
+    {
+      "engine": "webkit-390",
+      "passed": true,
+      "inlineRead": true,
+      "bilingualBody": true,
+      "unlicensedTextNotRepublished": true,
+      "foreignRequests": 0,
+      "clips": [
+        {
+          "id": "hill-australia-2026",
+          "duration": 35.485,
+          "currentTime": 0.4221244,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/hill-australia-2026.mp4"
+        },
+        {
+          "id": "tsunoda-australia-2026",
+          "duration": 28.2,
+          "currentTime": 0.4843534,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/tsunoda-australia-2026.mp4"
+        },
+        {
+          "id": "russia-warmup-2021",
+          "duration": 17.957,
+          "currentTime": 0.445916,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/russia-warmup-2021.mp4"
+        }
+      ]
+    },
+    {
+      "engine": "edge-desktop",
+      "passed": true,
+      "inlineRead": true,
+      "bilingualBody": true,
+      "unlicensedTextNotRepublished": true,
+      "foreignRequests": 0,
+      "clips": [
+        {
+          "id": "hill-australia-2026",
+          "duration": 35.484,
+          "currentTime": 0.684905,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/hill-australia-2026.mp4"
+        },
+        {
+          "id": "tsunoda-australia-2026",
+          "duration": 28.2,
+          "currentTime": 0.491683,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/tsunoda-australia-2026.mp4"
+        },
+        {
+          "id": "russia-warmup-2021",
+          "duration": 17.956,
+          "currentTime": 0.467988,
+          "paused": false,
+          "error": null,
+          "source": "http://127.0.0.1:5276/media/videos/russia-warmup-2021.mp4"
+        }
+      ]
+    }
+  ],
+  "base": "http://127.0.0.1:5276/",
+  "checkedAt": "2026-11-03T06:10:17.9923144Z"
+}
