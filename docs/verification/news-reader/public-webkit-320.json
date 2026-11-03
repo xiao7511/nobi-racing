@@ -1,0 +1,34 @@
+{
+  "engine": "webkit-320",
+  "passed": true,
+  "inlineRead": true,
+  "bilingualBody": true,
+  "unlicensedTextNotRepublished": true,
+  "foreignRequests": 0,
+  "clips": [
+    {
+      "id": "hill-australia-2026",
+      "duration": 35.485,
+      "currentTime": 0.3307287,
+      "paused": false,
+      "error": null,
+      "source": "https://api.nobistudio.com/racing/media/videos/hill-australia-2026.mp4"
+    },
+    {
+      "id": "tsunoda-australia-2026",
+      "duration": 28.2,
+      "currentTime": 0.4168744,
+      "paused": false,
+      "error": null,
+      "source": "https://api.nobistudio.com/racing/media/videos/tsunoda-australia-2026.mp4"
+    },
+    {
+      "id": "russia-warmup-2021",
+      "duration": 17.957,
+      "currentTime": 0.4114994,
+      "paused": false,
+      "error": null,
+      "source": "https://api.nobistudio.com/racing/media/videos/russia-warmup-2021.mp4"
+    }
+  ]
+}

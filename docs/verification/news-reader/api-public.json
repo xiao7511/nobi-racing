@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-11-03T06:49:25.665Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "newsStatus": "delayed",
+  "newsItems": 8,
+  "originalReports": 10,
+  "bilingualReport": true,
+  "indexedOriginalTextNotRepublished": true,
+  "videos": [
+    {
+      "id": "hill-australia-2026",
+      "captured": "2026-03-06",
+      "range": "bytes 0-4095/3448889",
+      "mime": "video/mp4",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "tsunoda-australia-2026",
+      "captured": "2026-03-06",
+      "range": "bytes 0-4095/2825679",
+      "mime": "video/mp4",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "id": "russia-warmup-2021",
+      "captured": "2021-09-26",
+      "range": "bytes 0-4095/4757586",
+      "mime": "video/mp4",
+      "license": "CC BY-SA 4.0"
+    }
+  ],
+  "playerRetired": 410,
+  "csp": "default-src 'self'; img-src 'self' data:; connect-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; media-src 'self' blob:; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+  "events": {
+    "firstEvent": true,
+    "heartbeat": true
+  }
+}
