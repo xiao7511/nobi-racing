@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ForumEntry from "../components/ForumEntry.vue";
 import { computed } from 'vue';
 import { mockApi } from '../api/mock-api';
 import { useResource } from '../composables/useResource';
@@ -22,4 +23,4 @@ const nextRace = computed(() => data.value?.races.find(race => race.status === '
       <section><div class="section-heading"><h2>{{ t('home.championship') }}</h2><RouterLink to="/stats">{{ t('common.viewAll') }} →</RouterLink></div><div class="podium-grid"><RouterLink v-for="(driver, index) in data.drivers.slice(0, 3)" :key="driver.id" :to="`/drivers/${driver.id}`" class="podium-card" :class="driver.color"><span class="position">0{{ index + 1 }}</span><div><strong>{{ driver.name }}</strong><p class="caption">{{ driver.team }}</p></div><strong>{{ driver.points }} <small>{{ t('stats.pointsShort') }}</small></strong></RouterLink></div></section>
     </template>
   </ResourceState>
-</template>
+<ForumEntry/></template>

@@ -1,0 +1,203 @@
+[
+  {
+    "key": "russell-response",
+    "date": "2026-11-03",
+    "titleZh": "队友夺冠后，拉塞尔回应赛季起伏",
+    "title": "Russell reflects on an uneven season after Antonelli's title",
+    "urls": [
+      "https://www.planetf1.com/news/george-russell-statement-kimi-antonelli-f1-2026-title",
+      "https://www.bbc.co.uk/sport/formula1/articles/cmq8n95ppwd4o"
+    ],
+    "reference": "https://www.planetf1.com/news/george-russell-statement-kimi-antonelli-f1-2026-title",
+    "referenceName": "PlanetF1",
+    "drivers": [
+      "George Russell",
+      "Kimi Antonelli"
+    ],
+    "teams": [
+      "Mercedes"
+    ],
+    "paragraphsZh": [
+      "安东内利在墨西哥站锁定年度冠军后，队友拉塞尔公开回应。他祝贺安东内利，也坦言自己本赛季受运气与发挥起伏影响。",
+      "拉塞尔表示将继续努力找回状态，并感谢车队。这是同队争冠后的个人回应，不改变已经确定的赛果。"
+    ],
+    "paragraphsEn": [
+      "After Antonelli secured the title in Mexico, Russell congratulated his team mate and acknowledged a difficult season shaped by inconsistent results and setbacks.",
+      "He thanked Mercedes and committed to recovering his performance. The response concerns his season rather than a change to the race classification."
+    ],
+    "indexedDates": {
+      "https://www.bbc.co.uk/sport/formula1/articles/cmq8n95ppwd4o": "2026-11-02T23:45:00Z",
+      "https://www.planetf1.com/news/george-russell-statement-kimi-antonelli-f1-2026-title": "2026-11-03T00:45:00Z"
+    }
+  },
+  {
+    "key": "antonelli-title",
+    "date": "2026-11-03",
+    "titleZh": "安东内利凭墨西哥站季军锁定首冠",
+    "title": "Mexico podium secures Antonelli's first championship",
+    "urls": [
+      "https://www.163.com/dy/article/LAPT3IK905299JMD.html"
+    ],
+    "reference": "https://www.formula1.com/en/latest/article/antonelli-crowned-youngest-ever-f1-champion-as-verstappen-wins-eventful-mexico-city-grand-prix.xpMMeef0KmRURs9IDs3LH",
+    "referenceName": "Formula1.com",
+    "drivers": [
+      "Kimi Antonelli"
+    ],
+    "teams": [
+      "Mercedes"
+    ],
+    "paragraphsZh": [
+      "安东内利在墨西哥站第三完赛，锁定个人首个 F1 年度冠军，并成为该项纪录的最年轻保持者。",
+      "公开赛报确认维斯塔潘赢得分站、汉密尔顿第二。安东内利不必赢下这场比赛，季军积分已足以确立年度优势。"
+    ],
+    "paragraphsEn": [
+      "Third place in Mexico secured Antonelli's first world championship and the youngest champion record.",
+      "The official race report lists Verstappen as the winner and Hamilton second. Antonelli did not need to win the Grand Prix; his podium result provided the points needed to settle the title."
+    ],
+    "indexedDates": {
+      "https://www.163.com/dy/article/LAPT3IK905299JMD.html": "2026-11-03T00:00:00Z"
+    }
+  },
+  {
+    "key": "ferrari-hamilton",
+    "date": "2026-11-03",
+    "titleZh": "汉密尔顿认为队内缠斗损害法拉利争胜机会",
+    "title": "Hamilton says the Ferrari battle harmed its victory chances",
+    "urls": [
+      "https://www.formula1.com/en/latest/article/we-have-to-have-some-serious-talks-hamilton-reflects-on-costly-ferrari-intra-team-battle-in-mexico.20AlOSmTwJkVVJRtw70vIp"
+    ],
+    "reference": "https://www.formula1.com/en/latest/article/we-have-to-have-some-serious-talks-hamilton-reflects-on-costly-ferrari-intra-team-battle-in-mexico.20AlOSmTwJkVVJRtw70vIp",
+    "referenceName": "Formula1.com",
+    "drivers": [
+      "Lewis Hamilton",
+      "Charles Leclerc"
+    ],
+    "teams": [
+      "Ferrari"
+    ],
+    "paragraphsZh": [
+      "墨西哥站首圈，两位法拉利车手缠斗并冲出四号弯。勒克莱尔经草地取得领先，汉密尔顿损失动能，被维斯塔潘超越。",
+      "汉密尔顿最终第二，但认为队内竞争损害了车队争胜机会，主张通过内部沟通改善配合。"
+    ],
+    "paragraphsEn": [
+      "The Ferrari drivers ran wide at Turn 4 on the opening lap in Mexico. Leclerc crossed the grass into the lead, while Hamilton lost momentum and a position to Verstappen.",
+      "Hamilton finished second but believed the internal contest had hurt Ferrari's chance of winning. He called for discussions within the team."
+    ],
+    "indexedDates": {
+      "https://www.formula1.com/en/latest/article/we-have-to-have-some-serious-talks-hamilton-reflects-on-costly-ferrari-intra-team-battle-in-mexico.20AlOSmTwJkVVJRtw70vIp": "2026-11-02T02:45:00Z"
+    }
+  },
+  {
+    "key": "leclerc-penalty",
+    "date": "2026-11-03",
+    "titleZh": "勒克莱尔承认墨西哥站五秒处罚有依据",
+    "title": "Leclerc accepts the basis for his Mexico time penalty",
+    "urls": [
+      "https://www.formula1.com/en/latest/article/leclerc-concedes-he-deserved-penalty-over-hamilton-clash-in-mexico-city-gp.4rYJb2xww8myo1gtgBV5pV"
+    ],
+    "reference": "https://www.formula1.com/en/latest/article/leclerc-concedes-he-deserved-penalty-over-hamilton-clash-in-mexico-city-gp.4rYJb2xww8myo1gtgBV5pV",
+    "referenceName": "Formula1.com",
+    "drivers": [
+      "Charles Leclerc",
+      "Lewis Hamilton"
+    ],
+    "teams": [
+      "Ferrari"
+    ],
+    "paragraphsZh": [
+      "勒克莱尔承认，在墨西哥站赛道外超越汉密尔顿后受到五秒处罚有依据。事发于首圈四号弯，两辆法拉利当时都冲出了赛道。",
+      "他没有立即交还位置。赛后分歧仍待车队沟通；汉密尔顿获第二，勒克莱尔在赛道上第四完赛。"
+    ],
+    "paragraphsEn": [
+      "Leclerc accepted the basis for a five-second penalty after passing Hamilton off the circuit at Turn 4 in Mexico. Both Ferrari cars had run wide.",
+      "He retained the position rather than immediately giving it back. Hamilton finished second and Leclerc crossed the line fourth; the disagreement remained a matter for internal discussion."
+    ],
+    "indexedDates": {
+      "https://www.formula1.com/en/latest/article/leclerc-concedes-he-deserved-penalty-over-hamilton-clash-in-mexico-city-gp.4rYJb2xww8myo1gtgBV5pV": "2026-11-02T02:45:00Z"
+    }
+  },
+  {
+    "key": "antonelli-family",
+    "date": "2026-11-03",
+    "titleZh": "安东内利父亲谈夺冠背后的家庭支持",
+    "title": "Antonelli's father discusses the support behind the title",
+    "urls": [
+      "https://www.formula1.com/en/latest/article/he-makes-himself-stronger-antonellis-dad-reflects-on-sons-important-title-triumph.2jMjsfdy0bakm0FChw4Qk4"
+    ],
+    "reference": "https://www.formula1.com/en/latest/article/he-makes-himself-stronger-antonellis-dad-reflects-on-sons-important-title-triumph.2jMjsfdy0bakm0FChw4Qk4",
+    "referenceName": "Formula1.com",
+    "drivers": [
+      "Kimi Antonelli"
+    ],
+    "teams": [
+      "Mercedes"
+    ],
+    "paragraphsZh": [
+      "安东内利在墨西哥站第三完赛并锁定首个世界冠军后，与家人相拥庆祝。父亲马尔科把成绩与儿子从困难中积累经验的过程联系起来。",
+      "他强调家庭支持的重要性。这段采访补充了夺冠背后的家庭视角，而非新的比赛裁决。"
+    ],
+    "paragraphsEn": [
+      "Antonelli celebrated with his family after third place in Mexico secured his first championship. His father Marco linked the achievement to learning from difficult periods.",
+      "He emphasized the importance of family support. The interview provides a personal perspective on the title rather than a new sporting decision."
+    ],
+    "indexedDates": {
+      "https://www.formula1.com/en/latest/article/he-makes-himself-stronger-antonellis-dad-reflects-on-sons-important-title-triumph.2jMjsfdy0bakm0FChw4Qk4": "2026-11-02T02:45:00Z"
+    }
+  },
+  {
+    "key": "alpine-penalties",
+    "date": "2026-11-03",
+    "titleZh": "阿尔派两位车手赛后受罚，失去墨西哥站积分",
+    "title": "Post-race penalties remove Alpine's Mexico points",
+    "urls": [
+      "https://www.formula1.com/en/latest/article/alpines-gasly-and-colapinto-stripped-of-mexico-city-gp-points-after-post-race-penalties.2wLfobQHufuH1L1aMYPl7h"
+    ],
+    "reference": "https://www.formula1.com/en/latest/article/alpines-gasly-and-colapinto-stripped-of-mexico-city-gp-points-after-post-race-penalties.2wLfobQHufuH1L1aMYPl7h",
+    "referenceName": "Formula1.com",
+    "drivers": [
+      "Pierre Gasly",
+      "Franco Colapinto"
+    ],
+    "teams": [
+      "Alpine"
+    ],
+    "paragraphsZh": [
+      "墨西哥站赛后，两位阿尔派车手因黄旗下减速不足受到处罚。科拉平托被加罚十秒，加斯利受到更重处罚，两人均失去积分区名次。",
+      "裁决改变了最终得分名单，哈贾尔和平川亮递补进入前十。核对积分时应使用修订后的分类。"
+    ],
+    "paragraphsEn": [
+      "Both Alpine drivers lost their points finishes in Mexico after penalties for insufficient slowing under yellow flags. Colapinto received ten seconds and Gasly a more severe sanction.",
+      "The decisions changed the scoring positions and promoted Hadjar and Hirakawa into the top ten. Points comparisons should use the revised classification."
+    ],
+    "indexedDates": {
+      "https://www.formula1.com/en/latest/article/alpines-gasly-and-colapinto-stripped-of-mexico-city-gp-points-after-post-race-penalties.2wLfobQHufuH1L1aMYPl7h": "2026-11-02T02:45:00Z"
+    }
+  },
+  {
+    "key": "cadillac-report",
+    "date": "2026-11-03",
+    "titleZh": "凯迪拉克出售传闻：报道数字尚待独立核实",
+    "title": "Cadillac sale report: financial claims await verification",
+    "urls": [
+      "https://finance.sina.com.cn/tech/roll/2026-11-03/doc-inixmnpz0018245.shtml"
+    ],
+    "reference": "https://finance.sina.com.cn/tech/roll/2026-11-03/doc-inixmnpz0018245.shtml",
+    "referenceName": "新浪财经（标题线索）",
+    "drivers": [],
+    "teams": [
+      "Cadillac"
+    ],
+    "unverified": true,
+    "paragraphsZh": [
+      "这条媒体标题称凯迪拉克车队出现财务亏损并寻求出售。本站尚无公司公告、财务文件或交易声明核实其中数字。",
+      "比赛积分属于竞技成绩，不能用于推算经营盈亏或出售估值。这些说法仍应作为待核实报道阅读，不能视为已完成的交易。"
+    ],
+    "paragraphsEn": [
+      "The indexed headline alleges financial losses and a possible sale of Cadillac's team. NOBI has no company announcement, accounts or transaction statement confirming those figures.",
+      "Championship points do not establish operating losses or a sale valuation. These remain unverified reported claims, not a confirmed transaction."
+    ],
+    "indexedDates": {
+      "https://finance.sina.com.cn/tech/roll/2026-11-03/doc-inixmnpz0018245.shtml": "2026-11-03T04:15:00Z"
+    }
+  }
+]

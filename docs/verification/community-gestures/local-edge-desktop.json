@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-03T12:54:07.727Z",
+  "base": "http://127.0.0.1:5276/racing/",
+  "results": [
+    {
+      "engine": "edge-desktop",
+      "passed": true,
+      "originalBilingualBody": true,
+      "swipeBack": true,
+      "verticalScrollPreserved": true,
+      "doubleTapScale": null,
+      "moderatedChatTested": false,
+      "publicTestDataCreated": false
+    }
+  ]
+}

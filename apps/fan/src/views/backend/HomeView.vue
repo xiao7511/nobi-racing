@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ForumEntry from "../../components/ForumEntry.vue";
 import { computed } from 'vue';
 import { mockApi } from '../../api/mock-api';
 import { page } from '../../api/client';
@@ -29,4 +30,4 @@ const next = computed(() => data.value?.content?.races.find(race => race.status 
   <OfficialNewsPanel/>
   <OpenCatalogPanel/>
   <section><div class="section-heading"><h2>{{ t('home.latest') }}</h2><RouterLink to="/news">{{ t('common.viewAll') }} →</RouterLink></div><p class="caption">{{ t('api.localStories') }}</p><div class="news-grid"><NewsCard v-for="article in news.data.value?.data.slice(1)" :key="article.id" :article="article"/></div></section>
-</template>
+<ForumEntry/></template>

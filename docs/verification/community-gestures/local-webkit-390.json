@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-11-03T12:52:31.515Z",
+  "base": "http://127.0.0.1:5276/racing/",
+  "results": [
+    {
+      "engine": "webkit-390",
+      "passed": true,
+      "originalBilingualBody": true,
+      "swipeBack": true,
+      "verticalScrollPreserved": true,
+      "doubleTapScale": 1,
+      "moderatedChatTested": true,
+      "publicTestDataCreated": false
+    }
+  ]
+}

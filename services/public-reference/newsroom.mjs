@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import {setImmediate as yieldIO} from 'node:timers/promises';
 import {createPhotoLibrary} from './newsroom-photos.mjs';
 import {createHeadlineTranslator} from './newsroom-translation.mjs';
+import {hasReviewedBody} from './newsroom-reader.mjs';
 import {grandsPrix,teams} from './config.mjs';
 export const NEWS_INTERVAL=120000,NEWS_TTL=6*3600000;
 export const GDELT='https://www.gdeltproject.org/';
@@ -45,7 +46,7 @@ export async function createNewsroom(stateDir,names){
  const topics=topicsFor(names),cache=stateDir+'/newsroom.json',photoLibrary=await createPhotoLibrary(stateDir,topics);let items=[],processed=[],checkedAt=null,syncedAt=null,datasetAt=null,error=null,running=false;const listeners=new Set();
  try{const value=JSON.parse(await readFile(cache,'utf8').catch(()=>readFile(new URL('./newsroom-seed.json',import.meta.url),'utf8')));if(value.version===1&&Array.isArray(value.items)&&value.items.length<=300&&value.items.every(item=>publisherUrl(item.url)&&typeof item.title==='string'&&!/[<>]/.test(item.title))){items=value.items;processed=value.processed||[];syncedAt=value.syncedAt;datasetAt=value.datasetAt;}}catch{/* First sync */}
  await translate(items,false);
- const state=()=>{const fresh=syncedAt&&Date.now()-Date.parse(syncedAt)<NEWS_TTL;const sourceDelayed=!datasetAt||Date.now()-Date.parse(datasetAt)>3600000;return {status:!fresh?(error?'unavailable':'pending'):error||sourceDelayed?'delayed':'ready',source:'GDELT Project',sourceUrl:GDELT,termsUrl:'https://www.gdeltproject.org/about.html#termsofuse',checkedAt,syncedAt,datasetAt,checkIntervalSeconds:NEWS_INTERVAL/1000,sourceCadenceMinutes:15,expiresAt:syncedAt?new Date(Date.parse(syncedAt)+NEWS_TTL).toISOString():null,photos:photoLibrary.state(),topics:topics.map(({terms:_terms,...topic})=>topic),items:fresh?items:[],error:error?'数据源暂不可用，将自动重试 / Source unavailable; retry scheduled':null};};
+ const state=()=>{const fresh=syncedAt&&Date.now()-Date.parse(syncedAt)<NEWS_TTL;const sourceDelayed=!datasetAt||Date.now()-Date.parse(datasetAt)>3600000;return {status:!fresh?(error?'unavailable':'pending'):error||sourceDelayed?'delayed':'ready',source:'GDELT Project',sourceUrl:GDELT,termsUrl:'https://www.gdeltproject.org/about.html#termsofuse',checkedAt,syncedAt,datasetAt,checkIntervalSeconds:NEWS_INTERVAL/1000,sourceCadenceMinutes:15,expiresAt:syncedAt?new Date(Date.parse(syncedAt)+NEWS_TTL).toISOString():null,photos:photoLibrary.state(),topics:topics.map(({terms:_terms,...topic})=>topic),items:fresh?items.map(item=>({...item,bodyAvailable:hasReviewedBody(item.url)})):[],error:error?'数据源暂不可用，将自动重试 / Source unavailable; retry scheduled':null};};
  const publish=()=>{const message='event: newsroom\ndata: '+JSON.stringify(state())+'\n\n';for(const response of listeners)if(!response.write(message)){listeners.delete(response);response.end();}};
  const fetchSource=async url=>{const target=new URL(url);if(target.origin!=='https://'+host)throw Error('Source allowlist');return fetch(url,{signal:AbortSignal.timeout(45000),redirect:'error',headers:{'User-Agent':'NOBI-Racing-Newsroom/1.0',Accept:'*/*'}});};
  const sync=async()=>{

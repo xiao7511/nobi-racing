@@ -1,7 +1,7 @@
 import {shallowRef,ref,onMounted,onScopeDispose} from 'vue';
 import {apiUrl} from '../lib/urls';
 export interface NewsTopic{id:string;kind:'driver'|'team'|'race';name:string;nameZh:string}
-export interface NewsIndexItem{id:string;title:string;titleZh?:string|null;titleEn?:string|null;translationEn?:'original'|'edited'|'machine'|'unavailable';translation?:'original'|'edited'|'machine'|'unavailable';url:string;publisher:string;indexedAt:string;publishedAt:null;language:'zh'|'en';topics:string[];categories:('driver'|'team'|'race')[]}
+export interface NewsIndexItem{id:string;title:string;titleZh?:string|null;titleEn?:string|null;translationEn?:'original'|'edited'|'machine'|'unavailable';translation?:'original'|'edited'|'machine'|'unavailable';url:string;publisher:string;indexedAt:string;publishedAt:null;bodyAvailable?:boolean;language:'zh'|'en';topics:string[];categories:('driver'|'team'|'race')[]}
 export interface NewsPhoto{id:string;title:string;team:string;author:string;license:string;licenseUrl:string;source:string;captured:string;topics:string[];src:string}
 export interface Newsroom{photos?:{status:string;checkedAt:string|null;syncedAt:string|null;checkIntervalSeconds:number;items:NewsPhoto[]};status:'ready'|'delayed'|'unavailable'|'pending';source:string;sourceUrl:string;termsUrl:string;checkedAt:string|null;syncedAt:string|null;datasetAt:string|null;checkIntervalSeconds:number;sourceCadenceMinutes:number;expiresAt:string|null;topics:NewsTopic[];items:NewsIndexItem[];error:string|null}
 export function validNewsroom(value:unknown):Newsroom{

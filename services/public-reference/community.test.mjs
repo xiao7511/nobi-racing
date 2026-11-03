@@ -1,4 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import http from 'node:http';import {mkdtemp,readFile} from 'node:fs/promises';import {tmpdir} from 'node:os';import {community} from './community.mjs';
+import {DatabaseSync} from 'node:sqlite';
+test('existing forum data survives the additive chat migration',async()=>{const dir=await mkdtemp(tmpdir()+'/nobi-community-migration-'),db=new DatabaseSync(dir+'/community.sqlite');db.exec("CREATE TABLE users(id INTEGER PRIMARY KEY,name TEXT UNIQUE COLLATE NOCASE,salt TEXT,hash TEXT,created TEXT); CREATE TABLE posts(id INTEGER PRIMARY KEY,user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,parent INTEGER REFERENCES posts(id) ON DELETE CASCADE,title TEXT,body TEXT,status TEXT DEFAULT 'pending',created TEXT); INSERT INTO users VALUES(77,'existing_fan','salt','hash','2026-11-01'); INSERT INTO posts VALUES(91,77,NULL,'Existing topic','Existing body','published','2026-11-01');");db.close();community(dir);const check=new DatabaseSync(dir+'/community.sqlite');assert.equal(check.prepare('SELECT body FROM posts WHERE id=91').get().body,'Existing body');assert.equal(check.prepare('SELECT name FROM users WHERE id=77').get().name,'existing_fan');assert.ok(check.prepare('PRAGMA table_info(posts)').all().some(c=>c.name==='reply_to'));assert.deepEqual(check.prepare('PRAGMA foreign_key_check').all(),[]);check.close();});
 test('persistent accounts, moderation, authorization, reports, replies and account erasure',async()=>{
  const dir=await mkdtemp(tmpdir()+'/nobi-community-'),handle=community(dir);
  const server=http.createServer(async(req,res)=>{res.setHeader('Content-Type','application/json');await handle(req,res,new URL(req.url,'http://localhost').pathname);});await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
@@ -14,9 +16,29 @@ test('persistent accounts, moderation, authorization, reports, replies and accou
   assert.equal((await call('moderate',{id:post.id,status:'published'},b.token)).status,404);
   await call('moderate',{id:post.id,status:'published'},admin.token);assert.equal((await call('posts')).items.length,1);
   await call('delete',{id:post.id},b.token);assert.equal((await call('posts')).items.length,1);
-  const reply=await call('posts',{title:'Reply',body:'Another perspective',parent:post.id},b.token);await call('moderate',{id:reply.id,status:'published'},admin.token);assert.equal((await call('posts?parent='+post.id)).items.length,1);
-  await call('report',{id:post.id,reason:'Please review this post'},b.token);assert.equal((await call('posts')).items.length,0);
-  await call('delete-account',{confirm:'fan_one'},a.token);assert.equal((await call('me',undefined,a.token)).user,null);assert.equal((await call('posts?parent='+post.id)).items.length,0);
+  assert.equal((await call('posts',{title:'Invalid parent',body:'Test',parent:'oops'},b.token)).status,400);
+  assert.equal((await call('posts',{title:'Invalid sticker',body:'',sticker:'https://bad.example/image.svg'},b.token)).status,400);
+  const reply=await call('posts',{title:'Reply',body:'🏁',parent:post.id,sticker:'win'},b.token);
+  assert.equal((await call('notifications',undefined,a.token)).unread,0);
+  assert.equal((await call('posts?parent='+post.id)).items.length,0);
+  await call('moderate',{id:reply.id,status:'published'},admin.token);
+  await call('moderate',{id:reply.id,status:'published'},admin.token);
+  const messages=(await call('posts?parent='+post.id)).items;assert.equal(messages.length,1);assert.equal(messages[0].sticker,'win');assert.equal(messages[0].reply_to,post.id);
+  const notices=await call('notifications',undefined,a.token);assert.equal(notices.unread,1);assert.equal(notices.items[0].message_id,reply.id);
+  assert.equal((await call('notifications',undefined,b.token)).unread,0);
+  await call('notifications/read',{id:notices.items[0].id},b.token);assert.equal((await call('notifications',undefined,a.token)).unread,1);
+  await call('notifications/read',{id:notices.items[0].id},a.token);assert.equal((await call('notifications',undefined,a.token)).unread,0);
+  const quote=await call('posts',{title:'Quoted reply',body:'',sticker:'go',parent:post.id,replyTo:reply.id},a.token);assert.equal(quote.status,201);
+  await call('moderate',{id:quote.id,status:'published'},admin.token);
+  assert.equal((await call('notifications',undefined,b.token)).unread,1);
+  const quoted=(await call('posts?parent='+post.id)).items.at(-1);assert.equal(quoted.quote_author,'fan_two');assert.equal(quoted.quote_body,'🏁');
+  const other=await call('posts',{title:'Other topic',body:'Different thread'},admin.token);
+  assert.equal((await call('posts',{title:'Bad quote',body:'No cross-thread quote',parent:other.id,replyTo:reply.id},a.token)).status,400);
+  await call('report',{id:reply.id,reason:'Review this message'},a.token);assert.equal((await call('notifications',undefined,a.token)).items.length,0);
+  assert.equal((await call('posts?parent='+post.id)).items[0].quote_body,null);
+  await call('report',{id:post.id,reason:'Please review this post'},b.token);assert.equal((await call('posts')).items.some(p=>p.id===post.id),false);
+  assert.equal((await call('notifications',undefined,b.token)).items.length,0);
+  await call('delete-account',{confirm:'fan_one'},a.token);assert.equal((await call('me',undefined,a.token)).user,null);assert.equal((await call('posts?parent='+post.id)).items.length,0);assert.equal((await call('notifications',undefined,b.token)).items.length,0);
   const persisted=community(dir);assert.equal(typeof persisted,'function');
  }finally{await new Promise(resolve=>server.close(resolve));}
 });

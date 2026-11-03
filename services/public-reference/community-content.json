@@ -1,0 +1,10 @@
+{
+  "stickers": [
+    {"id":"go","zh":"冲鸭","en":"Go!","src":"/media/stickers/go.svg"},
+    {"id":"win","zh":"拿下","en":"Win!","src":"/media/stickers/win.svg"},
+    {"id":"steady","zh":"稳住","en":"Stay calm","src":"/media/stickers/steady.svg"},
+    {"id":"pit","zh":"进站","en":"Box box","src":"/media/stickers/pit.svg"},
+    {"id":"wow","zh":"太强了","en":"Amazing","src":"/media/stickers/wow.svg"},
+    {"id":"rain","zh":"下雨了","en":"Rain!","src":"/media/stickers/rain.svg"}
+  ]
+}
