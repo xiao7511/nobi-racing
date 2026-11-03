@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-11-03T04:35:06.561Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "status": "ready",
+  "newsItems": 8,
+  "chineseTitles": 8,
+  "syncedAt": "2026-11-03T04:33:03.524Z",
+  "datasetAt": "2026-11-03T04:30:00.000Z",
+  "newestIndexedAt": "2026-11-03T04:15:00Z",
+  "photos": [
+    {
+      "id": "d7baccc39c39d46cfcbad8fd34a0afa4",
+      "bytes": 546283,
+      "license": "CC BY-SA 4.0",
+      "captured": "2026-08-23"
+    },
+    {
+      "id": "149b866bf530b4a62ee7830a6b91c3a2",
+      "bytes": 519085,
+      "license": "CC BY-SA 4.0",
+      "captured": "2026-08-23"
+    }
+  ],
+  "events": {
+    "firstEvent": true,
+    "heartbeat": true
+  },
+  "playerPolicy": "default-src 'none'; script-src 'self' https://www.youtube.com; style-src 'self'; frame-src https://www.youtube-nocookie.com; frame-ancestors 'self' capacitor: https://localhost http://localhost; base-uri 'none'; form-action 'none'",
+  "referenceStatus": "ready"
+}

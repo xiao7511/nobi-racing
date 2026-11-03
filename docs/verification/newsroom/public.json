@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-11-03T04:43:20.808Z",
+  "base": "https://api.nobistudio.com/racing/",
+  "results": [
+    {
+      "engine": "webkit-320",
+      "width": 320,
+      "newsItems": 8,
+      "dynamicPhotos": 2,
+      "passed": true,
+      "thirdPartyRequestsBeforeConsent": 0,
+      "videoAvailability": "provider-controlled; official-channel fallback verified"
+    },
+    {
+      "engine": "webkit-390",
+      "width": 390,
+      "newsItems": 8,
+      "dynamicPhotos": 2,
+      "passed": true,
+      "thirdPartyRequestsBeforeConsent": 0,
+      "videoAvailability": "provider-controlled; official-channel fallback verified"
+    },
+    {
+      "engine": "edge-desktop",
+      "width": 1440,
+      "newsItems": 8,
+      "dynamicPhotos": 2,
+      "passed": true,
+      "thirdPartyRequestsBeforeConsent": 0,
+      "videoAvailability": "provider-controlled; official-channel fallback verified"
+    }
+  ]
+}

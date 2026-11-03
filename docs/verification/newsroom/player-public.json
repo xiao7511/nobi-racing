@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-03T04:37:48.503Z",
+  "text": "提供方暂不能在此播放该视频，请使用下方官方频道入口。",
+  "frames": [
+    "https://api.nobistudio.com/racing/media/news-player.html?channel=formula1&lang=zh"
+  ],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_INSUFFICIENT_RESOURCES"
+  ]
+}

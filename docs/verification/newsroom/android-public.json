@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-11-03T04:42:46.5606060Z",
+  "sha256": "8CC1FB71EDD5ABBCF192A298DDA5C93F30C131942811A5101ADCBC07D7E21156",
+  "signatureVerified": true,
+  "versionName": "1.0",
+  "package": "com.nobistudio.racing",
+  "versionCode": 5,
+  "cacheControl": [
+    "no-transform, public, must-revalidate, max-age=0"
+  ],
+  "status": 200
+}

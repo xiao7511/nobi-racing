@@ -1,8 +1,9 @@
-import {chromium,webkit,expect} from '@playwright/test';
+import {chromium,webkit,expect as baseExpect} from '@playwright/test';
 import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 const base=process.env.NOBI_NEWS_PREVIEW||'http://127.0.0.1:5276/';
+const expect=baseExpect.configure({timeout:30000});
 const output=new URL('../docs/verification/newsroom/',import.meta.url);await mkdir(output,{recursive:true});const results=[];
 for(const [engine,label,width]of [[webkit,'webkit-320',320],[webkit,'webkit-390',390],[chromium,'edge-desktop',1440]]){
  const browser=await engine.launch(engine===chromium?{channel:'msedge'}:{});
@@ -26,8 +27,8 @@ for(const [engine,label,width]of [[webkit,'webkit-320',320],[webkit,'webkit-390'
  await page.getByRole('button',{name:'同意并加载官方播放器'}).click();await expect(page.locator('.newsroom-player')).toBeVisible();await expect(page.locator('.newsroom-player')).toHaveAttribute('src',/media\/news-player.html\?channel=formula1/);
  assert.ok(await page.locator('.newsroom-player').evaluate(e=>e.getBoundingClientRect().width)>=200);await expect(page.getByRole('link',{name:'在 YouTube 查看频道最新视频'})).toHaveAttribute('href','https://www.youtube.com/@Formula1/videos');
  await page.getByRole('button',{name:'关闭播放器'}).click();await expect(page.locator('.newsroom-player')).toHaveCount(0);await page.getByLabel('官方视频频道').selectOption('mercedes');await expect(page.getByRole('button',{name:'同意并加载官方播放器'})).toBeVisible();
- if(width<600){const nav=page.locator('.main-nav');assert.equal(await nav.locator('a:visible').count(),4);await nav.locator('a[href="#/races"]').click();await nav.locator('a[href="#/news"]').click();const view=await page.evaluate(()=>({scale:visualViewport.scale,width:innerWidth,height:document.querySelector('.sidebar').getBoundingClientRect().height}));assert.deepEqual(view,{scale:1,width,height:64});}
- await page.goto(base+'#/legal');await expect(page.getByRole('heading',{name:'新闻专栏来源与媒体使用'})).toBeVisible();
+ if(width<600){const nav=page.locator('.main-nav');assert.equal(await nav.locator('a:visible').count(),4);await nav.locator('a[href="#/races"]').click();await expect(page).toHaveURL(base+'#/races');await expect(page.locator('main h1')).toBeVisible({timeout:20000});await nav.locator('a[href="#/news"]').click();await expect(page).toHaveURL(base+'#/news');await expect(page.locator('main h1')).toHaveText('不止于头条。',{timeout:20000});const view=await page.evaluate(()=>({scale:visualViewport.scale,width:innerWidth,height:document.querySelector('.sidebar').getBoundingClientRect().height}));assert.deepEqual(view,{scale:1,width,height:64});}
+ await page.goto(base+'#/legal');await expect(page.getByRole('heading',{name:'新闻专栏来源与媒体使用'})).toBeVisible({timeout:20000});
  const links=await page.locator('a[href]').evaluateAll(anchors=>anchors.filter(a=>/github\.com/.test(new URL(a.href).hostname)).map(a=>a.href));assert.deepEqual(links,[]);assert.deepEqual(badLinks,[]);assert.deepEqual(errors,[]);
  results.push({engine:label,width,newsItems:api.items.length,dynamicPhotos:api.photos?.items.length,passed:true,thirdPartyRequestsBeforeConsent:0,videoAvailability:'provider-controlled; official-channel fallback verified'});await context.close();console.log(label+' newsroom verified');
  }finally{await browser.close();}

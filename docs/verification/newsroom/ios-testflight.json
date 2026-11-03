@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-03T04:34:28.364Z",
+  "build": "1.0 (106)",
+  "processingState": "VALID",
+  "internalBuildState": "IN_BETA_TESTING",
+  "externalBuildState": "READY_FOR_BETA_SUBMISSION",
+  "codemagicBuild": "6ae95e59c317a2c8bacdb87c",
+  "commit": "3f1ac57",
+  "publishingStatus": "success"
+}
