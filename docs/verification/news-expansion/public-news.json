@@ -1,0 +1,79 @@
+{
+  "datasetAt": "2026-11-04T14:15:00Z",
+  "status": "ready",
+  "checkedAt": "2026-11-04T14:13:18.9868427Z",
+  "chineseTitles": 44,
+  "items": 44,
+  "readable": 23,
+  "previousAssetStatus": 200,
+  "channels": [
+    {
+      "id": "gkg-english",
+      "name": "GDELT · 英文新闻",
+      "nameEn": "GDELT · English news",
+      "intervalSeconds": 120,
+      "checkedAt": "2026-11-04T14:11:20.363Z",
+      "syncedAt": "2026-11-04T14:11:20.658Z",
+      "datasetAt": "2026-11-04T14:15:00Z",
+      "lastVerifiedBatch": "https://data.gdeltproject.org/gdeltv2/20261104141500.gkg.csv.zip",
+      "status": "ready",
+      "error": null,
+      "manifestAt": "2026-11-04T14:15:00Z",
+      "items": 0
+    },
+    {
+      "id": "gkg-translated",
+      "name": "GDELT · 多语种新闻",
+      "nameEn": "GDELT · multilingual news",
+      "intervalSeconds": 120,
+      "checkedAt": "2026-11-04T14:11:20.66Z",
+      "syncedAt": null,
+      "datasetAt": null,
+      "lastVerifiedBatch": null,
+      "status": "unavailable",
+      "error": "No source batches available",
+      "manifestAt": "2026-11-04T14:00:00Z"
+    },
+    {
+      "id": "gal",
+      "name": "GDELT · 新文章清单",
+      "nameEn": "GDELT · article discovery",
+      "url": "https://data.gdeltproject.org/gdeltv3/gal/feed.rss",
+      "intervalSeconds": 120,
+      "checkedAt": "2026-11-04T14:11:20.367Z",
+      "syncedAt": "2026-11-04T14:11:21.978Z",
+      "datasetAt": "2026-11-04T13:47:00Z",
+      "error": null,
+      "items": 0,
+      "status": "ready"
+    },
+    {
+      "id": "open-calendar",
+      "name": "开放赛历 · 赛周预告",
+      "nameEn": "Open calendar · weekend briefs",
+      "url": "https://whenstherace.com/schedule.json",
+      "intervalSeconds": 600,
+      "checkedAt": "2026-11-04T14:06:17.215Z",
+      "syncedAt": "2026-11-04T14:06:18.391Z",
+      "datasetAt": null,
+      "error": null,
+      "items": 2,
+      "status": "ready"
+    },
+    {
+      "id": "gal-archive",
+      "name": "GDELT · 文章归档补抓",
+      "nameEn": "GDELT · article recovery",
+      "url": "https://data.gdeltproject.org/gdeltv3/gal/",
+      "intervalSeconds": 120,
+      "checkedAt": "2026-11-04T14:11:21.979Z",
+      "syncedAt": "2026-11-04T13:59:08.356Z",
+      "datasetAt": "2026-11-04T13:46:00Z",
+      "error": "No archive batches available",
+      "items": 0,
+      "status": "delayed"
+    }
+  ],
+  "previousAsset": "/racing/assets/index-CyNv_h9n.js",
+  "publishers": 17
+}

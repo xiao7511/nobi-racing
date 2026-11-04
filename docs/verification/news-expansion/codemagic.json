@@ -1,0 +1,37 @@
+{
+  "status": "finished",
+  "commit": "58ff970c3932a9cdf1ff973296166f0e1c20e16e",
+  "checkedAt": "2026-11-04T14:23:13.1893241Z",
+  "index": 8,
+  "id": "6aeb3a56fe0f673cdc9b5247",
+  "actions": [
+    {
+      "status": "success",
+      "name": "Preparing build machine"
+    },
+    {
+      "status": "success",
+      "name": "Fetching app sources"
+    },
+    {
+      "status": "success",
+      "name": "Install workspace dependencies"
+    },
+    {
+      "status": "success",
+      "name": "Build bundled public app and synchronize Capacitor"
+    },
+    {
+      "status": "success",
+      "name": "Archive and export signed IPA"
+    },
+    {
+      "status": "success",
+      "name": "Publishing"
+    },
+    {
+      "status": "success",
+      "name": "Cleaning up"
+    }
+  ]
+}

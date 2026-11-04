@@ -1,0 +1,7 @@
+NRestarts=0
+MemoryCurrent=49577984
+MemoryPeak=57626624
+ActiveState=active
+SubState=running
+{"users":2,"posts":2,"foreignKeyErrors":0}
+ae3d1c2ad8e5daa20fb0b757426a1477d6387422207ad4c21e23e80af596eef7  /opt/nobi-racing/current/web/downloads/NOBI-Racing.apk

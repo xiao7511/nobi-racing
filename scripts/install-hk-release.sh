@@ -17,6 +17,12 @@ fi
 tar --no-same-owner -xzf "$archive" -C "$release"
 chmod -R a+rX "$release" "$root/runtime"
 previous=$(readlink "$root/current" || true)
+# In-flight web tabs may still request a lazy chunk from the previous entry point.
+# Keep recent immutable assets so returning after deployment cannot hit a chunk 404.
+if [[ "$previous" =~ ^/opt/nobi-racing/releases/[0-9]{14}$ ]] && [[ -d "$previous/web/assets" ]]; then
+  mkdir -p "$release/web/assets"
+  find "$previous/web/assets" -maxdepth 1 -type f -mmin -2880 -exec cp -p --update=none -- {} "$release/web/assets/" \;
+fi
 ln -sfn "$release" "$root/current.next"
 mv -Tf "$root/current.next" "$root/current"
 install -m 644 "$release/infra/nobi-racing-public.service" /etc/systemd/system/nobi-racing-public.service
