@@ -199,5 +199,139 @@
     "indexedDates": {
       "https://finance.sina.com.cn/tech/roll/2026-11-03/doc-inixmnpz0018245.shtml": "2026-11-03T04:15:00Z"
     }
+  },
+  {
+    "key": "haas-camara-brazil",
+    "date": "2026-11-04",
+    "titleZh": "哈斯确认奥康不再出赛，卡马拉将搭档贝尔曼",
+    "title": "Haas confirms Camara will partner Bearman in Brazil",
+    "urls": [
+      "https://www.marca.com/motor/formula1/gp-brasil/2026/11/04/rafael-camara-anti-antonelli-debutara-brasil-oficial.html",
+      "https://www.grandprix.com/news/haas-drops-ocon-for-rest-of-2026-as-cmara-gets-brazil-debut.html",
+      "https://www.ole.com.ar/autos/f1-rafael-camara-haas-brasil-esteban-ocon-futuro_0_f608TLpwwK.html",
+      "https://www.speedweek.com/a/formel-1/ocon-raus-camara-faehrt-brasilien-haas",
+      "https://www.planetf1.com/news/haas-camara-ocon-brazil",
+      "https://www.gazzetta.it/Formula-1/03-11-2026/ocon-via-dalla-haas-al-suo-posto-in-brasile-rafa-camara-scuola-ferrari.shtml",
+      "https://www.crash.net/f1/news/1109302/1/rafael-camara-make-early-haas-f1-debut-brazil-esteban-ocon-axed",
+      "https://www.infobae.com/deportes/2026/11/03/el-movimiento-de-haas-que-anticipa-quien-seria-el-reemplazante-de-esteban-ocon-en-el-resto-de-la-temporada-de-la-formula-1/"
+    ],
+    "reference": "https://www.haasf1team.com/news/team-statement-driver-update-0",
+    "referenceName": "Haas F1 Team",
+    "drivers": [
+      "Esteban Ocon",
+      "Oliver Bearman",
+      "Rafael Camara"
+    ],
+    "teams": [
+      "Haas F1 Team"
+    ],
+    "paragraphsZh": [
+      "哈斯车队确认，奥康不会再代表车队参加本赛季的F1比赛。卡马拉将在圣保罗站搭档贝尔曼，提前迎来F1首秀。",
+      "21岁的巴西车手此前已获2027年正式席位，并在八月参加过哈斯旧车测试。车队没有公开内部讨论的细节。"
+    ],
+    "paragraphsEn": [
+      "Haas says Ocon will not race for it again this season. Camara will make his F1 debut alongside Bearman at Sao Paulo.",
+      "The 21-year-old Brazilian already has a 2027 seat and tested an older Haas in August. The team has kept its internal discussions private."
+    ],
+    "indexedDates": {
+      "https://www.marca.com/motor/formula1/gp-brasil/2026/11/04/rafael-camara-anti-antonelli-debutara-brasil-oficial.html": "2026-11-04T06:46:00Z",
+      "https://www.grandprix.com/news/haas-drops-ocon-for-rest-of-2026-as-cmara-gets-brazil-debut.html": "2026-11-04T03:31:00Z",
+      "https://www.ole.com.ar/autos/f1-rafael-camara-haas-brasil-esteban-ocon-futuro_0_f608TLpwwK.html": "2026-11-04T00:46:00Z",
+      "https://www.speedweek.com/a/formel-1/ocon-raus-camara-faehrt-brasilien-haas": "2026-11-04T00:46:00Z",
+      "https://www.planetf1.com/news/haas-camara-ocon-brazil": "2026-11-04T00:16:00Z",
+      "https://www.gazzetta.it/Formula-1/03-11-2026/ocon-via-dalla-haas-al-suo-posto-in-brasile-rafa-camara-scuola-ferrari.shtml": "2026-11-04T00:01:00Z",
+      "https://www.crash.net/f1/news/1109302/1/rafael-camara-make-early-haas-f1-debut-brazil-esteban-ocon-axed": "2026-11-03T21:16:00Z",
+      "https://www.infobae.com/deportes/2026/11/03/el-movimiento-de-haas-que-anticipa-quien-seria-el-reemplazante-de-esteban-ocon-en-el-resto-de-la-temporada-de-la-formula-1/": "2026-11-03T21:01:00Z"
+    }
+  },
+  {
+    "key": "honda-mexico-cooling",
+    "date": "2026-11-04",
+    "titleZh": "本田将阿斯顿·马丁双退赛归因于散热压力",
+    "title": "Honda links the Aston Martin retirements to cooling demands",
+    "urls": [
+      "https://www.marca.com/motor/formula1/gp-brasil/2026/11/04/honda-f1-avisa-peligro-sigue-brasil.html",
+      "https://www.crash.net/f1/news/1109301/1/honda-reveals-cause-aston-martins-reliability-woes-mexico-grand-prix",
+      "https://www.planetf1.com/news/honda-reveals-double-aston-martin-mexico-retirement-reason"
+    ],
+    "reference": "https://www.planetf1.com/news/honda-reveals-double-aston-martin-mexico-retirement-reason",
+    "referenceName": "PlanetF1",
+    "drivers": [
+      "Fernando Alonso",
+      "Lance Stroll"
+    ],
+    "teams": [
+      "Aston Martin"
+    ],
+    "paragraphsZh": [
+      "据本田的赛后解释，墨西哥站高海拔环境带来的散热负荷超出预期，ERS冷却回路压力增大，最终两辆阿斯顿·马丁赛车都退赛。",
+      "本田表示，练习赛数据没有提前暴露同样异常，后续将把这些经验用于改进。该解释涉及可靠性，不能据此推断巴西站已经解决全部问题。"
+    ],
+    "paragraphsEn": [
+      "Honda attributes the Mexico failures to cooling demands at high altitude, which placed unexpected stress on the ERS circuit. Both Aston Martin cars retired.",
+      "The manufacturer says practice had not revealed the same warning. Lessons will inform improvements, without establishing that every issue is resolved for Brazil."
+    ],
+    "indexedDates": {
+      "https://www.marca.com/motor/formula1/gp-brasil/2026/11/04/honda-f1-avisa-peligro-sigue-brasil.html": "2026-11-04T06:46:00Z",
+      "https://www.crash.net/f1/news/1109301/1/honda-reveals-cause-aston-martins-reliability-woes-mexico-grand-prix": "2026-11-03T21:16:00Z",
+      "https://www.planetf1.com/news/honda-reveals-double-aston-martin-mexico-retirement-reason": "2026-11-03T20:01:00Z"
+    }
+  },
+  {
+    "key": "herta-brazil-fp1",
+    "date": "2026-11-04",
+    "titleZh": "赫塔将在巴西站一练驾驶佩雷斯的凯迪拉克",
+    "title": "Herta to take Perez’s Cadillac for Brazilian GP practice",
+    "urls": [
+      "https://www.crash.net/f1/news/1109306/1/colton-herta-handed-another-cadillac-f1-chance-after-superlicence-confusion"
+    ],
+    "reference": "https://www.planetf1.com/news/sergio-perez-colton-herta-cadillac-f1-2026-brazilian-grand-prix-fp1",
+    "referenceName": "PlanetF1",
+    "drivers": [
+      "Colton Herta",
+      "Sergio Perez"
+    ],
+    "teams": [
+      "Cadillac"
+    ],
+    "paragraphsZh": [
+      "据凯迪拉克公布的练习安排，赫塔将在巴西站首节自由练习驾驶佩雷斯的赛车。这是练习赛席位安排，不是替代佩雷斯参加正赛。",
+      "赫塔将继续积累赛车经验并争取满足超级驾照条件。此前墨西哥站后的积分核算存在差异，新的练习机会也不等于车队已确认他的2027年正式席位。"
+    ],
+    "paragraphsEn": [
+      "Cadillac has assigned Perez’s car to Herta for opening practice in Brazil. This changes the FP1 driver, not the race entry.",
+      "Herta continues building experience and pursuing Super Licence eligibility after a points discrepancy in Mexico. The outing does not confirm a 2027 race contract."
+    ],
+    "indexedDates": {
+      "https://www.crash.net/f1/news/1109306/1/colton-herta-handed-another-cadillac-f1-chance-after-superlicence-confusion": "2026-11-04T11:46:00Z"
+    }
+  },
+  {
+    "key": "antonelli-senna-visit",
+    "date": "2026-11-04",
+    "titleZh": "安东内利在巴西访问塞纳家族收藏",
+    "title": "Antonelli visits the Senna family collection in Brazil",
+    "urls": [
+      "https://www.infobae.com/deportes/2026/11/04/inolvidable-la-emocion-de-kimi-antonelli-al-subirse-a-un-lotus-de-formula-1-de-ayrton-senna/"
+    ],
+    "reference": "https://www.cnnbrasil.com.br/esportes/automobilismo/no-brasil-antonelli-visita-familia-senna-e-posa-em-carro-do-brasileiro/",
+    "referenceName": "CNN Brasil",
+    "drivers": [
+      "Kimi Antonelli"
+    ],
+    "teams": [
+      "Mercedes"
+    ],
+    "paragraphsZh": [
+      "巴西站前，安东内利访问塞纳家族，参观了包含个人物品的收藏，并在一辆塞纳曾使用的莲花赛车内拍照留念。",
+      "他在自己的社交账号分享了这次经历。此次访问发生于圣保罗站备赛期间；相关照片记录的是纪念行程，并非当站的比赛画面。"
+    ],
+    "paragraphsEn": [
+      "Before the Sao Paulo weekend, Antonelli visited the Senna family collection and posed inside a Lotus used by Senna. The collection includes personal memorabilia.",
+      "He shared the visit on his own social account. The photographs concern a commemorative visit during preparations, rather than action from the upcoming race."
+    ],
+    "indexedDates": {
+      "https://www.infobae.com/deportes/2026/11/04/inolvidable-la-emocion-de-kimi-antonelli-al-subirse-a-un-lotus-de-formula-1-de-ayrton-senna/": "2026-11-04T09:01:00Z"
+    }
   }
 ]

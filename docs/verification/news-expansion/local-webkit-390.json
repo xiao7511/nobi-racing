@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-11-04T13:55:48.808Z",
+  "base": "http://127.0.0.1:5276/racing/",
+  "results": [
+    {
+      "device": "webkit-390",
+      "passed": true,
+      "metrics": {
+        "width": 390,
+        "scrollWidth": 390,
+        "scale": 1,
+        "headerHeight": 96,
+        "navHeight": 88,
+        "rects": [
+          {
+            "top": 763,
+            "width": 71.59375,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 763,
+            "width": 71.59375,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 763,
+            "width": 71.609375,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 763,
+            "width": 71.59375,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 763,
+            "width": 71.59375,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          }
+        ]
+      },
+      "publisherOptions": 18,
+      "frames": 50,
+      "emptyFrames": 0,
+      "cachedReturn": true,
+      "inlineReplyTested": false,
+      "publicTestDataCreated": false
+    }
+  ]
+}

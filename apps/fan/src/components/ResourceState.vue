@@ -13,7 +13,7 @@ watch([() => props.error, () => props.retryAfter], () => {
 }, { immediate: true });
 onScopeDispose(() => clearInterval(countdown));
 watch(() => props.loading, async loading => {
-  if (!loading && props.focusOnLoad !== false) { await nextTick(); document.querySelector<HTMLElement>('main h1')?.focus({ preventScroll: true }); }
+  if (!loading && props.focusOnLoad !== false) { await nextTick(); document.querySelector<HTMLElement>('main .route-stage:not(.route-page-leave-active) h1, main:not(:has(.route-stage)) h1')?.focus({ preventScroll: true }); }
 });
 </script>
 <template>

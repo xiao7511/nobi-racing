@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-11-04T13:51:28.474Z",
+  "base": "http://127.0.0.1:5276/racing/",
+  "results": [
+    {
+      "device": "android-wide-landscape",
+      "passed": true,
+      "metrics": {
+        "width": 915,
+        "scrollWidth": 915,
+        "scale": 1,
+        "headerHeight": 72,
+        "navHeight": 88,
+        "rects": [
+          {
+            "top": 331,
+            "width": 171,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 331,
+            "width": 171,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 331,
+            "width": 171,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 331,
+            "width": 171,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          },
+          {
+            "top": 331,
+            "width": 171,
+            "height": 51,
+            "iconWidth": 24,
+            "iconHeight": 24
+          }
+        ]
+      },
+      "publisherOptions": 18,
+      "frames": 61,
+      "emptyFrames": 0,
+      "cachedReturn": true,
+      "inlineReplyTested": false,
+      "publicTestDataCreated": false
+    }
+  ]
+}

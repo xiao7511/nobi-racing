@@ -4,7 +4,11 @@ import WebKit
 
 class RacingBridgeViewController: CAPBridgeViewController {
     override func capacitorDidLoad() {
-        webView?.allowsBackForwardNavigationGestures = true
+        webView?.allowsBackForwardNavigationGestures = false
+        let backdrop = UIColor(red: 11/255, green: 14/255, blue: 20/255, alpha: 1)
+        view.backgroundColor = backdrop
+        webView?.backgroundColor = backdrop
+        webView?.scrollView.backgroundColor = backdrop
     }
 }
 

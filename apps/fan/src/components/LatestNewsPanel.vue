@@ -12,7 +12,7 @@ import ResourceState from './ResourceState.vue';
 const { t, locale, preferences } = usePage();
 const props = defineProps<{ compact?: boolean }>();
 const search = ref('');
-const { data, loading, error, retryAfter, reload } = useResource(latestNews, [], { volatile: true, preserveWhileRefreshing: true });
+const { data, loading, error, retryAfter, reload } = useResource(latestNews, [], {publicCacheKey:"latest-news", volatile: true, preserveWhileRefreshing: true });
 const now = ref(Date.now());
 const timer = setInterval(() => { now.value = Date.now(); }, 1000);
 onScopeDispose(() => clearInterval(timer));

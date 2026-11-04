@@ -1,17 +1,18 @@
 import { computed, onScopeDispose, ref, shallowRef, watch, type WatchSource } from 'vue';
 import { MockApiError } from '../api/mock-api';
 import { ApiError } from '../api/errors';
+import {cachedPublic,cachePublic,forgetPublic} from '../lib/public-view-cache';
 
-export function useResource<T>(loader: (signal: AbortSignal) => Promise<T>, dependencies: WatchSource[] = [], config: { volatile?: boolean; refreshMs?: number; preserveWhileRefreshing?: boolean } = {}) {
-  const data = shallowRef<T | null>(null);
-  const loading = ref(true);
+export function useResource<T>(loader: (signal: AbortSignal) => Promise<T>, dependencies: WatchSource[] = [], config: { volatile?: boolean; refreshMs?: number; preserveWhileRefreshing?: boolean; publicCacheKey?:string } = {}) {
+  const data = shallowRef<T | null>(config.publicCacheKey?cachedPublic<T>(config.publicCacheKey):null);
+  const loading = ref(!data.value);
   const error = ref<string | null>(null);
   const traceId = ref<string | undefined>();
   const retryAfter = ref<number | undefined>();
   let controller: AbortController | undefined;
   let ticket = 0;
   let notBefore = 0;
-  function invalidate(code: string) { ticket++; controller?.abort(); data.value = null; loading.value = false; error.value = code; traceId.value = undefined; retryAfter.value = undefined; }
+  function invalidate(code: string) { ticket++; controller?.abort(); if(config.publicCacheKey)forgetPublic(config.publicCacheKey);data.value = null; loading.value = false; error.value = code; traceId.value = undefined; retryAfter.value = undefined; }
   async function reload() {
     if (Date.now() < notBefore) return;
     if (config.volatile && !navigator.onLine) { invalidate('OFFLINE'); return; }
@@ -19,16 +20,16 @@ export function useResource<T>(loader: (signal: AbortSignal) => Promise<T>, depe
     const current = ++ticket;
     controller?.abort();
     controller = new AbortController();
-    loading.value = true;
+    loading.value = !(config.publicCacheKey&&data.value);
     error.value = null;
-    if (!config.preserveWhileRefreshing) data.value = null;
+    if (!config.preserveWhileRefreshing&&!config.publicCacheKey) data.value = null;
     traceId.value = undefined; retryAfter.value = undefined;
     try {
       const result = await loader(controller.signal);
-      if (current === ticket) data.value = result;
+      if (current === ticket) {data.value = result;if(config.publicCacheKey)cachePublic(config.publicCacheKey,result);}
     } catch (cause) {
       if (current === ticket && !controller.signal.aborted) {
-        data.value = null;
+        data.value = null;if(config.publicCacheKey)forgetPublic(config.publicCacheKey);
         error.value = cause instanceof MockApiError || cause instanceof ApiError ? cause.code : 'MOCK_UNAVAILABLE';
         if (cause instanceof ApiError) { traceId.value = cause.traceId; retryAfter.value = cause.retryAfter; if (cause.code === 'RATE_LIMITED') notBefore = Date.now() + (cause.retryAfter || 0) * 1000; }
       }

@@ -21,6 +21,7 @@ export function originalArticles(data,names={}){
  });
 }
 export function indexedArticle(item,feed,data,names={}){
+ if(item?.openBrief)return {id:item.id,kind:'original',...item.openBrief,publishedAt:null,indexedAt:item.indexedAt,reviewedDate:item.indexedAt.slice(0,10),author:'NOBI Racing',sections:[],backgroundSource:'When’s the Race / F1DB · CC BY 4.0; sportstimes/f1 · MIT'};
  const brief=item&&briefs.find(b=>b.urls.includes(item.url));
  if(brief)return reviewedBrief(brief,item.id,item,data,names);
  if(!item)return null;const matched=feed.topics.filter(t=>item.topics.includes(t.id));const race=matched.find(t=>t.kind==='race');const meeting=data?.weekends?.find(m=>m.name===race?.name);const namesZh=matched.map(t=>t.nameZh).join('、'),namesEn=matched.map(t=>t.name).join(', ');

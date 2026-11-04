@@ -69,7 +69,7 @@ const server=http.createServer(async(request,response)=>{
  else if(path==='/api/v1/newsroom/events'){newsroom.listen(request,response);return;}
  else if(path==='/api/v1/newsroom/articles')body={status,items:originalArticles(data,names)};
  else if(/^\/api\/v1\/newsroom\/articles\/(?:nobi-)?[a-f0-9]{24}$/.test(path)){
-  const id=path.split('/').at(-1),feed=newsroom.state();body=originalArticles(data,names).find(a=>a.id===id)||indexedArticle(feed.items.find(a=>a.id===id),feed,data,names)||reviewedArticle(id,data,names);if(!body){response.writeHead(404);body={code:'ARTICLE_UNAVAILABLE'};}
+  const id=path.split('/').at(-1),feed=newsroom.state();body=originalArticles(data,names).find(a=>a.id===id)||indexedArticle(newsroom.readerItem(id)||feed.items.find(a=>a.id===id),feed,data,names)||reviewedArticle(id,data,names);if(!body){response.writeHead(404);body={code:'ARTICLE_UNAVAILABLE'};}
  }
  else if(path==='/api/v1/newsroom')body=newsroom.state();
  else if(path==='/api/v1/season-insights')body={...common,rounds:data?.rounds||[]};
@@ -86,3 +86,5 @@ server.listen(port,'127.0.0.1',()=>console.log('Public reference listens on loop
 void newsroom.sync();setInterval(()=>{void newsroom.sync();},NEWS_INTERVAL).unref();
 
 void newsroom.syncPhotos();setInterval(()=>{void newsroom.syncPhotos();},1800000).unref();
+
+void newsroom.syncChannels();setInterval(()=>{void newsroom.syncChannels();},NEWS_INTERVAL).unref();

@@ -9,7 +9,7 @@ import TeamCarousel from '../components/TeamCarousel.vue';
 import LatestRacePhoto from '../components/LatestRacePhoto.vue';
 import LatestNewsPanel from '../components/LatestNewsPanel.vue';
 import names from '../content/stats-names.json';
-const {t,locale}=usePage();const stats=useResource(seasonInsights,[],{volatile:true,preserveWhileRefreshing:true});
+const {t,locale}=usePage();const stats=useResource(seasonInsights,[],{publicCacheKey:"season-insights",volatile:true,preserveWhileRefreshing:true});
 const podium=computed(()=>stats.data.value?.status==='ready'&&Date.parse(stats.data.value.expiresAt!)>Date.now()?stats.data.value.rounds.at(-1)?.drivers.slice(0,3)||[]:[]);
 const label=(name:string)=>locale.value==='zh-CN'&&Object.hasOwn(names,name)?names[name as keyof typeof names]:name;
 const download=import.meta.env.VITE_ANDROID_DOWNLOAD_URL;

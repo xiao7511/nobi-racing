@@ -10,7 +10,7 @@ import {publicReference} from '../lib/urls';
 import names from '../content/stats-names.json';
 const {t,locale,route,preferences}=usePage();const router=useRouter();
 const type=computed<InsightType>(()=>route.query.type==='team'?'team':'driver');
-const state=useResource(seasonInsights,[],{volatile:true,refreshMs:60000,preserveWhileRefreshing:true});
+const state=useResource(seasonInsights,[],{publicCacheKey:"season-insights",volatile:true,refreshMs:60000,preserveWhileRefreshing:true});
 const now=ref(Date.now());const timer=setInterval(()=>{now.value=Date.now();},1000);onScopeDispose(()=>clearInterval(timer));
 const fresh=computed(()=>state.data.value?.status==='ready'&&Date.parse(state.data.value.expiresAt!)>now.value);
 const rounds=computed(()=>fresh.value?state.data.value!.rounds:[]);

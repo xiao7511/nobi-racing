@@ -1,3 +1,4 @@
+import {previousPage} from './lib/page-gestures';
 import { Capacitor } from '@capacitor/core';
 import { App } from '@capacitor/app';
 import type { Router } from 'vue-router';
@@ -6,8 +7,7 @@ export async function connectNativeBack(router: Router): Promise<() => void> {
   if (Capacitor.getPlatform() !== 'android') return () => {};
   const listener = await App.addListener('backButton', () => {
     if (router.currentRoute.value.path === '/') void App.minimizeApp();
-    else if (window.history.state?.back) router.back();
-    else void router.replace('/');
+    else previousPage(router);
   });
   return () => { void listener.remove(); };
 }
