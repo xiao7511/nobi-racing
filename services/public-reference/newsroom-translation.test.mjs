@@ -41,6 +41,14 @@ test('low CPU deployment uses a validated smaller batch without truncating the t
  }finally{if(previous===undefined)delete process.env.NEWS_TRANSLATION_BATCH_SIZE;else process.env.NEWS_TRANSLATION_BATCH_SIZE=previous;}
 });
 
+test('translation batches bound aggregate characters while preserving a single long public summary',async()=>{
+ const batches=[];
+ const translate=await createHeadlineTranslator(await temporary(),{}, {endpoint:local,batchSize:5,batchCharacters:1200,fetchImpl:async(_url,request)=>{const texts=JSON.parse(request.body).texts;batches.push(texts.map(text=>text.length));return Response.json({translations:texts.map(()=> '公开新闻摘要的中文译文')});}});
+ const items=[600,600,1200,700].map((size,index)=>({title:('F1 report '+index+' ').padEnd(size,'a'),language:'en'}));
+ await translate(items);assert.deepEqual(batches,[[600,600],[1200],[700]]);assert.ok(items.every(item=>item.titleZh==='公开新闻摘要的中文译文'));
+ for(const batchCharacters of [1199,48001,1.5,'invalid'])await assert.rejects(createHeadlineTranslator(await temporary(),{}, {batchCharacters}),/integer from 1200 to 48000/);
+});
+
 test('unavailable local provider opens a circuit, leaves untranslatable records pending and retries after recovery',async()=>{
  let time=100000,localCalls=0,available=false;
  const translate=await createHeadlineTranslator(await temporary(),{}, {endpoint:local,now:()=>time,fetchImpl:async(url,request)=>{

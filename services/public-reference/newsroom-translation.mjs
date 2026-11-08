@@ -18,6 +18,8 @@ export async function createHeadlineTranslator(directory,names={},options={}){
  const now=options.now||Date.now;
  const batchSize=Number(options.batchSize??process.env.NEWS_TRANSLATION_BATCH_SIZE??40);
  if(!Number.isInteger(batchSize)||batchSize<1||batchSize>40)throw Error('NEWS_TRANSLATION_BATCH_SIZE must be an integer from 1 to 40');
+ const batchCharacters=Number(options.batchCharacters??process.env.NEWS_TRANSLATION_BATCH_CHARACTERS??12000);
+ if(!Number.isInteger(batchCharacters)||batchCharacters<1200||batchCharacters>48000)throw Error('NEWS_TRANSLATION_BATCH_CHARACTERS must be an integer from 1200 to 48000');
  const endpoint=options.endpoint??(process.env.NEWS_TRANSLATION_ENABLED==='false'?'':process.env.NEWS_TRANSLATION_URL||'http://127.0.0.1:5291/translate');
  if(endpoint){const url=new URL(endpoint);if(!['http:','https:'].includes(url.protocol)||url.username||url.password)throw Error('Invalid translation endpoint');}
  let localRetryAt=0,queue=Promise.resolve();
@@ -37,8 +39,9 @@ export async function createHeadlineTranslator(directory,names={},options={}){
   // Complete all missing English headlines in bounded batches, rather than stopping after four.
   for(const source of ['en','zh']){
    const local=output.filter(entry=>!entry.valueZh&&entry.source===source&&entry.target==='zh-CN'&&entry.value.length<=1200);
-   for(let start=0;endpoint&&now()>=localRetryAt&&start<local.length;start+=batchSize){
-   const batch=local.slice(start,start+batchSize);
+   for(let start=0;endpoint&&now()>=localRetryAt&&start<local.length;){
+   const batch=[];let characters=0;
+   while(start<local.length&&batch.length<batchSize){const entry=local[start];if(batch.length&&characters+entry.value.length>batchCharacters)break;batch.push(entry);characters+=entry.value.length;start++;}
    try{
     const response=await fetchImpl(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({texts:batch.map(entry=>entry.value),source,target:'zh-CN'}),signal:AbortSignal.timeout(45000),redirect:'error'});
     const result=await readJson(response);
