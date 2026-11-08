@@ -12,16 +12,52 @@ workflows:
         NOBI_APP_ID: com.nobistudio.racing
         VITE_REFERENCE_MODE: public
         VITE_API_BASE_URL: https://api.nobistudio.com/racing
+    cache: &ios_cache
+      cache_paths:
+        - $CM_BUILD_DIR/SourcePackages
     scripts: &ios_scripts
       - name: Install workspace dependencies
         script: |
           corepack enable
           corepack prepare pnpm@10.34.8 --activate
           pnpm install --frozen-lockfile
+
       - name: Build bundled public app and synchronize Capacitor
         script: |
           pnpm --filter @nobi/fan build
           pnpm --filter @nobi/fan exec cap sync ios
+
+      - name: Resolve Swift packages with retry
+        script: |
+          mkdir -p output/ios "$CM_BUILD_DIR/SourcePackages"
+          resolved=0
+
+          for attempt in 1 2 3; do
+            echo "Resolving SPM dependencies: attempt ${attempt}/3"
+
+            if xcodebuild -resolvePackageDependencies \
+              -project apps/fan/ios/App/App.xcodeproj \
+              -scheme App \
+              -clonedSourcePackagesDirPath "$CM_BUILD_DIR/SourcePackages" \
+              > "output/ios/spm-${attempt}.log" 2>&1; then
+              echo "SPM dependencies resolved successfully"
+              resolved=1
+              break
+            fi
+
+            echo "SPM attempt ${attempt} failed"
+            tail -n 30 "output/ios/spm-${attempt}.log" || true
+
+            if [ "$attempt" -lt 3 ]; then
+              sleep $((attempt * 30))
+            fi
+          done
+
+          if [ "$resolved" -ne 1 ]; then
+            echo "ERROR: SPM failed after 3 attempts"
+            exit 1
+          fi
+
       - name: Archive and export signed IPA
         script: bash scripts/ios-archive.sh
     artifacts: &ios_artifacts
@@ -32,6 +68,7 @@ workflows:
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment: *ios_environment
+    cache: *ios_cache
     scripts: *ios_scripts
     artifacts: *ios_artifacts
     publishing:
