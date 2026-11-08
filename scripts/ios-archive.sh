@@ -30,6 +30,6 @@ data={'method':'app-store-connect','destination':'export','teamID':os.environ['N
 with open(os.environ['NOBI_EXPORT_PATH'],'wb') as f:plistlib.dump(data,f)
 PY
 build_number=$((100+${PROJECT_BUILD_NUMBER:-${BUILD_NUMBER:-1}}))
-xcodebuild -project apps/fan/ios/App/App.xcodeproj -scheme App -configuration Release -destination 'generic/platform=iOS' -archivePath "$work/NOBI-Racing.xcarchive" archive CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$IOS_TEAM_ID" PROVISIONING_PROFILE_SPECIFIER="$profile_name" CODE_SIGN_IDENTITY='Apple Distribution' CURRENT_PROJECT_VERSION="$build_number" OTHER_CODE_SIGN_FLAGS="--keychain $keychain" > output/ios/archive.log 2>&1
+xcodebuild -project apps/fan/ios/App/App.xcodeproj -scheme App -clonedSourcePackagesDirPath "$CM_BUILD_DIR/SourcePackages" -disableAutomaticPackageResolution -configuration Release -destination 'generic/platform=iOS' -archivePath "$work/NOBI-Racing.xcarchive" archive CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$IOS_TEAM_ID" PROVISIONING_PROFILE_SPECIFIER="$profile_name" CODE_SIGN_IDENTITY='Apple Distribution' CURRENT_PROJECT_VERSION="$build_number" OTHER_CODE_SIGN_FLAGS="--keychain $keychain" > output/ios/archive.log 2>&1
 xcodebuild -exportArchive -archivePath "$work/NOBI-Racing.xcarchive" -exportOptionsPlist "$work/export.plist" -exportPath output/ios > output/ios/export.log 2>&1
 find output/ios -maxdepth 1 -name '*.ipa' -print
