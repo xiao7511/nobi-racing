@@ -5,7 +5,7 @@ import {setTimeout as delay} from 'node:timers/promises';
 import {buildDataset} from './dataset.mjs';
 import {community} from './community.mjs';
 import {createNewsroom,NEWS_INTERVAL} from './newsroom.mjs';
-import {originalArticles,indexedArticle,reviewedArticle} from './newsroom-reader.mjs';
+import {originalArticles,reviewedArticle} from './newsroom-reader.mjs';
 import {YEAR,SOURCE,LICENSE,LICENSE_URL,TTL} from './config.mjs';
 const port=Number(process.env.PORT||5292),stateDir=resolve(process.env.STATE_DIR||'.cache/public-reference');
 if(!Number.isSafeInteger(port)||port<1024||port>65535)throw Error('Invalid local port');
@@ -69,7 +69,7 @@ const server=http.createServer(async(request,response)=>{
  else if(path==='/api/v1/newsroom/events'){newsroom.listen(request,response);return;}
  else if(path==='/api/v1/newsroom/articles')body={status,items:originalArticles(data,names)};
  else if(/^\/api\/v1\/newsroom\/articles\/(?:nobi-)?[a-f0-9]{24}$/.test(path)){
-  const id=path.split('/').at(-1),feed=newsroom.state();body=originalArticles(data,names).find(a=>a.id===id)||indexedArticle(newsroom.readerItem(id)||feed.items.find(a=>a.id===id),feed,data,names)||reviewedArticle(id,data,names);if(!body){response.writeHead(404);body={code:'ARTICLE_UNAVAILABLE'};}
+  const id=path.split('/').at(-1);body=originalArticles(data,names).find(a=>a.id===id)||reviewedArticle(id,data,names)||await newsroom.readArticle(id,data);if(!body){response.writeHead(404);body={code:'ARTICLE_UNAVAILABLE'};}
  }
  else if(path==='/api/v1/newsroom')body=newsroom.state();
  else if(path==='/api/v1/season-insights')body={...common,rounds:data?.rounds||[]};
@@ -83,8 +83,11 @@ const server=http.createServer(async(request,response)=>{
  response.end(JSON.stringify(body));
 });
 server.listen(port,'127.0.0.1',()=>console.log('Public reference listens on loopback port '+port));void sync();setInterval(()=>{void sync();},120000).unref();
+void newsroom.warmTranslations();
 void newsroom.sync();setInterval(()=>{void newsroom.sync();},NEWS_INTERVAL).unref();
 
 void newsroom.syncPhotos();setInterval(()=>{void newsroom.syncPhotos();},1800000).unref();
 
 void newsroom.syncChannels();setInterval(()=>{void newsroom.syncChannels();},NEWS_INTERVAL).unref();
+
+void newsroom.syncMedia();setInterval(()=>{void newsroom.syncMedia();},600000).unref();

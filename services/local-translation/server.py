@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 import re
 import threading
 from functools import lru_cache
@@ -11,6 +12,7 @@ from pathlib import Path
 import ctranslate2
 import sentencepiece
 from opencc import OpenCC
+from text_quality import prepare_english, split_sentences, postprocess, quality_issues
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', required=True)
@@ -19,22 +21,30 @@ args = parser.parse_args()
 root = Path(args.model).resolve()
 model = next(root.rglob('model.bin')).parent
 tokenizer = sentencepiece.SentencePieceProcessor(model_file=str(next(root.rglob('sentencepiece.model'))))
-engine = ctranslate2.Translator(str(model), device='cpu', compute_type='int8', intra_threads=4, inter_threads=1)
+threads = int(os.environ.get('NOBI_TRANSLATION_THREADS', '4'))
+if not 1 <= threads <= 4:
+    raise SystemExit('NOBI_TRANSLATION_THREADS must be between 1 and 4.')
+engine = ctranslate2.Translator(str(model), device='cpu', compute_type='int8', intra_threads=threads, inter_threads=1)
 simplify = OpenCC('t2s')
 lock = threading.Lock()
-glossary = {'Hamilton': '汉密尔顿', 'Verstappen': '维斯塔潘', 'Antonelli': '安东内利', 'Leclerc': '勒克莱尔', 'Norris': '诺里斯', 'Piastri': '皮亚斯特里', 'Russell': '拉塞尔', 'Ferrari': '法拉利', 'McLaren': '迈凯伦', 'Mercedes': '梅赛德斯', 'Grand Prix': '大奖赛', 'Formula 1': '一级方程式', 'F1': 'F1'}
-
-
 @lru_cache(maxsize=2000)
 def translate(text):
     if not text:
         return ''
-    tokens = tokenizer.encode(text, out_type=str)
-    result = engine.translate_batch([tokens], beam_size=4, replace_unknowns=True, max_decoding_length=300, repetition_penalty=1.1)[0]
-    output = simplify.convert(tokenizer.decode(result.hypotheses[0])).strip()
-    for english, chinese in glossary.items():
-        output = re.sub(r'\b' + re.escape(english) + r'\b', chinese, output, flags=re.I)
-    return output.replace('哈密顿', '汉密尔顿')
+    sentences = split_sentences(prepare_english(text))
+    tokens = [tokenizer.encode(sentence, out_type=str) for sentence in sentences]
+    # The packaged OPUS sentence model has a short context window. Never silently
+    # truncate long clauses or publish a partially translated description.
+    if any(len(sentence) > 150 for sentence in tokens):
+        return None
+    results = engine.translate_batch(tokens, beam_size=4, replace_unknowns=True, max_decoding_length=600, length_penalty=0.2)
+    # Argos detokenizes copied out-of-vocabulary pieces by joining them. Calling
+    # SentencePiece.decode can leave its word-boundary marker in news names.
+    outputs = [postprocess(sentence, simplify.convert(''.join(result.hypotheses[0]).replace('▁', ' ')).strip()) for sentence, result in zip(sentences, results)]
+    if any(quality_issues(sentence, output) for sentence, output in zip(sentences, outputs)):
+        return None
+    output = ''.join(outputs)
+    return output if not quality_issues(text, output) else None
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -64,16 +74,19 @@ class Handler(BaseHTTPRequestHandler):
             self.connection.settimeout(10)
             body = json.loads(self.rfile.read(length))
             texts = body['texts']
+            source = body.get('source', 'en')
+            if source not in ('en', 'zh') or body.get('target', 'zh-CN') != 'zh-CN':
+                raise ValueError()
             if not isinstance(texts, list) or not 1 <= len(texts) <= 40 or any(not isinstance(text, str) or len(text) > 1200 or any(ord(char) < 32 for char in text) for text in texts):
                 raise ValueError()
             if not lock.acquire(blocking=False):
                 self.send_json(429, {'status': 'busy'})
                 return
             try:
-                translations = [translate(text) for text in texts]
+                translations = [simplify.convert(text) if source == 'zh' else translate(text) for text in texts]
             finally:
                 lock.release()
-            self.send_json(200, {'translations': translations, 'engine': 'argos-en-zh-1.9', 'inputHash': hashlib.sha256(json.dumps(texts, ensure_ascii=False).encode()).hexdigest()})
+            self.send_json(200, {'translations': translations, 'engine': 'argos-en-zh-1.9-f1-v2', 'statuses': ['translated' if text is not None else 'unavailable' for text in translations], 'inputHash': hashlib.sha256(json.dumps(texts, ensure_ascii=False).encode()).hexdigest()})
         except (ValueError, KeyError, TypeError, json.JSONDecodeError):
             self.send_json(400, {'status': 'invalid_request'})
 

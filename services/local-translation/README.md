@@ -14,7 +14,9 @@ Invoke-WebRequest -Uri 'https://argos-net.com/v1/translate-en_zh-1_9.argosmodel'
 
 官方备用模型地址：`https://data.argosopentech.com/argospm/v1/translate-en_zh-1_9.argosmodel`。两个地址本次实测 SHA-256 均为 `433e7c4f034d87fbe2353161e05f18646d7999452f801a4e1f0378522b9850ab`，安装脚本拒绝不匹配内容。不要更改校验值来忽略下载错误。
 
-`GET /health` 验证模型就绪；`POST /translate` 接收 `{"texts":["An English headline"]}`，最多 40 段、每段 1200 字符。总请求体最多 64 KiB，单个推理任务持锁执行，其他并发请求返回 busy；不开放 CORS。只有可信本机进程应连接该服务，不要映射到公网。`scripts/local-translation.ps1 status/stop` 按保存的 PID、启动时间和命令行识别本项目进程。
+`GET /health` 验证模型就绪；`POST /translate` 接收 `{"texts":["An English headline"],"source":"en","target":"zh-CN"}`，最多 40 段、每段 1200 字符。`source` 默认 `en`；设为 `zh` 时仅通过 OpenCC 转简体，不送入英文模型。总请求体最多 64 KiB，单个推理任务持锁执行，其他并发请求返回 busy；不开放 CORS。只有可信本机进程应连接该服务，不要映射到公网。`scripts/local-translation.ps1 status/stop` 按保存的 PID、启动时间和命令行识别本项目进程。
+
+公开新闻服务 `services/public-reference` 默认使用上述本地翻译地址，批量处理英文新闻标题和公开摘要。可通过 `NEWS_TRANSLATION_URL` 指定兼容端点，或用 `NEWS_TRANSLATION_ENABLED=false` 关闭本地请求。端点需要与新闻 API 一起运行；停用时仅有配额受限的 MyMemory 后备翻译，未完成的条目保持待翻译状态。此前 Java API 的启用规则见下文。
 
 API 的 `NEWS_TRANSLATION_ENABLED=true` 启用调用，通用部署默认关闭。项目的 local profile 默认启用；本轮独立 5290 预览显式启用。模型、虚拟环境与日志保存在 Git 忽略的 `.tools/`、`.cache/` 中，不把数十 MB 权重加入仓库。
 

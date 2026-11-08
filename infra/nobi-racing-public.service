@@ -10,6 +10,7 @@ WorkingDirectory=/opt/nobi-racing/current/reference
 ExecStart=/opt/nobi-racing/runtime/bin/node --max-old-space-size=96 server.mjs
 Environment=PORT=5292
 Environment=STATE_DIR=/var/lib/nobi-racing
+Environment=NEWS_TRANSLATION_BATCH_SIZE=10
 StateDirectory=nobi-racing
 Restart=on-failure
 RestartSec=10

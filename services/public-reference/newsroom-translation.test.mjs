@@ -1,0 +1,72 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {tmpdir} from 'node:os';
+import {createHeadlineTranslator} from './newsroom-translation.mjs';
+
+const local='http://127.0.0.1:5291/translate';
+const temporary=()=>mkdtemp(tmpdir()+'/nobi-news-translation-');
+const headlines=count=>Array.from({length:count},(_,index)=>({title:`F1 breaking news number ${index}: the latest detailed development from the paddock`,language:'en'}));
+
+test('local translation clears more than four titles and the 4000 character fallback quota in bounded batches',async()=>{
+ const directory=await temporary(),batches=[];
+ const translate=await createHeadlineTranslator(directory,{}, {endpoint:local,fetchImpl:async(url,request)=>{
+  assert.equal(url,local);const body=JSON.parse(request.body);assert.equal(body.source,'en');assert.equal(body.target,'zh-CN');batches.push(body.texts.length);
+  return Response.json({translations:body.texts.map(text=>'中文新闻：'+text.match(/number (\d+)/)[1])});
+ }});
+ const items=headlines(85);await translate(items);assert.deepEqual(batches,[40,40,5]);assert.ok(items.every(item=>item.titleZh?.startsWith('中文新闻：')&&item.translation==='machine'&&item.translationProvider==='local'));
+ assert.equal(JSON.parse(await readFile(directory+'/headline-translations.json','utf8')).used,0);
+ await translate(headlines(85));assert.deepEqual(batches,[40,40,5]);
+ const cached=await createHeadlineTranslator(directory,{}, {endpoint:local,fetchImpl:()=>{throw Error('A cached reader translation must not use the network');}});
+ assert.equal(await cached.text(items[0].title),'中文新闻：0');
+});
+
+test('traditional Chinese normalization uses OpenCC mode, never the English model',async()=>{
+ const translate=await createHeadlineTranslator(await temporary(),{}, {endpoint:local,fetchImpl:async(url,request)=>{
+  const body=JSON.parse(request.body);if(url!==local)return Response.json({responseStatus:403});
+  assert.equal(body.source,'zh');assert.equal(body.target,'zh-CN');return Response.json({translations:body.texts.map(()=> '车队夺得世界冠军')});
+ }});
+ const [item]=await translate([{title:'車隊奪得世界冠軍',language:'zh'}]);assert.equal(item.titleZh,'车队夺得世界冠军');assert.equal(item.translation,'original');
+ assert.equal(await translate.text('車隊奪得世界冠軍',{source:'zh'}),'车队夺得世界冠军');
+});
+
+test('low CPU deployment uses a validated smaller batch without truncating the title queue',async()=>{
+ const previous=process.env.NEWS_TRANSLATION_BATCH_SIZE,batches=[];
+ try{
+  process.env.NEWS_TRANSLATION_BATCH_SIZE='10';
+  const translate=await createHeadlineTranslator(await temporary(),{}, {endpoint:local,fetchImpl:async(_url,request)=>{const texts=JSON.parse(request.body).texts;batches.push(texts.length);return Response.json({translations:texts.map(()=> '已完成中文新闻翻译')});}});
+  const items=headlines(23);await translate(items);assert.deepEqual(batches,[10,10,3]);assert.ok(items.every(item=>item.titleZh==='已完成中文新闻翻译'));
+  for(const batchSize of [0,41,1.5,'invalid'])await assert.rejects(createHeadlineTranslator(await temporary(),{}, {batchSize}),/integer from 1 to 40/);
+ }finally{if(previous===undefined)delete process.env.NEWS_TRANSLATION_BATCH_SIZE;else process.env.NEWS_TRANSLATION_BATCH_SIZE=previous;}
+});
+
+test('unavailable local provider opens a circuit, leaves untranslatable records pending and retries after recovery',async()=>{
+ let time=100000,localCalls=0,available=false;
+ const translate=await createHeadlineTranslator(await temporary(),{}, {endpoint:local,now:()=>time,fetchImpl:async(url,request)=>{
+  if(url!==local)return Response.json({responseStatus:403,responseData:{translatedText:'MYMEMORY WARNING: quota'}});
+  localCalls++;if(!available)throw Error('offline');return Response.json({translations:JSON.parse(request.body).texts.map(()=> '恢复后的中文新闻')});
+ }});
+ const items=headlines(12);await translate(items);assert.equal(localCalls,1);assert.ok(items.every(item=>item.titleZh===null&&item.translation==='pending'));
+ assert.equal(await translate.text('F1 another update'),null);assert.equal(localCalls,1);
+ available=true;time+=61000;await translate(items);assert.equal(localCalls,2);assert.ok(items.every(item=>item.titleZh==='恢复后的中文新闻'));
+});
+
+test('malformed machine output is rejected, concurrent reader requests share a serialized persistent cache',async()=>{
+ let calls=0;
+ const translate=await createHeadlineTranslator(await temporary(),{}, {endpoint:local,fetchImpl:async(url,request)=>{
+  if(url!==local)return Response.json({responseStatus:403});calls++;const texts=JSON.parse(request.body).texts;
+  return Response.json({translations:texts.map(text=>text==='F1 unsafe output'?'<script>中文</script>':'最新中文消息')});
+ }});
+ assert.equal(await translate.text('F1 unsafe output'),null);
+ const result=await Promise.all([translate.text('F1 safe update'),translate.text('F1 safe update')]);assert.deepEqual(result,['最新中文消息','最新中文消息']);assert.equal(calls,2);
+});
+
+test('residual English, overlong card titles and obsolete local machine cache do not count as Chinese translations',async()=>{
+ const directory=await temporary(),title='F1 latest quality probe',key=createHash('sha256').update('v4:en:zh-CN:'+title).digest('hex');
+ await writeFile(directory+'/headline-translations.json',JSON.stringify({day:new Date().toISOString().slice(0,10),used:4000,values:{[key]:'质量不足的旧中文缓存'},providers:{[key]:'local'}}));
+ const translate=await createHeadlineTranslator(directory,{}, {endpoint:local,fetchImpl:async()=>Response.json({translations:['中文 English leftover']})});
+ const [item]=await translate([{title,language:'en'}]);assert.equal(item.titleZh,null);assert.equal(item.translation,'pending');
+ const long=await createHeadlineTranslator(await temporary(),{}, {endpoint:local,fetchImpl:async()=>Response.json({translations:['中'.repeat(701)]})});
+ const [oversized]=await long([{title:'F1 short title',language:'en'}]);assert.equal(oversized.titleZh,null);assert.equal(oversized.translation,'pending');
+});

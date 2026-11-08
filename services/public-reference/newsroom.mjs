@@ -5,7 +5,8 @@ import {setImmediate as yieldIO} from 'node:timers/promises';
 import {createPhotoLibrary} from './newsroom-photos.mjs';
 import {createNewsChannels} from './newsroom-channels.mjs';
 import {createHeadlineTranslator} from './newsroom-translation.mjs';
-import {hasReviewedBody} from './newsroom-reader.mjs';
+import {hasReviewedBody,createArticleReader} from './newsroom-reader.mjs';
+import {createNewsMedia} from './newsroom-media.mjs';
 import {grandsPrix,teams} from './config.mjs';
 export const NEWS_INTERVAL=120000,NEWS_TTL=6*3600000;
 export const GDELT='https://www.gdeltproject.org/';
@@ -54,13 +55,15 @@ export async function createNewsroom(stateDir,names){
  try{const value=JSON.parse(await readFile(cache,'utf8').catch(()=>readFile(new URL('./newsroom-seed.json',import.meta.url),'utf8')));if(value.version===1&&Array.isArray(value.items)&&value.items.length<=300&&value.items.every(item=>publisherUrl(item.url)&&typeof item.title==='string'&&!/[<>]/.test(item.title))){items=value.items;processed=value.processed||[];syncedAt=value.syncedAt;datasetAt=value.datasetAt;streamHealth=value.channels||[];}}catch{/* First sync */}
  await translate(items,false);
  const extra=await createNewsChannels(stateDir,value=>metadataRecord(value,topics));await translate(extra.state().items.filter(i=>!i.openBrief),false);
+ const mediaLibrary=await createNewsMedia(stateDir,translate);
+ const readIndexed=createArticleReader({translateText:translateImpl.text,validateUrl:publisherUrl});
  const state=()=>{
   const aux=extra.state(),all=new Map(items.filter(i=>Date.now()-Date.parse(i.indexedAt)<7*86400000).map(i=>[i.url,{...i,channel:i.channel||'gkg'}]));
   for(const item of aux.items){const old=all.get(item.url);all.set(item.url,old?{...old,...item,indexedAt:old.indexedAt<item.indexedAt?old.indexedAt:item.indexedAt}:item);}
   const latest=[syncedAt,...aux.channels.map(c=>c.syncedAt)].filter(Boolean).sort().at(-1)||null,available=latest&&Date.now()-Date.parse(latest)<7*86400000;
   const channels=[...streamHealth,...aux.channels],healthy=channels.some(c=>c.id!=='open-calendar'&&c.status==='ready'&&c.syncedAt&&Date.now()-Date.parse(c.syncedAt)<3600000);
   const combined=available?[...all.values()].sort((a,b)=>b.indexedAt.localeCompare(a.indexedAt)).slice(0,300):[];
-  return {status:!available?(error?'unavailable':'pending'):healthy?'ready':'delayed',source:'GDELT Project',sourceUrl:GDELT,termsUrl:'https://www.gdeltproject.org/about.html#termsofuse',checkedAt:[checkedAt,...channels.map(c=>c.checkedAt)].filter(Boolean).sort().at(-1)||null,syncedAt:latest,datasetAt:[datasetAt,...aux.channels.map(c=>c.datasetAt)].filter(Boolean).sort().at(-1)||null,checkIntervalSeconds:NEWS_INTERVAL/1000,sourceCadenceMinutes:15,expiresAt:latest?new Date(Date.parse(latest)+7*86400000).toISOString():null,channels,publisherCount:new Set(combined.map(i=>i.publisher)).size,photos:photoLibrary.state(),topics:topics.map(({terms:_terms,...topic})=>topic),items:combined.map(item=>({...item,bodyAvailable:!!item.openBrief||hasReviewedBody(item.url),openBrief:undefined,scheduleSignature:undefined})),error:healthy?null:error?'部分新闻通道延迟，显示已获取内容 / Some channels are delayed; showing collected stories':null};
+  return {status:!available?(error?'unavailable':'pending'):healthy?'ready':'delayed',source:'GDELT Project',sourceUrl:GDELT,termsUrl:'https://www.gdeltproject.org/about.html#termsofuse',checkedAt:[checkedAt,...channels.map(c=>c.checkedAt)].filter(Boolean).sort().at(-1)||null,syncedAt:latest,datasetAt:[datasetAt,...aux.channels.map(c=>c.datasetAt)].filter(Boolean).sort().at(-1)||null,checkIntervalSeconds:NEWS_INTERVAL/1000,sourceCadenceMinutes:15,expiresAt:latest?new Date(Date.parse(latest)+7*86400000).toISOString():null,channels,publisherCount:new Set(combined.map(i=>i.publisher)).size,photos:photoLibrary.state(),media:mediaLibrary.state(),topics:topics.map(({terms:_terms,...topic})=>topic),items:combined.map(item=>({...item,bodyAvailable:!!item.openBrief||hasReviewedBody(item.url),openBrief:undefined,scheduleSignature:undefined})),error:healthy?null:error?'部分新闻通道延迟，显示已获取内容 / Some channels are delayed; showing collected stories':null};
  };
  const readerItem=id=>{const item=extra.state().items.find(i=>i.id===id);return item?.openBrief?item:null;};
  const publish=()=>{const message='event: newsroom\ndata: '+JSON.stringify(state())+'\n\n';for(const response of listeners)if(!response.write(message)){listeners.delete(response);response.end();}};
@@ -84,5 +87,10 @@ export async function createNewsroom(stateDir,names){
  };
  let syncingExtra=false;
  const syncChannels=async()=>{if(syncingExtra)return;syncingExtra=true;try{await extra.sync(publish);await translate(extra.state().items.filter(i=>!i.openBrief));publish();}catch(cause){console.error('News channel refresh: '+cause.name);}finally{syncingExtra=false;}};
- return {state,sync,syncChannels,readerItem,async syncPhotos(){await photoLibrary.sync();publish();},servePhoto:photoLibrary.serve,listen(request,response){if(listeners.size>=100){response.writeHead(503);response.end('{}');return;}response.writeHead(200,{'Content-Type':'text/event-stream; charset=utf-8','Cache-Control':'no-store','X-Accel-Buffering':'no'});response.write('event: newsroom\ndata: '+JSON.stringify(state())+'\n\n');listeners.add(response);const heartbeat=setInterval(()=>response.write(': heartbeat\n\n'),15000);heartbeat.unref();request.on('close',()=>{clearInterval(heartbeat);listeners.delete(response);});}};
+ return {state,sync,syncChannels,readerItem,async warmTranslations(){await translate([...items,...extra.state().items.filter(item=>!item.openBrief)]);publish();},async syncMedia(){await mediaLibrary.sync(publish);},async readArticle(id,data){
+  const item=readerItem(id)||items.find(item=>item.id===id)||extra.state().items.find(item=>item.id===id)||mediaLibrary.readerItem(id);
+  const article=await readIndexed(item,state(),data,names);
+  if(item&&article?.titleZh&&!/准备中|翻译中/.test(article.titleZh)&&item.titleZh!==article.titleZh){item.titleZh=article.titleZh;item.translation='machine';publish();}
+  return article;
+ },async syncPhotos(){await photoLibrary.sync();publish();},servePhoto:photoLibrary.serve,listen(request,response){if(listeners.size>=100){response.writeHead(503);response.end('{}');return;}response.writeHead(200,{'Content-Type':'text/event-stream; charset=utf-8','Cache-Control':'no-store','X-Accel-Buffering':'no'});response.write('event: newsroom\ndata: '+JSON.stringify(state())+'\n\n');listeners.add(response);const heartbeat=setInterval(()=>response.write(': heartbeat\n\n'),15000);heartbeat.unref();request.on('close',()=>{clearInterval(heartbeat);listeners.delete(response);});}};
 }

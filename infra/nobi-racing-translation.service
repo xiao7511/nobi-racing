@@ -1,0 +1,27 @@
+[Unit]
+Description=NOBI Racing offline Simplified Chinese translation
+After=network.target
+
+[Service]
+Type=simple
+DynamicUser=true
+WorkingDirectory=/opt/nobi-racing/current/translation
+ExecStart=/opt/nobi-racing/translation/venv/bin/python /opt/nobi-racing/current/translation/server.py --model /opt/nobi-racing/translation/model --port 5291
+Environment=NOBI_TRANSLATION_THREADS=1
+Environment=OMP_NUM_THREADS=1
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=PYTHONDONTWRITEBYTECODE=1
+Restart=on-failure
+RestartSec=10
+MemoryMax=256M
+CPUQuota=25%
+Nice=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
