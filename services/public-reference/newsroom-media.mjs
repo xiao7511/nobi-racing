@@ -10,6 +10,7 @@ const MAX_AGE=7*86400000;
 const hash=value=>createHash('sha256').update(value).digest('hex').slice(0,24);
 const plain=(value,max=500)=>typeof value==='string'&&value.length>0&&value.length<=max&&!/[<>]/.test(value)&&![...value].some(character=>character.charCodeAt(0)<32);
 const clean=value=>typeof value==='string'?value.replace(/[\r\n\t]+/g,' ').trim():'';
+const editorial=(title,summary)=>!(/\bbet(?:ting|\s*builder)|gambl|\bodds\b|博彩|投注|赔率/i.test(title+' '+(summary||'')));
 function imageUrl(value){
  try{const url=new URL(value);return url.protocol==='https:'&&!url.username&&!url.password&&!url.port&&IMAGE_HOSTS.has(url.hostname)&&!url.search?url.href:null;}catch{return null;}
 }
@@ -66,7 +67,7 @@ export function officialMediaRecords(html,kind,now=Date.now()){
    const url=sourceUrl(kind==='video'?value.url:`/en/latest/article/${value.slug}.${value.id}`,kind);
    const image=imageUrl(kind==='video'?value.thumbnail?.url:value.thumbnail?.image?.url);
    const identified=kind==='video'?typeof value.videoId==='string'&&/^\d{10,24}$/.test(value.videoId)&&url?.endsWith('.'+value.videoId):typeof value.articleType==='string';
-   if(identified&&url&&image&&plain(title)&&recent(date,now)&&value.isProtected===false&&!value.sensitive&&!value.isExclusiveArticle){
+   if(identified&&url&&image&&plain(title)&&editorial(title,summary)&&recent(date,now)&&value.isProtected===false&&!value.sensitive&&!value.isExclusiveArticle){
     const credit=clean(value.thumbnail?.caption).match(/\(Photo by ([^)]+)\)/i)?.[1]||'Formula 1';
     records.set(url,{id:hash(url),kind,title,titleZh:null,url,imageUrl:image,publishedAt:kind==='video'?date:null,updatedAt:date,publisher:'Formula 1',language:'en',originalLanguage:'en',summary:plain(summary,1200)?summary:'',summaryZh:null,credit,
      ...(kind==='video'?{videoId:value.videoId,duration:plain(value.videoDuration,20)?value.videoDuration:null,embedUrl:PLAYER+'?videoId='+value.videoId+'&autoplay=false&playsinline=true'}:{})});
@@ -90,14 +91,21 @@ export async function createNewsMedia(directory,translate=async()=>{},options={}
  const channels=Object.entries(SOURCES).map(([kind,url])=>({kind,url,checkedAt:null,syncedAt:null,error:null}));
  try{
   const value=JSON.parse(await readFile(file,'utf8'));
-  if(Array.isArray(value.photos)&&value.photos.length<=12&&value.photos.every(item=>validRecord(item,'photo')))photos=value.photos;
-  if(Array.isArray(value.videos)&&value.videos.length<=12&&value.videos.every(item=>validRecord(item,'video')))videos=value.videos;
+  if(Array.isArray(value.photos)&&value.photos.length<=12&&value.photos.every(item=>validRecord(item,'photo')))photos=value.photos.filter(item=>editorial(item.title,item.summary));
+  if(Array.isArray(value.videos)&&value.videos.length<=12&&value.videos.every(item=>validRecord(item,'video')))videos=value.videos.filter(item=>editorial(item.title,item.summary));
   for(const channel of channels){const saved=value.channels?.find(item=>item.kind===channel.kind);if(saved?.syncedAt&&Number.isFinite(Date.parse(saved.syncedAt))&&Date.parse(saved.syncedAt)<=now()+300000)channel.syncedAt=saved.syncedAt;}
  }catch{/* First synchronization; no invented seed date. */}
+ const hydrateCachedTitles=async items=>{
+  if(!items.length)return;
+  const previous=new Map(items.map(item=>[item.url,item.titleZh]));
+  try{await translate(items,false);}catch{/* Cache lookups must not prevent fresh media from appearing. */}
+  for(const item of items)if(!item.titleZh)item.titleZh=previous.get(item.url)||null;
+ };
+ await hydrateCachedTitles([...photos,...videos]);
  const state=()=>{
   const available=channels.filter(c=>c.syncedAt&&now()-Date.parse(c.syncedAt)<MAX_AGE),healthy=available.length===channels.length&&channels.every(c=>!c.error&&now()-Date.parse(c.syncedAt)<MEDIA_INTERVAL*3);
   return {status:healthy?'ready':available.length?'delayed':channels.some(c=>c.error)?'unavailable':'pending',checkedAt:channels.map(c=>c.checkedAt).filter(Boolean).sort().at(-1)||null,syncedAt:available.map(c=>c.syncedAt).sort().at(-1)||null,checkIntervalSeconds:MEDIA_INTERVAL/1000,sourceName:'Formula 1',sourceUrl:SOURCES.video,
-   photos:photos.filter(item=>recent(item.updatedAt,now())),videos:videos.filter(item=>recent(item.publishedAt,now())),error:channels.some(c=>c.error)?'官方媒体暂有延迟，恢复后自动同步 / Official media is delayed and will retry automatically':null,
+   photos:photos.filter(item=>recent(item.updatedAt,now())&&editorial(item.title,item.summary)),videos:videos.filter(item=>recent(item.publishedAt,now())&&editorial(item.title,item.summary)),error:channels.some(c=>c.error)?'官方媒体暂有延迟，恢复后自动同步 / Official media is delayed and will retry automatically':null,
    channels:channels.map(c=>({...c,status:!c.syncedAt?'unavailable':c.error||now()-Date.parse(c.syncedAt)>=MEDIA_INTERVAL*3?'delayed':'ready'}))};
  };
  const persist=async()=>{await writeFile(file+'.tmp',JSON.stringify({photos,videos,channels}));await rename(file+'.tmp',file);};
@@ -118,6 +126,7 @@ export async function createNewsMedia(directory,translate=async()=>{},options={}
     const next=officialMediaRecords(await request(channel.url),channel.kind,now());if(!next.length)throw Error('No recent public media entries');
     const previous=channel.kind==='photo'?photos:videos;
     for(const item of next){const old=previous.find(p=>p.url===item.url&&p.title===item.title);if(old){item.titleZh=old.titleZh;item.summaryZh=old.summary===item.summary?old.summaryZh:null;}}
+    await hydrateCachedTitles(next);
     if(channel.kind==='photo')photos=next;else videos=next;
     channel.syncedAt=new Date(now()).toISOString();channel.error=null;
     pending.push(...next);

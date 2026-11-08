@@ -38,15 +38,16 @@ test('every discovered article opens in-app with a real translated public summar
 
 test('source redirect allowlist and failed translation produce a Chinese index note without leaking English into Chinese content',async()=>{
  const urls=[];const reader=createArticleReader({validateUrl:allowed,translateText:async()=>null,fetchImpl:async url=>{urls.push(url);return new Response('',{status:302,headers:{Location:'http://127.0.0.1/private'}});}});
- const article=await reader(discovered,{topics:[]},null);assert.deepEqual(urls,[discovered.url]);assert.equal(article.detailStatus,'index-only');assert.equal(article.translationStatus,'pending');assert.match(article.titleZh,/中文译文准备中/);assert.ok(!article.paragraphsZh.join('').includes(discovered.title));assert.equal(article.originalTitle,discovered.title);
+ const article=await reader(discovered,{topics:[]},null);assert.deepEqual(urls,[discovered.url]);assert.equal(article.detailStatus,'index-only');assert.equal(article.translationStatus,'unavailable');assert.match(article.titleZh,/中文译文暂不可用/);assert.ok(!article.paragraphsZh.join('').includes(discovered.title));assert.equal(article.originalTitle,discovered.title);
  await reader(discovered,{topics:[]},null);assert.equal(urls.length,1);
 });
 
 test('reader caches only source metadata, so changed headlines and recovered translation appear immediately',async()=>{
  let available=false,fetches=0;
  const reader=createArticleReader({validateUrl:allowed,translateText:async()=>available?'完整的中文摘要已恢复':null,fetchImpl:async()=>{fetches++;return new Response('<meta property="og:description" content="'+description+'">',{headers:{'Content-Type':'text/html'}});}});
- const first=await reader(discovered,{topics:[]},null);assert.equal(first.translationStatus,'pending');assert.ok(!first.paragraphsZh.join('').includes(description));
- available=true;const second=await reader({...discovered,title:'F1 changed title'},{topics:[]},null);assert.equal(second.translationStatus,'ready');assert.equal(second.titleZh,'完整的中文摘要已恢复');assert.equal(fetches,1);
+ const first=await reader(discovered,{topics:[]},null);assert.equal(first.translationStatus,'unavailable');assert.ok(!first.paragraphsZh.join('').includes(description));
+ available=true;const second=await reader(discovered,{topics:[]},null);assert.equal(second.translationStatus,'ready');assert.equal(second.titleZh,'完整的中文摘要已恢复');assert.equal(fetches,1);
+ const changed=await reader({...discovered,title:'F1 changed title'},{topics:[]},null);assert.equal(changed.translationStatus,'ready');assert.equal(changed.title,'F1 changed title');assert.equal(fetches,1);
 });
 
 test('a busy background translator cannot block reader navigation; the deduplicated job completes for a later retry',async()=>{
@@ -62,4 +63,15 @@ test('trusted official media descriptions open immediately without another publi
  const reader=createArticleReader({validateUrl:allowed,translateText:()=>{throw Error('Already translated official summary must not queue translation');},fetchImpl:()=>{throw Error('Known official summary must not refetch its article');}});
  const article=await reader({...discovered,titleZh:'官方图片新闻标题',description,descriptionZh:'官方图片新闻的完整中文摘要。'},{topics:[]},null);
  assert.equal(article.translationStatus,'ready');assert.equal(article.detailStatus,'summary');assert.equal(article.paragraphsZh[0],'官方图片新闻的完整中文摘要。');assert.equal(article.paragraphsEn[0],description);
+});
+
+test('reader deadline stays pending, a finished rejection becomes unavailable, and an explicit retry can recover',async()=>{
+ let finish,available=false,fetches=0;const waiting=new Promise(resolve=>{finish=resolve;});
+ const reader=createArticleReader({timeoutMs:20,validateUrl:allowed,translateText:async()=>{await waiting;return available?'恢复后的中文新闻内容':null;},fetchImpl:async()=>{
+  fetches++;return new Response('<meta name="description" content="'+description+'">',{headers:{'Content-Type':'text/html'}});
+ }});
+ const loading=await reader(discovered,{topics:[]},null);assert.equal(loading.translationStatus,'pending');
+ finish();await new Promise(resolve=>setImmediate(resolve));
+ const failed=await reader(discovered,{topics:[]},null);assert.equal(failed.translationStatus,'unavailable');assert.match(failed.titleZh,/暂不可用/);assert.match(failed.paragraphsZh[0],/暂不可用/);
+ available=true;const recovered=await reader(discovered,{topics:[]},null);assert.equal(recovered.translationStatus,'ready');assert.equal(recovered.titleZh,'恢复后的中文新闻内容');assert.equal(fetches,1);
 });

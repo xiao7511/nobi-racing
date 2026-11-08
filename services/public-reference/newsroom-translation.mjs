@@ -22,9 +22,18 @@ export async function createHeadlineTranslator(directory,names={},options={}){
  if(!Number.isInteger(batchCharacters)||batchCharacters<1200||batchCharacters>48000)throw Error('NEWS_TRANSLATION_BATCH_CHARACTERS must be an integer from 1200 to 48000');
  const endpoint=options.endpoint??(process.env.NEWS_TRANSLATION_ENABLED==='false'?'':process.env.NEWS_TRANSLATION_URL||'http://127.0.0.1:5291/translate');
  if(endpoint){const url=new URL(endpoint);if(!['http:','https:'].includes(url.protocol)||url.username||url.password)throw Error('Invalid translation endpoint');}
- let localRetryAt=0,queue=Promise.resolve();
- const enqueue=task=>{const result=queue.then(task);queue=result.catch(()=>{});return result;};
- const persist=async()=>{const keys=Object.keys(cache.values);for(const key of keys.slice(0,Math.max(0,keys.length-1500))){delete cache.values[key];delete cache.providers[key];}await writeFile(path+'.tmp',JSON.stringify(cache));await rename(path+'.tmp',path);};
+ let localRetryAt=0,working=false,persistence=Promise.resolve();
+ const urgent=[],background=[];
+ // One provider request at a time. Readers go first whenever the current bounded
+ // headline batch finishes, rather than waiting behind the whole headline list.
+ const drain=async()=>{
+  if(working)return;working=true;
+  try{while(urgent.length||background.length){const job=(urgent.length?urgent:background).shift();try{job.resolve(await job.task());}catch(error){job.reject(error);}}}finally{working=false;}
+ };
+ const enqueue=(task,priority=false)=>new Promise((resolve,reject)=>{(priority?urgent:background).push({task,resolve,reject});void drain();});
+ // Provider completion and headline publication can both persist. Serialize the
+ // complete atomic write so simultaneous readers never rename the same temp file.
+ const persist=afterWrite=>{const result=persistence.then(async()=>{const keys=Object.keys(cache.values);for(const key of keys.slice(0,Math.max(0,keys.length-1500))){delete cache.values[key];delete cache.providers[key];}await writeFile(path+'.tmp',JSON.stringify(cache));await rename(path+'.tmp',path);await afterWrite?.();});persistence=result.catch(()=>{});return result;};
  const refreshDay=()=>{const day=new Date(now()).toISOString().slice(0,10);if(cache.day!==day){cache.day=day;cache.used=0;}};
  const readJson=async(response,max=100000)=>{
   if(!response.ok||!response.body)throw Error('Translation unavailable');
@@ -32,9 +41,11 @@ export async function createHeadlineTranslator(directory,names={},options={}){
   try{for(;;){const {value,done}=await reader.read();if(done)break;size+=value.length;if(size>max)throw Error('Translation too large');chunks.push(value);}}finally{await reader.cancel();}
   return JSON.parse(Buffer.concat(chunks).toString('utf8'));
  };
- async function translateValues(entries,allowRequests=true){
+ async function translateValues(entries,allowRequests=true,{priority=false,onBatch}={}){
   refreshDay();
-  const output=entries.map(entry=>{const key=cacheKey(entry.value,entry.source,entry.target);return {...entry,key,valueZh:usable(cache.values[key],entry.target)&&cache.values[key].length<=(entry.maxLength||8000)?cache.values[key]:null,provider:cache.providers[key]||'mymemory'};});
+  const refresh=entry=>{const value=cache.values[entry.key];if(usable(value,entry.target)&&value.length<=(entry.maxLength||8000)){entry.valueZh=value;entry.provider=cache.providers[entry.key]||'mymemory';}};
+  const output=entries.map(entry=>{const key=cacheKey(entry.value,entry.source,entry.target),result={...entry,key,valueZh:usable(entry.existing,entry.target)&&entry.existing.length<=(entry.maxLength||8000)?entry.existing:null,provider:entry.provider||'mymemory'};refresh(result);return result;});
+  if(onBatch)await onBatch(output);
   if(!allowRequests)return output;
   // Complete all missing English headlines in bounded batches, rather than stopping after four.
   for(const source of ['en','zh']){
@@ -42,50 +53,71 @@ export async function createHeadlineTranslator(directory,names={},options={}){
    for(let start=0;endpoint&&now()>=localRetryAt&&start<local.length;){
    const batch=[];let characters=0;
    while(start<local.length&&batch.length<batchSize){const entry=local[start];if(batch.length&&characters+entry.value.length>batchCharacters)break;batch.push(entry);characters+=entry.value.length;start++;}
-   try{
-    const response=await fetchImpl(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({texts:batch.map(entry=>entry.value),source,target:'zh-CN'}),signal:AbortSignal.timeout(45000),redirect:'error'});
-    const result=await readJson(response);
-    if(!Array.isArray(result.translations)||result.translations.length!==batch.length)throw Error('Invalid local translation batch');
-    batch.forEach((entry,index)=>{const value=typeof result.translations[index]==='string'?result.translations[index].trim():null;if(!usable(value,entry.target)||value.length>(entry.maxLength||8000))return;entry.valueZh=value;entry.provider='local';cache.values[entry.key]=value;cache.providers[entry.key]='local';});
-   }catch{localRetryAt=now()+60000;}
+   await enqueue(async()=>{
+    batch.forEach(refresh);const pending=batch.filter(entry=>!entry.valueZh);
+    if(!pending.length||now()<localRetryAt)return;
+    try{
+     const response=await fetchImpl(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({texts:pending.map(entry=>entry.value),source,target:'zh-CN'}),signal:AbortSignal.timeout(45000),redirect:'error'});
+     const result=await readJson(response);
+     if(!Array.isArray(result.translations)||result.translations.length!==pending.length)throw Error('Invalid local translation batch');
+     pending.forEach((entry,index)=>{const value=typeof result.translations[index]==='string'?result.translations[index].trim():null;if(!usable(value,entry.target)||value.length>(entry.maxLength||8000))return;entry.valueZh=value;entry.provider='local';cache.values[entry.key]=value;cache.providers[entry.key]='local';});
+    }catch{localRetryAt=now()+60000;}
+   },priority);
+   if(onBatch)await onBatch(batch);
    }
   }
   let requests=0;
   for(const entry of output){
-   if(entry.valueZh||entry.source==='zh'&&entry.target==='zh-CN'||!languages.has(entry.source)||requests>=4||cache.used+entry.value.length>4000||Buffer.byteLength(entry.value)>500)continue;
-   requests++;cache.used+=entry.value.length;
-   try{
+   if(entry.valueZh||entry.source==='zh'&&entry.target==='zh-CN'||!languages.has(entry.source)||requests>=4||Buffer.byteLength(entry.value)>500)continue;
+   const attempted=await enqueue(async()=>{
+    refreshDay();refresh(entry);
+    if(entry.valueZh||requests>=4||cache.used+entry.value.length>4000)return false;
+    requests++;cache.used+=entry.value.length;
+    try{
     let query=entry.value;
     if(entry.source==='en')for(const [name,label]of Object.entries(names).sort((a,b)=>b[0].length-a[0].length)){const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');query=query.replace(new RegExp(escaped,'gi'),label);}
-    if(Buffer.byteLength(query)>500)continue;
+    if(Buffer.byteLength(query)>500)return true;
     const url=new URL('https://api.mymemory.translated.net/get');url.searchParams.set('q',query);url.searchParams.set('langpair',entry.source==='zh'?'zh-CN|en':entry.source+'|'+entry.target);url.searchParams.set('mt','1');
     const result=await readJson(await fetchImpl(url,{signal:AbortSignal.timeout(12000),redirect:'error'}),50000),value=typeof result.responseData?.translatedText==='string'?result.responseData.translatedText.trim():null;
-    if(result.responseStatus!==200||!usable(value,entry.target)||value.length>(entry.maxLength||8000))continue;
-    if(entry.target==='zh-CN'&&(/F1冠$|[（(][^）)]*$/i.test(value)||(value.match(/“/g)||[]).length!==(value.match(/”/g)||[]).length))continue;
+    if(result.responseStatus!==200||!usable(value,entry.target)||value.length>(entry.maxLength||8000))return true;
+    if(entry.target==='zh-CN'&&(/F1冠$|[（(][^）)]*$/i.test(value)||(value.match(/“/g)||[]).length!==(value.match(/”/g)||[]).length))return true;
     entry.valueZh=value;entry.provider='mymemory';cache.values[entry.key]=value;cache.providers[entry.key]='mymemory';
-   }catch{/* Leave pending; a later synchronization or reader request retries. */}
+    }catch{/* A later synchronization or reader request may retry. */}
+    return true;
+   },priority);
+   if(onBatch&&(attempted||entry.valueZh))await onBatch([entry]);
   }
   return output;
  }
- const translate=(items,allowRequests=true)=>enqueue(async()=>{
+ const translate=async(items,allowRequests=true)=>{
   const missing=[],chineseTitles=[];
   for(const item of items){
    const source=item.originalLanguage||item.language,chineseSource=source==='zh',target=chineseSource?'en':'zh-CN',field=chineseSource?'titleEn':'titleZh',status=chineseSource?'translationEn':'translation';
    if(chineseSource){item.titleZh=item.title;item.translation='original';chineseTitles.push({item,source:'zh',target:'zh-CN',value:item.title});}else if(source==='en'){item.titleEn=item.title;item.translationEn='original';}else{item.titleEn=null;item.translationEn='unavailable';}
    const reviewed=chineseSource?en:zh;
    if(Object.hasOwn(reviewed,item.title)){item[field]=reviewed[item.title];item[status]='edited';continue;}
-   missing.push({item,source,target,field,status,value:item.title,maxLength:item.title.length<=500?700:2000});
+   missing.push({item,source,target,field,status,value:item.title,maxLength:item.title.length<=500?700:2000,existing:item[field],provider:item.translationProvider});
   }
-  const normalized=await translateValues(chineseTitles,allowRequests);normalized.forEach(entry=>{if(entry.valueZh)entry.item.titleZh=entry.valueZh;});
-  const values=await translateValues(missing,allowRequests);
-  values.forEach(entry=>{const value=entry.valueZh&&entry.valueZh.length<=(entry.value.length<=500?700:2000)?entry.valueZh:null;entry.item[entry.field]=value;entry.item[entry.status]=value?'machine':'pending';entry.item.translationProvider=value?entry.provider:null;});
-  await persist();return items;
- });
+  await translateValues([...chineseTitles,...missing],allowRequests,{onBatch:async entries=>{
+   entries.forEach(entry=>{
+    if(!entry.field){if(entry.valueZh)entry.item.titleZh=entry.valueZh;return;}
+    const value=entry.valueZh;entry.item[entry.field]=value;entry.item[entry.status]=value?'machine':'pending';entry.item.translationProvider=value?entry.provider:null;
+    if(value){cache.values[entry.key]=value;cache.providers[entry.key]=entry.provider;}
+   });
+   await persist(()=>options.onProgress?.(items));
+  }});
+  let unavailable=false;
+  for(const entry of missing)if(!usable(entry.item[entry.field],entry.target)){
+   entry.item[entry.status]='unavailable';unavailable=true;
+  }
+  if(unavailable)await persist(()=>options.onProgress?.(items));
+  return items;
+ };
  // The reader shares the same serialized provider and cache as the background headline queue.
- translate.text=(value,{source='en',target='zh-CN',allowRequests=true}={})=>enqueue(async()=>{
+ translate.text=async(value,{source='en',target='zh-CN',allowRequests=true}={})=>{
   if(typeof value!=='string'||!value.trim()||value.length>1200||/[<>]/.test(value)||[...value].some(char=>char.charCodeAt(0)<32))return null;
   const reviewed=target==='zh-CN'?zh:en;if(Object.hasOwn(reviewed,value))return reviewed[value];
-  const [entry]=await translateValues([{value,source,target}],allowRequests);await persist();return entry.valueZh||(source==='zh'&&target==='zh-CN'?value:null);
- });
+  const [entry]=await translateValues([{value,source,target}],allowRequests,{priority:true});await persist();return entry.valueZh||(source==='zh'&&target==='zh-CN'?value:null);
+ };
  return translate;
 }

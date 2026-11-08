@@ -1,5 +1,5 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import {zipSync,strToU8} from 'fflate';import {createHash} from 'node:crypto';import {mkdtemp} from 'node:fs/promises';import {tmpdir} from 'node:os';
-import {parseRecord,topicsFor,indexFile,readGkg,createNewsroom} from './newsroom.mjs';import {createHeadlineTranslator} from './newsroom-translation.mjs';
+import {parseRecord,metadataRecord,topicsFor,indexFile,readGkg,createNewsroom} from './newsroom.mjs';import {createHeadlineTranslator} from './newsroom-translation.mjs';
 import {photoMetadata} from './newsroom-photos.mjs';
 const topics=topicsFor({'Lewis HAMILTON':'刘易斯·汉密尔顿','Ferrari':'法拉利'});
 function line(title='F1: Lewis Hamilton and Ferrari at Mexico City Grand Prix',url='https://www.planetf1.com/news/test-story'){const fields=Array(27).fill('');fields[1]=new Date(Date.now()-3600000).toISOString().replace(/[-:TZ.]/g,'').slice(0,14);fields[4]=url;fields[26]='<PAGE_TITLE>'+title+'</PAGE_TITLE>';return fields.join('\t');}
@@ -12,6 +12,19 @@ test('manifest URLs are constrained and ZIP stream parsing verifies raw compress
  assert.throws(()=>indexFile(`${bytes.length} ${md5} http://evil.example/gdeltv2/20261103000000.gkg.csv.zip`));
  const result=await readGkg(new Response(bytes),topics);assert.equal(result.md5,md5);assert.equal(result.records.length,1);assert.equal(result.records[0].title,'F1 Ferrari & Lewis Hamilton news');
  await assert.rejects(readGkg(new Response(zipSync({'../../outside.csv':strToU8('x')})),topics));
+});
+
+test('GKG and discovery use the same source-language inference rather than sending Spanish titles to the English model',()=>{
+ for(const [url,title,language]of [
+  ['https://as.com/motor/f1/norris-hamilton/','F1 | Tercera seguida de Norris y doble sanción para Hamilton','es'],
+  ['https://www.grandepremio.com.br/f1/noticias/hamilton/','F1: Hamilton recebe punição no Brasil','pt'],
+  ['https://www.motorsport-total.com/formel-1/news/hamilton','F1: Hamilton in Brasilien bestraft','de'],
+  ['https://www.gazzetta.it/Formula-1/hamilton.shtml','F1: Hamilton penalizzato in Brasile','it'],
+ ]){
+  const item=parseRecord(line(title,url),topics);assert.equal(item.originalLanguage,language);assert.equal(item.language,'en');
+  assert.equal(metadataRecord({title,url,indexedAt:item.indexedAt},topics).originalLanguage,language);
+  assert.equal(metadataRecord({title,url,indexedAt:item.indexedAt,originalLanguage:'ENGLISH'},topics).originalLanguage,'en','Explicit provider language remains authoritative');
+ }
 });
 test('reviewed Chinese headlines are tied to exact indexed titles and never require translation requests',async()=>{
  const directory=await mkdtemp(tmpdir()+'/nobi-headlines-');const translate=await createHeadlineTranslator(directory);const items=[{title:'George Russell breaks silence after Kimi Antonelli seals F1 2026 title',language:'en'},{title:'20岁零68天！安东内利成为F1历史上最年轻世界冠军',language:'zh'}];await translate(items,false);assert.equal(items[0].translation,'edited');assert.match(items[0].titleZh,/拉塞尔/);assert.equal(items[1].titleZh,items[1].title);assert.equal(items[1].translationEn,'edited');assert.match(items[1].titleEn,/youngest world champion/);

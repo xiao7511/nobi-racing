@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-11-08T14:03:51.534Z",
+  "source": "Captured live NOBI feeds with local rebuilt frontend",
+  "results": [
+    {
+      "engine": "edge-390",
+      "carouselSlides": 3,
+      "photoLink": true,
+      "bothSwipeDirections": true,
+      "settingsSwipe": true,
+      "verticalPreserved": true,
+      "noPageErrors": true
+    },
+    {
+      "engine": "edge-1440",
+      "carouselSlides": 3,
+      "photoLink": true,
+      "bothSwipeDirections": true,
+      "settingsSwipe": true,
+      "verticalPreserved": true,
+      "noPageErrors": true
+    },
+    {
+      "engine": "webkit-390",
+      "carouselSlides": 3,
+      "photoLink": true,
+      "bothSwipeDirections": true,
+      "settingsSwipe": true,
+      "verticalPreserved": true,
+      "noPageErrors": true
+    }
+  ]
+}

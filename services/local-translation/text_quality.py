@@ -20,6 +20,8 @@ GLOSSARY.update({
     'Safety Car': '安全车', 'Virtual Safety Car': '虚拟安全车',
     'pit stop': '进站', 'parc ferme': '封闭车检区', 'paddock': '围场',
     'sprint': '冲刺赛', 'WATCH': '视频', 'HIGHLIGHTS': '集锦',
+    'PU': '动力单元', 'power unit': '动力单元',
+    'internal combustion engine': '内燃机',
 })
 ALIASES = {
     'Russell': {'罗素': '拉塞尔'},
@@ -30,6 +32,9 @@ ALIASES = {
     'McLaren': {'麦克拉伦': '迈凯伦', '迈克拉伦': '迈凯伦'},
     'Albon': {'阿尔邦': '阿尔本'},
     'Camara': {'卡马拉': '卡马拉'},
+    'Mercedes': {'奔驰': '梅赛德斯'},
+    'Cadillac': {'卡迪拉克': '凯迪拉克'},
+    'Perez': {'佩雷斯': '佩雷兹'},
 }
 ABBREVIATIONS = frozenset(('F1', 'F2', 'F3', 'FIA', 'DRS', 'ERS', 'KERS', 'MGU',
                           'GP', 'GP2', 'GP3', 'V6', 'V8', 'V10', 'V12', 'ABS',
@@ -43,6 +48,11 @@ def _word(pattern):
 
 def prepare_english(text):
     """Expand terse, ambiguous racing terms using their normal English meanings."""
+    # Publisher branding is already attributed separately and can corrupt the
+    # small model's sentence boundary (for example a copied '| Site.com').
+    text = re.sub(r'\s+\|\s+(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}/?\s*$', '', text)
+    text = re.sub(r'\bPU\b', 'power unit', text)
+    text = re.sub(r'\bICE\b', 'internal combustion engine', text)
     text = re.sub(r'\brues\b', 'regrets', text, flags=re.I)
     text = re.sub(r'\brued\b', 'regretted', text, flags=re.I)
     text = re.sub(r'\brue\b', 'regret', text, flags=re.I)
@@ -97,6 +107,10 @@ def postprocess(source, output):
         output = output.replace('首播', '首次').replace('第一届', '首次')
     if re.search(r'\bgrid\b', source, re.I):
         output = output.replace('电网', '发车位')
+    if re.search(r'\b(?:PU|power unit)\b', source, re.I):
+        output = re.sub('动力单位|功率单位|电力单位|电源单元', '动力单元', output)
+    if re.search(r'\b(?:ICE|internal combustion engine)\b', source, re.I):
+        output = output.replace('内燃引擎', '内燃机')
 
     def duplicate_name(match):
         a = re.sub(r'[·\s]', '', match[1])
@@ -134,7 +148,9 @@ def quality_issues(source, output):
             issues.append('missing_number')
             break
     requirements = ((r'\bpole\b', '杆位|头位'), (r'\bcrash\b', '撞|碰|事故'),
-                    (r'\bqualifying\b', '排位|Q[123]'))
+                    (r'\bqualifying\b', '排位|Q[123]'),
+                    (r'\b(?:PU|power units?)\b', '动力单元'),
+                    (r'(?-i:\bICE\b)|\binternal combustion engine\b', '内燃机'))
     for pattern, expected in requirements:
         if re.search(pattern, source, re.I) and not re.search(expected, output):
             issues.append('missing_racing_term')

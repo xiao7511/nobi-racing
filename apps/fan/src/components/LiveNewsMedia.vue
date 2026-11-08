@@ -6,7 +6,7 @@ import {safeHref} from '../lib/navigation-links';
 const props=defineProps<{media?:NewsMedia;mode:'photos'|'videos'}>();
 const {locale}=useI18n(),zh=computed(()=>locale.value==='zh-CN');
 const text=(cn:string,en:string)=>zh.value?cn:en;
-const title=(item:NewsMediaItem)=>zh.value?(item.titleZh||'中文标题翻译中'):item.title;
+const title=(item:NewsMediaItem)=>zh.value?(item.titleZh||(item.translation==='unavailable'?'中文译文暂不可用，点击重试':'中文标题翻译中')):item.title;
 const items=computed(()=>props.media?.[props.mode]||[]);
 const stamp=(at:string|null|undefined)=>at?new Date(at).toLocaleString(locale.value):text('等待首次同步','Awaiting first sync');
 const selectedId=ref(''),failed=ref(false),waiting=ref(false),failedImages=ref(new Set<string>());

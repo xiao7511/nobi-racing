@@ -35,7 +35,8 @@ export function parseRecord(line,topics){
  if(!explicit&&!specialist&&!f1Path&&!fullDriver&&!(selected.some(t=>t.kind==='driver')&&selected.some(t=>t.kind==='team')))return null;
  if(!/^\d{14}$/.test(fields[1]))return null;const d=fields[1],indexedAt=`${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}T${d.slice(8,10)}:${d.slice(10,12)}:${d.slice(12,14)}Z`;if(!Number.isFinite(Date.parse(indexedAt))||Date.parse(indexedAt)>Date.now()+300000)return null;
  const categories=[...new Set(selected.map(t=>t.kind))];if(!categories.length)categories.push('race');
- return {id:createHash('sha256').update(url).digest('hex').slice(0,24),title,url,publisher:new URL(url).hostname,indexedAt,publishedAt:null,language:/[\u3400-\u9fff]/.test(title)?'zh':'en',topics:selected.map(t=>t.id),categories};
+ const publisher=new URL(url).hostname,originalLanguage=newsLanguage(title,publisher);
+ return {id:createHash('sha256').update(url).digest('hex').slice(0,24),title,url,publisher,indexedAt,publishedAt:null,originalLanguage,language:originalLanguage==='zh'?'zh':'en',topics:selected.map(t=>t.id),categories};
 }
 export function indexFile(text){const row=text.split('\n').map(line=>line.trim().split(/\s+/)).find(parts=>parts.length===3&&/\/\d{14}(?:\.translation)?\.gkg\.csv\.zip$/.test(parts[2]));if(!row||!/^\d+$/.test(row[0])||Number(row[0])>16000000||! /^[a-f0-9]{32}$/.test(row[1]))throw Error('Invalid GDELT manifest');const url=new URL(row[2]);if(url.hostname!==host||url.username||url.password||url.port||!/^\/gdeltv2\/\d{14}(?:\.translation)?\.gkg\.csv\.zip$/.test(url.pathname))throw Error('Invalid dataset URL');url.protocol='https:';return {url:url.href,size:Number(row[0]),md5:row[1],stamp:url.pathname.match(/\d{14}/)[0]};}
 export async function readGkg(response,topics){
@@ -45,14 +46,20 @@ export async function readGkg(response,topics){
  archive.push(new Uint8Array(),true);if(failure||entries!==1)throw failure||Error('Empty archive');return {records,md5:hash.digest('hex'),bytes};
 }
 const languageCodes={english:'en',eng:'en',en:'en',chinese:'zh',zho:'zh',chi:'zh',zh:'zh',spanish:'es',spa:'es',es:'es',italian:'it',ita:'it',it:'it',french:'fr',fra:'fr',fre:'fr',fr:'fr',german:'de',deu:'de',ger:'de',de:'de',portuguese:'pt',por:'pt',pt:'pt',dutch:'nl',nld:'nl',nl:'nl',russian:'ru',ru:'ru',japanese:'ja',ja:'ja',korean:'ko',ko:'ko',arabic:'ar',ar:'ar',hindi:'hi',hi:'hi',turkish:'tr',tr:'tr'};
+export function newsLanguage(title,publisher,reported){
+ const code=String(reported||'').toLowerCase(),known=languageCodes[code]||(/^[a-z]{2}$/.test(code)?code:null);
+ return known||(/[\u3040-\u30ff]/.test(title)?'ja':/[\u3400-\u9fff]/.test(title)?'zh':/(?:infobae|marca\.com|ole\.com\.ar|as\.com|sport\.es)/.test(publisher)?'es':/(?:gazzetta|corriere)/.test(publisher)?'it':/(?:globo|grandepremio|terra\.com\.br)/.test(publisher)?'pt':/lequipe/.test(publisher)?'fr':/(?:motorsport-total|auto-motor-und-sport|speedweek)/.test(publisher)?'de':'en');
+}
 export function metadataRecord({title,url,indexedAt,originalLanguage},topics){
- const fields=Array(27).fill('');fields[1]=indexedAt.replace(/[-:TZ.]/g,'').slice(0,14);fields[4]=unescape(url);fields[26]='<PAGE_TITLE>'+title+'</PAGE_TITLE>';const item=parseRecord(fields.join('\t'),topics);if(item){const host=item.publisher,known=languageCodes[String(originalLanguage||'').toLowerCase()]||(/^[a-z]{2}$/.test(String(originalLanguage))?originalLanguage:null);item.originalLanguage=known||(/[\u3040-\u30ff]/.test(item.title)?'ja':item.language==='zh'?'zh':/(?:infobae|marca\.com|ole\.com\.ar|as\.com|sport\.es)/.test(host)?'es':/(?:gazzetta|corriere)/.test(host)?'it':/(?:globo|grandepremio|terra\.com\.br)/.test(host)?'pt':/(?:lequipe)/.test(host)?'fr':/(?:motorsport-total|auto-motor-und-sport|speedweek)/.test(host)?'de':'en');item.language=item.originalLanguage==='zh'?'zh':'en';}return item;
+ const fields=Array(27).fill('');fields[1]=indexedAt.replace(/[-:TZ.]/g,'').slice(0,14);fields[4]=unescape(url);fields[26]='<PAGE_TITLE>'+title+'</PAGE_TITLE>';const item=parseRecord(fields.join('\t'),topics);if(item){item.originalLanguage=newsLanguage(item.title,item.publisher,originalLanguage);item.language=item.originalLanguage==='zh'?'zh':'en';}return item;
 }
 export function pendingBatches(stamp,processed,translated,limit=4){const d=stamp,date=Date.parse(`${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}T${d.slice(8,10)}:${d.slice(10,12)}:${d.slice(12,14)}Z`);if(!Number.isFinite(date))throw Error('Invalid timestamp');return Array.from({length:96},(_,offset)=>{const value=new Date(date-offset*900000).toISOString().replace(/[-:TZ.]/g,'').slice(0,14);return {url:`https://${host}/gdeltv2/${value}${translated?'.translation':''}.gkg.csv.zip`,date:new Date(date-offset*900000).toISOString(),latest:offset===0};}).filter(job=>!processed.includes(job.url)).slice(0,limit);}
 export async function createNewsroom(stateDir,names){
- const translateImpl=await createHeadlineTranslator(stateDir,names);let translationQueue=Promise.resolve();const translate=(...args)=>{const job=translationQueue.then(()=>translateImpl(...args));translationQueue=job.catch(()=>{});return job;};
+ let publishTranslationProgress=()=>{};
+ const translateImpl=await createHeadlineTranslator(stateDir,names,{onProgress:()=>publishTranslationProgress()});let translationQueue=Promise.resolve();const translate=(values,allowRequests=true)=>{if(!allowRequests)return translateImpl(values,false);const job=translationQueue.then(()=>translateImpl(values));translationQueue=job.catch(()=>{});return job;};
  const topics=topicsFor(names),cache=stateDir+'/newsroom.json',photoLibrary=await createPhotoLibrary(stateDir,topics);let items=[],processed=[],checkedAt=null,syncedAt=null,datasetAt=null,error=null,running=false;let streamHealth=[];const listeners=new Set();
  try{const value=JSON.parse(await readFile(cache,'utf8').catch(()=>readFile(new URL('./newsroom-seed.json',import.meta.url),'utf8')));if(value.version===1&&Array.isArray(value.items)&&value.items.length<=300&&value.items.every(item=>publisherUrl(item.url)&&typeof item.title==='string'&&!/[<>]/.test(item.title))){items=value.items;processed=value.processed||[];syncedAt=value.syncedAt;datasetAt=value.datasetAt;streamHealth=value.channels||[];}}catch{/* First sync */}
+ for(const item of items)if(!item.originalLanguage)item.originalLanguage=newsLanguage(item.title,item.publisher);
  await translate(items,false);
  const extra=await createNewsChannels(stateDir,value=>metadataRecord(value,topics));await translate(extra.state().items.filter(i=>!i.openBrief),false);
  const mediaLibrary=await createNewsMedia(stateDir,translate);
@@ -67,6 +74,7 @@ export async function createNewsroom(stateDir,names){
  };
  const readerItem=id=>{const item=extra.state().items.find(i=>i.id===id);return item?.openBrief?item:null;};
  const publish=()=>{const message='event: newsroom\ndata: '+JSON.stringify(state())+'\n\n';for(const response of listeners)if(!response.write(message)){listeners.delete(response);response.end();}};
+ publishTranslationProgress=publish;
  const fetchSource=async url=>{const target=new URL(url);if(target.origin!=='https://'+host)throw Error('Source allowlist');return fetch(url,{signal:AbortSignal.timeout(45000),redirect:'error',headers:{'User-Agent':'NOBI-Racing-Newsroom/1.0',Accept:'*/*'}});};
  const persist=async()=>{await writeFile(cache+'.tmp',JSON.stringify({version:1,items,processed,syncedAt,datasetAt,channels:streamHealth}));await rename(cache+'.tmp',cache);};
  const sync=async()=>{
@@ -90,7 +98,7 @@ export async function createNewsroom(stateDir,names){
  return {state,sync,syncChannels,readerItem,async warmTranslations(){await translate([...items,...extra.state().items.filter(item=>!item.openBrief)]);publish();},async syncMedia(){await mediaLibrary.sync(publish);},async readArticle(id,data){
   const item=readerItem(id)||items.find(item=>item.id===id)||extra.state().items.find(item=>item.id===id)||mediaLibrary.readerItem(id);
   const article=await readIndexed(item,state(),data,names);
-  if(item&&article?.titleZh&&!/准备中|翻译中/.test(article.titleZh)&&item.titleZh!==article.titleZh){item.titleZh=article.titleZh;item.translation='machine';publish();}
+  if(item&&article?.titleZh&&!/准备中|翻译中|暂不可用/.test(article.titleZh)&&item.titleZh!==article.titleZh){item.titleZh=article.titleZh;item.translation='machine';publish();}
   return article;
  },async syncPhotos(){await photoLibrary.sync();publish();},servePhoto:photoLibrary.serve,listen(request,response){if(listeners.size>=100){response.writeHead(503);response.end('{}');return;}response.writeHead(200,{'Content-Type':'text/event-stream; charset=utf-8','Cache-Control':'no-store','X-Accel-Buffering':'no'});response.write('event: newsroom\ndata: '+JSON.stringify(state())+'\n\n');listeners.add(response);const heartbeat=setInterval(()=>response.write(': heartbeat\n\n'),15000);heartbeat.unref();request.on('close',()=>{clearInterval(heartbeat);listeners.delete(response);});}};
 }

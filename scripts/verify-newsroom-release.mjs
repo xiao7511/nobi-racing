@@ -28,7 +28,7 @@ for(const [engine,name,width] of scenarios){
   assert.ok(decodedPhotos,'No current official photo actually decoded');
   await page.getByRole('button',{name:'视频',exact:true}).click();await expect(page.locator('iframe')).toHaveCount(0);const videos=page.locator('.newsroom-live-media .newsroom-media-card');await expect(videos).toHaveCount(media.videos.length);
   for(let i=0;i<media.videos.length;i++){assert.ok(chinese(await videos.nth(i).locator('h3').innerText()));await expect(videos.nth(i).locator('h3 a')).toHaveAttribute('href','#/newsroom/'+media.videos[i].id);}
-  await videos.first().getByRole('button',{name:'站内播放',exact:true}).click();const frame=page.locator('.newsroom-live-player iframe');await expect(frame).toHaveCount(1);officialPlayer(await frame.getAttribute('src'));
+  await videos.first().getByRole('button',{name:/^站内播放/}).click();const frame=page.locator('.newsroom-live-player iframe');await expect(frame).toHaveCount(1);officialPlayer(await frame.getAttribute('src'));
   await page.getByRole('button',{name:'关闭播放器',exact:true}).click();await expect(page.locator('iframe')).toHaveCount(0);await expect(page.locator('.newsroom-live-player')).toHaveCount(0);
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'Newsroom overflows the viewport');assert.deepEqual(errors,[]);assert.equal(context.pages().length,1);
   results.push({engine:name,width,visibleNewsOpened:cards.length,decodedPhotos,officialVideos:media.videos.length,embeddedOnlyAfterClick:true,playerUnloadedOnClose:true,playbackVerified:false,translationsPending:feed.items.filter(item=>!item.titleZh&&item.language!=='zh').length});await context.close();

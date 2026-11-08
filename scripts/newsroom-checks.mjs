@@ -17,4 +17,4 @@ export function checkMedia(media){
  }
  return media;
 }
-export function checkReader(article,id){assert.equal(article.id,id);assert.ok(chinese(article.titleZh),'Reader title fell back to a foreign headline');assert.ok(Array.isArray(article.paragraphsZh)&&article.paragraphsZh.length>0&&article.paragraphsZh.every(chinese),'Missing Chinese reader content');assert.ok(Array.isArray(article.paragraphsEn)&&article.paragraphsEn.length>0);if(article.translationStatus)assert.ok(['ready','pending'].includes(article.translationStatus));return article;}
+export function checkReader(article,id){assert.equal(article.id,id);assert.ok(chinese(article.titleZh),'Reader title fell back to a foreign headline');assert.ok(Array.isArray(article.paragraphsZh)&&article.paragraphsZh.length>0&&article.paragraphsZh.every(chinese),'Missing Chinese reader content');assert.ok(Array.isArray(article.paragraphsEn)&&article.paragraphsEn.length>0);if(article.translationStatus)assert.ok(['ready','pending','unavailable'].includes(article.translationStatus));return article;}

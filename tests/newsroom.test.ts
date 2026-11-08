@@ -188,6 +188,36 @@ describe('newsroom navigation and Simplified Chinese', () => {
     expect(wrapper.find('button').exists()).toBe(false);
   });
 
+  it('shows a completed translation failure with retry instead of polling it forever', async () => {
+    vi.useFakeTimers();
+    mocks.readArticle.mockResolvedValue(article(firstId,{translationStatus:'unavailable'}));
+    const config=await setup('/newsroom/'+firstId);
+    const wrapper=mount(NewsroomArticleView,config);wrappers.push(wrapper);await flushPromises();
+    expect(wrapper.get('.reader-translation-status').text()).toContain('未能及时完成');
+    await vi.advanceTimersByTimeAsync(120000);await flushPromises();
+    expect(mocks.readArticle).toHaveBeenCalledTimes(1);
+    expect(wrapper.get('button').text()).toContain('重试中文翻译');
+  });
+
+  it('uses bounded early retries without clearing readable content or waiting forever', async () => {
+    vi.useFakeTimers();
+    mocks.readArticle.mockResolvedValue(article(firstId, {translationStatus:'pending'}));
+    const config=await setup('/newsroom/'+firstId);
+    const wrapper=mount(NewsroomArticleView,config);wrappers.push(wrapper);await flushPromises();
+    expect(wrapper.get('.prose').text()).toContain('车手在大奖赛');
+    await vi.advanceTimersByTimeAsync(4000);await flushPromises();
+    expect(mocks.readArticle).toHaveBeenCalledTimes(2);
+    expect(wrapper.get('.prose').text()).toContain('车手在大奖赛');
+    await vi.advanceTimersByTimeAsync(120000);await flushPromises();
+    expect(wrapper.get('.reader-translation-status').text()).toContain('未能及时完成');
+    const attempts=mocks.readArticle.mock.calls.length;
+    await vi.advanceTimersByTimeAsync(120000);await flushPromises();
+    expect(mocks.readArticle).toHaveBeenCalledTimes(attempts);
+    mocks.readArticle.mockResolvedValue(article(firstId,{translationStatus:'ready'}));
+    await wrapper.get('button').trigger('click');await flushPromises();
+    expect(wrapper.find('.reader-translation-status').exists()).toBe(false);
+  });
+
   it('automatically replaces a pending translation and stops polling after leaving the reader', async () => {
     vi.useFakeTimers();
     mocks.readArticle.mockResolvedValueOnce(article(firstId, { translationStatus: 'pending', titleZh: '正在翻译新闻标题' }))

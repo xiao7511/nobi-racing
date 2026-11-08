@@ -92,11 +92,15 @@ export function createArticleReader({translateText,validateUrl,fetchImpl=(...arg
   const knownSummary=safeDescription(item.description),knownSummaryZh=safeDescription(item.descriptionZh);
   const [titleZh,summary]=await Promise.all([item.titleZh||translated(item.title),knownSummary||fetchSummary(item.url)]);
   const article=indexedArticle({...item,titleZh},feed,data,names);
+  if(!titleZh){
+   article.translationStatus='unavailable';article.titleZh='F1 新闻：中文译文暂不可用';
+   article.paragraphsZh[0]=article.paragraphsZh[0].replace('中文标题正在准备，稍后重试即可重新请求翻译。','中文标题暂不可用，可以稍后重试翻译。');
+  }
   if(!summary)return article;
   const summaryZh=knownSummaryZh&&/[\u3400-\u9fff]/.test(knownSummaryZh)?knownSummaryZh:await translated(summary);
   const summaryEn=source==='en'?summary:await translated(summary,'en');
-  article.detailStatus='summary';article.summaryProvider='publisher-metadata';article.summaryTranslation=source==='zh'?'original':'machine';article.translationStatus=titleZh&&summaryZh?'ready':'pending';
-  article.paragraphsZh=summaryZh?[summaryZh,'以上为发布者公开新闻摘要的中文内容；完整报道可通过下方来源链接查看。']:['发布者已提供公开新闻摘要，中文译文正在准备。请稍后重试。'];
+  article.detailStatus='summary';article.summaryProvider='publisher-metadata';article.summaryTranslation=source==='zh'?'original':'machine';article.translationStatus=titleZh&&summaryZh?'ready':'unavailable';
+  article.paragraphsZh=summaryZh?[summaryZh,'以上为发布者公开新闻摘要的中文内容；完整报道可通过下方来源链接查看。']:['发布者已提供公开新闻摘要，中文译文暂不可用。可以稍后重试。'];
   article.paragraphsEn=summaryEn?[summaryEn,'This is the publisher’s public description. The complete report is available through the optional source link below.']:['The publisher has provided a public description. An English translation is not available yet.'];
   article.noticeZh=source==='zh'?'新闻内容来自发布者公开摘要；此处不转载完整原文。':'发布者公开摘要的机器翻译，可能存在误差；此处不转载完整原文。';
   article.noticeEn='Publisher-provided public summary, machine-translated where needed; not a full republication of the article.';

@@ -29,6 +29,21 @@ class NewsTextQualityTests(unittest.TestCase):
     def test_parenthetical_names_do_not_reintroduce_english(self):
         self.assertEqual(postprocess('Lando Norris starts first.', '兰多·诺里斯(Lando Norris)先发.'), '兰多·诺里斯先发。')
 
+    def test_power_unit_abbreviations_and_publisher_suffix_are_normalized_without_dropping_news(self):
+        self.assertEqual(prepare_english('F1 PU and ICE update | Grandprix.com'), 'F1 power unit and internal combustion engine update.')
+        output = postprocess('Hamilton discusses power unit and internal combustion engine changes.', '汉密尔顿讨论动力单位和内燃引擎变化.')
+        self.assertEqual(output, '汉密尔顿讨论动力单元和内燃机变化。')
+        self.assertFalse(quality_issues('Hamilton discusses PU and ICE changes.', output))
+        self.assertIn('missing_racing_term', quality_issues('Hamilton discusses PU changes.', '汉密尔顿讨论变化。'))
+        self.assertFalse(quality_issues('Driver is on thin ice.', '车手处境危险。'))
+
+    def test_common_team_name_aliases_do_not_falsely_fail_entity_checks(self):
+        output = postprocess('Mercedes and Cadillac prepare for qualifying.', '奔驰和卡迪拉克为资格赛准备.')
+        self.assertEqual(output, '梅赛德斯和凯迪拉克为排位赛准备。')
+        self.assertFalse(quality_issues('Mercedes and Cadillac prepare for qualifying.', output))
+        self.assertIn('missing_racing_term', quality_issues('Mercedes prepares for qualifying.', '梅赛德斯准备比赛。'))
+        self.assertEqual(postprocess('Perez at Cadillac.', '卡迪拉克的佩雷斯.'), '凯迪拉克的佩雷兹。')
+
 
 if __name__ == '__main__':
     unittest.main()

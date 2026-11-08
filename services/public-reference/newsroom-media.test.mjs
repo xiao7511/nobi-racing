@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,readFile} from 'node:fs/promises';
+import {mkdtemp,readFile,writeFile} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {createNewsMedia,officialMediaRecords,MEDIA_INTERVAL} from './newsroom-media.mjs';
 
@@ -30,6 +30,7 @@ test('official media excludes protected, stale, malformed and untrusted embedded
   assert.deepEqual(officialMediaRecords(html({...video(),...update}),'video',NOW),[]);
  }
  assert.deepEqual(officialMediaRecords(html({...photo(),isExclusiveArticle:true}),'photo',NOW),[]);
+ for(const update of [{title:'Our Sao Paulo Grand Prix betting predictions'},{title:'Sao Paulo GP Bet Builder selections'},{metaDescription:'The latest odds and safer gambling advice for this weekend.'}])assert.deepEqual(officialMediaRecords(html({...photo(),...update}),'photo',NOW),[]);
  assert.deepEqual(officialMediaRecords('<script>globalThis.compromised=true</script>','video',NOW),[]);
  assert.equal(globalThis.compromised,undefined);
  assert.throws(()=>officialMediaRecords('x'.repeat(2000001),'video',NOW));
@@ -52,7 +53,7 @@ test('media sync translates titles and summaries, pushes updates, persists, and 
 test('fresh photos and videos publish before a busy translator, and cached Chinese survives provider failures',async()=>{
  const directory=await mkdtemp(tmpdir()+'/nobi-media-publish-');let release,now=NOW,requested=0,updates=0;
  const blocked=new Promise(resolve=>{release=resolve;});
- const translator=async items=>{await blocked;for(const item of items)item.titleZh='中文报道';};
+ const translator=async(items,allowRequests=true)=>{if(!allowRequests)return;await blocked;for(const item of items)item.titleZh='中文报道';};
  const fetchImpl=async url=>{requested++;return new Response(html(url.endsWith('/video')?{videos:[video()]}:{items:[photo()]}));};
  const media=await createNewsMedia(directory,translator,{now:()=>now,fetchImpl});const syncing=media.sync(()=>updates++);
  while(requested<2||updates<2)await new Promise(resolve=>setTimeout(resolve,1));
@@ -76,4 +77,19 @@ test('an oversized or empty index cannot mark media synchronization successful',
  const directory=await mkdtemp(tmpdir()+'/nobi-oversized-media-');
  const media=await createNewsMedia(directory,undefined,{now:()=>NOW,fetchImpl:async url=>new Response(url.endsWith('/video')?'x'.repeat(2000001):'<html>Unavailable</html>')});
  await media.sync();assert.equal(media.state().status,'unavailable');assert.equal(media.state().syncedAt,null);assert.ok(media.state().channels.every(channel=>channel.syncedAt===null));
+});
+
+test('previously cached betting promotions cannot reappear before the next source synchronization',async()=>{
+ const directory=await mkdtemp(tmpdir()+'/nobi-media-editorial-'),entry=officialMediaRecords(html({items:[photo()]}),'photo',NOW)[0];
+ await writeFile(directory+'/newsroom-official-media.json',JSON.stringify({photos:[{...entry,title:'Our Sao Paulo Grand Prix betting predictions'}],videos:[],channels:[{kind:'photo',syncedAt:new Date(NOW).toISOString()}]}));
+ const media=await createNewsMedia(directory,undefined,{now:()=>NOW});assert.deepEqual(media.state().photos,[]);assert.equal(media.readerItem(entry.id),null);
+});
+
+test('reviewed and cached media titles appear on load and first publish without waiting for provider requests',async()=>{
+ const directory=await mkdtemp(tmpdir()+'/nobi-media-cache-titles-'),entry=officialMediaRecords(html({items:[photo()]}),'photo',NOW)[0],calls=[];
+ await writeFile(directory+'/newsroom-official-media.json',JSON.stringify({photos:[entry],videos:[],channels:[{kind:'photo',syncedAt:new Date(NOW).toISOString()}]}));
+ const translate=async(items,allowRequests=true)=>{calls.push(allowRequests);for(const item of items)item.titleZh=allowRequests?null:'已校订的中文新闻标题';};
+ const fetchImpl=async url=>new Response(html(url.endsWith('/video')?{videos:[video()]}:{items:[photo()]}));
+ const media=await createNewsMedia(directory,translate,{now:()=>NOW,fetchImpl});assert.equal(media.state().photos[0].titleZh,'已校订的中文新闻标题');assert.deepEqual(calls,[false]);
+ const published=[];await media.sync(()=>published.push(media.state()));assert.equal(published[0].photos[0].titleZh,'已校订的中文新闻标题');assert.equal(published[1].videos[0].titleZh,'已校订的中文新闻标题');assert.ok(media.state().photos[0].titleZh);assert.deepEqual(calls,[false,false,false,true]);
 });
