@@ -54,10 +54,35 @@ export function metadataRecord({title,url,indexedAt,originalLanguage},topics){
  const fields=Array(27).fill('');fields[1]=indexedAt.replace(/[-:TZ.]/g,'').slice(0,14);fields[4]=unescape(url);fields[26]='<PAGE_TITLE>'+title+'</PAGE_TITLE>';const item=parseRecord(fields.join('\t'),topics);if(item){item.originalLanguage=newsLanguage(item.title,item.publisher,originalLanguage);item.language=item.originalLanguage==='zh'?'zh':'en';}return item;
 }
 export function pendingBatches(stamp,processed,translated,limit=4){const d=stamp,date=Date.parse(`${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}T${d.slice(8,10)}:${d.slice(10,12)}:${d.slice(12,14)}Z`);if(!Number.isFinite(date))throw Error('Invalid timestamp');return Array.from({length:96},(_,offset)=>{const value=new Date(date-offset*900000).toISOString().replace(/[-:TZ.]/g,'').slice(0,14);return {url:`https://${host}/gdeltv2/${value}${translated?'.translation':''}.gkg.csv.zip`,date:new Date(date-offset*900000).toISOString(),latest:offset===0};}).filter(job=>!processed.includes(job.url)).slice(0,limit);}
+export function createNewsroomEvents(state){
+ const listeners=new Set(),message=()=>'event: newsroom\ndata: '+JSON.stringify(state())+'\n\n';
+ const publish=()=>{if(!listeners.size)return;const latest=message();for(const listener of listeners)listener.send(latest);};
+ const listen=(request,response)=>{
+  if(listeners.size>=100){response.writeHead(503);response.end('{}');return;}
+  response.writeHead(200,{'Content-Type':'text/event-stream; charset=utf-8','Cache-Control':'no-store','X-Accel-Buffering':'no'});
+  let blocked=false,pending=null,closed=false,heartbeat;
+  const cleanup=()=>{
+   if(closed)return;closed=true;pending=null;clearInterval(heartbeat);listeners.delete(listener);
+   request.off('close',cleanup);response.off('close',cleanup);response.off('error',cleanup);response.off('drain',drain);
+  };
+  const write=value=>{
+   if(closed||response.destroyed||response.writableEnded){cleanup();return;}
+   try{blocked=!response.write(value);}catch{cleanup();}
+  };
+  // A false write has already accepted that event. Keep only the newest later
+  // snapshot until drain; never append more data to an already full buffer.
+  const listener={send(value){if(closed)return;if(blocked)pending=value;else write(value);}};
+  const drain=()=>{if(closed)return;blocked=false;if(pending!==null){const latest=pending;pending=null;write(latest);}};
+  listeners.add(listener);request.on('close',cleanup);response.on('close',cleanup);response.on('error',cleanup);response.on('drain',drain);
+  heartbeat=setInterval(()=>{if(!blocked)write(': heartbeat\n\n');},15000);heartbeat.unref();
+  listener.send(message());
+ };
+ return {publish,listen};
+}
 export async function createNewsroom(stateDir,names){
  let publishTranslationProgress=()=>{};
  const translateImpl=await createHeadlineTranslator(stateDir,names,{onProgress:()=>publishTranslationProgress()});let translationQueue=Promise.resolve();const translate=(values,allowRequests=true)=>{if(!allowRequests)return translateImpl(values,false);const job=translationQueue.then(()=>translateImpl(values));translationQueue=job.catch(()=>{});return job;};
- const topics=topicsFor(names),cache=stateDir+'/newsroom.json',photoLibrary=await createPhotoLibrary(stateDir,topics);let items=[],processed=[],checkedAt=null,syncedAt=null,datasetAt=null,error=null,running=false;let streamHealth=[];const listeners=new Set();
+ const topics=topicsFor(names),cache=stateDir+'/newsroom.json',photoLibrary=await createPhotoLibrary(stateDir,topics);let items=[],processed=[],checkedAt=null,syncedAt=null,datasetAt=null,error=null,running=false;let streamHealth=[];
  try{const value=JSON.parse(await readFile(cache,'utf8').catch(()=>readFile(new URL('./newsroom-seed.json',import.meta.url),'utf8')));if(value.version===1&&Array.isArray(value.items)&&value.items.length<=300&&value.items.every(item=>publisherUrl(item.url)&&typeof item.title==='string'&&!/[<>]/.test(item.title))){items=value.items;processed=value.processed||[];syncedAt=value.syncedAt;datasetAt=value.datasetAt;streamHealth=value.channels||[];}}catch{/* First sync */}
  for(const item of items)if(!item.originalLanguage)item.originalLanguage=newsLanguage(item.title,item.publisher);
  await translate(items,false);
@@ -73,7 +98,7 @@ export async function createNewsroom(stateDir,names){
   return {status:!available?(error?'unavailable':'pending'):healthy?'ready':'delayed',source:'GDELT Project',sourceUrl:GDELT,termsUrl:'https://www.gdeltproject.org/about.html#termsofuse',checkedAt:[checkedAt,...channels.map(c=>c.checkedAt)].filter(Boolean).sort().at(-1)||null,syncedAt:latest,datasetAt:[datasetAt,...aux.channels.map(c=>c.datasetAt)].filter(Boolean).sort().at(-1)||null,checkIntervalSeconds:NEWS_INTERVAL/1000,sourceCadenceMinutes:15,expiresAt:latest?new Date(Date.parse(latest)+7*86400000).toISOString():null,channels,publisherCount:new Set(combined.map(i=>i.publisher)).size,photos:photoLibrary.state(),media:mediaLibrary.state(),topics:topics.map(({terms:_terms,...topic})=>topic),items:combined.map(item=>({...item,bodyAvailable:!!item.openBrief||hasReviewedBody(item.url),openBrief:undefined,scheduleSignature:undefined})),error:healthy?null:error?'部分新闻通道延迟，显示已获取内容 / Some channels are delayed; showing collected stories':null};
  };
  const readerItem=id=>{const item=extra.state().items.find(i=>i.id===id);return item?.openBrief?item:null;};
- const publish=()=>{const message='event: newsroom\ndata: '+JSON.stringify(state())+'\n\n';for(const response of listeners)if(!response.write(message)){listeners.delete(response);response.end();}};
+ const {publish,listen}=createNewsroomEvents(state);
  publishTranslationProgress=publish;
  const fetchSource=async url=>{const target=new URL(url);if(target.origin!=='https://'+host)throw Error('Source allowlist');return fetch(url,{signal:AbortSignal.timeout(45000),redirect:'error',headers:{'User-Agent':'NOBI-Racing-Newsroom/1.0',Accept:'*/*'}});};
  const persist=async()=>{await writeFile(cache+'.tmp',JSON.stringify({version:1,items,processed,syncedAt,datasetAt,channels:streamHealth}));await rename(cache+'.tmp',cache);};
@@ -100,5 +125,5 @@ export async function createNewsroom(stateDir,names){
   const article=await readIndexed(item,state(),data,names);
   if(item&&article?.titleZh&&!/准备中|翻译中|暂不可用/.test(article.titleZh)&&item.titleZh!==article.titleZh){item.titleZh=article.titleZh;item.translation='machine';publish();}
   return article;
- },async syncPhotos(){await photoLibrary.sync();publish();},servePhoto:photoLibrary.serve,listen(request,response){if(listeners.size>=100){response.writeHead(503);response.end('{}');return;}response.writeHead(200,{'Content-Type':'text/event-stream; charset=utf-8','Cache-Control':'no-store','X-Accel-Buffering':'no'});response.write('event: newsroom\ndata: '+JSON.stringify(state())+'\n\n');listeners.add(response);const heartbeat=setInterval(()=>response.write(': heartbeat\n\n'),15000);heartbeat.unref();request.on('close',()=>{clearInterval(heartbeat);listeners.delete(response);});}};
+ },async syncPhotos(){await photoLibrary.sync();publish();},servePhoto:photoLibrary.serve,listen};
 }

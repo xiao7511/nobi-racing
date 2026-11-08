@@ -1,5 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import {zipSync,strToU8} from 'fflate';import {createHash} from 'node:crypto';import {mkdtemp} from 'node:fs/promises';import {tmpdir} from 'node:os';
-import {parseRecord,metadataRecord,topicsFor,indexFile,readGkg,createNewsroom} from './newsroom.mjs';import {createHeadlineTranslator} from './newsroom-translation.mjs';
+import {parseRecord,metadataRecord,topicsFor,indexFile,readGkg,createNewsroom,createNewsroomEvents} from './newsroom.mjs';import {createHeadlineTranslator} from './newsroom-translation.mjs';
+import {EventEmitter} from 'node:events';
 import {photoMetadata} from './newsroom-photos.mjs';
 const topics=topicsFor({'Lewis HAMILTON':'刘易斯·汉密尔顿','Ferrari':'法拉利'});
 function line(title='F1: Lewis Hamilton and Ferrari at Mexico City Grand Prix',url='https://www.planetf1.com/news/test-story'){const fields=Array(27).fill('');fields[1]=new Date(Date.now()-3600000).toISOString().replace(/[-:TZ.]/g,'').slice(0,14);fields[4]=url;fields[26]='<PAGE_TITLE>'+title+'</PAGE_TITLE>';return fields.join('\t');}
@@ -40,4 +41,38 @@ test('missing source batches never receive a successful synchronization timestam
  const directory=await mkdtemp(tmpdir()+'/nobi-missing-news-');
  context.mock.method(globalThis,'fetch',async url=>String(url).endsWith('.txt')?new Response('100 0123456789abcdef0123456789abcdef https://data.gdeltproject.org/gdeltv2/20261103000000.gkg.csv.zip'):new Response('',{status:404}));
  const newsroom=await createNewsroom(directory,{});await newsroom.sync();assert.equal(newsroom.state().syncedAt,null);assert.equal(newsroom.state().status,'unavailable');assert.deepEqual(newsroom.state().items,[]);
+});
+
+test('SSE backpressure coalesces updates until drain and request close clears listeners and heartbeat',context=>{
+ const timers=new Set();let heartbeat,unrefs=0;
+ context.mock.method(globalThis,'setInterval',(callback,delay)=>{assert.equal(delay,15000);heartbeat={callback,unref(){unrefs++;}};timers.add(heartbeat);return heartbeat;});
+ context.mock.method(globalThis,'clearInterval',timer=>{timers.delete(timer);});
+ let revision=0,accepting=false,ended=0;const writes=[],request=new EventEmitter(),response=new EventEmitter();
+ response.writeHead=(status,headers)=>{assert.equal(status,200);assert.equal(headers['Content-Type'],'text/event-stream; charset=utf-8');};
+ response.write=value=>{writes.push(value);return accepting;};response.end=()=>{ended++;};
+ const events=createNewsroomEvents(()=>({revision})),event=value=>'event: newsroom\ndata: '+JSON.stringify({revision:value})+'\n\n';
+ events.listen(request,response);assert.deepEqual(writes,[event(0)]);assert.equal(ended,0);assert.equal(unrefs,1);
+ for(revision=1;revision<=100;revision++){events.publish();heartbeat.callback();}
+ assert.equal(writes.length,1,'A blocked connection must not accumulate more writes or heartbeats');
+ accepting=true;response.emit('drain');assert.deepEqual(writes,[event(0),event(100)]);assert.equal(ended,0);
+ accepting=false;heartbeat.callback();assert.equal(writes.at(-1),': heartbeat\n\n');
+ revision=101;events.publish();revision=102;events.publish();heartbeat.callback();assert.equal(writes.length,3);
+ accepting=true;response.emit('drain');assert.equal(writes.at(-1),event(102));assert.equal(writes.length,4);
+ accepting=false;revision=103;events.publish();revision=104;events.publish();const beforeClose=writes.length;
+ request.emit('close');assert.equal(timers.size,0);assert.equal(request.listenerCount('close'),0);assert.equal(response.listenerCount('drain'),0);assert.equal(response.listenerCount('close'),0);assert.equal(response.listenerCount('error'),0);
+ heartbeat.callback();response.emit('drain');events.publish();assert.equal(writes.length,beforeClose);assert.equal(ended,0);
+});
+
+test('SSE response close and write errors release the heartbeat and pending drain callback',context=>{
+ const timers=new Set();
+ context.mock.method(globalThis,'setInterval',callback=>{const timer={callback,unref(){}};timers.add(timer);return timer;});
+ context.mock.method(globalThis,'clearInterval',timer=>{timers.delete(timer);});
+ for(const failure of ['close','error','write']){
+  const request=new EventEmitter(),response=new EventEmitter();response.writeHead=()=>{};response.end=()=>{};
+  response.write=()=>{if(failure==='write')throw Error('closed socket');return false;};
+  const events=createNewsroomEvents(()=>({status:'ready'}));events.listen(request,response);
+  if(failure!=='write')response.emit(failure,...(failure==='error'?[Error('closed socket')]:[]));
+  assert.equal(timers.size,0);assert.equal(request.listenerCount('close'),0);assert.equal(response.listenerCount('drain'),0);
+  assert.equal(response.listenerCount('close'),0);assert.equal(response.listenerCount('error'),0);
+ }
 });
