@@ -46,4 +46,6 @@ iOS 使用打包页面，这些前端变化需要重新构建安装包。Codemag
 
 2026-11-09 Codemagic 新构建 [`6af124fd24e1ec237557bac7`](https://codemagic.io/app/6ae70684fd8c853064084b4a/build/6af124fd24e1ec237557bac7) 使用 `main`、`ios-testflight`，源码日志核对到上述完整提交。依赖安装、Capacitor 同步、Swift 依赖解析、签名归档和上传完成。版本 **1.0（114）**，包名 `com.nobistudio.racing`，最低 iOS 16.0；App Store Connect 返回 `UPLOAD SUCCEEDED with no errors`，上传时间 `2026-11-09T01:44:56.678Z`，Delivery UUID 为 `ced4d9c9-0bce-45c9-93e1-73ccaf51c7de`。
 
-截图 `docs/verification/newsroom-enhancements/ios-114-upload.png` 保留成功日志。App Store Connect 的 TestFlight 页面当前需要用户登录，尚未核验 Apple 处理完成或测试组可安装状态；未将上传成功等同于 App Store 正式上架。
+截图 `docs/verification/newsroom-enhancements/ios-114-upload.png` 保留成功日志。用户登录后已在 App Store Connect 核验：构建 **1.0（114）** 出现在可测试构建列表，上传时间为北京时间 2026-11-09 09:47，90 天后过期；详情显示已分配至内部组 **NOBI racingTest**，组内 1 名测试员。页面明确说明该组测试员可以访问此构建，因此已确认 Apple 处理完成及内部测试可用；安装次数尚未记录，未替用户实际安装。列表状态“准备提交”不等同于外部 Beta 审核或 App Store 正式上架，二者均未提交。
+
+核验入口：[TestFlight 构建 114](https://appstoreconnect.apple.com/teams/faadf9b7-bd3e-4e66-b9c3-3904a814f206/apps/6829415439/testflight/ios/ced4d9c9-0bce-45c9-93e1-73ccaf51c7de)。

@@ -1,6 +1,6 @@
 # NOBI Racing
 
-2026-11-09 发布：新闻翻译优先队列与失败重试、首页新闻图片轮播及全站左右切换已上线；包含这些更新的 iOS 1.0（114）已签名并成功上传 App Store Connect，Apple/TestFlight 处理状态仍待登录核验。见[新闻与页面交互更新报告](docs/phases/newsroom-enhancements.md)。
+2026-11-09 发布：新闻翻译优先队列与失败重试、首页新闻图片轮播及全站左右切换已上线；包含这些更新的 iOS 1.0（114）已完成 Apple 处理，并分配至 TestFlight 内部组 NOBI racingTest，可供组内测试员安装。见[新闻与页面交互更新报告](docs/phases/newsroom-enhancements.md)。
 
 2026-11-08 更新：新闻阅读入口、简体中文翻译队列与 F1 官方最新图片／视频同步已上线并包含于上述 iOS 构建；实现和运行要求见[新闻中文阅读与最新媒体报告](docs/phases/newsroom-chinese-live-media.md)。
 
