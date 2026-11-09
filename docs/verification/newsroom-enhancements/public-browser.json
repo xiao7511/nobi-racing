@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-11-09T01:24:11.065Z",
+  "source": "Live public site",
+  "results": [
+    {
+      "engine": "edge-390",
+      "carouselSlides": 3,
+      "photoLink": true,
+      "bothSwipeDirections": true,
+      "settingsSwipe": true,
+      "verticalPreserved": true,
+      "noPageErrors": true
+    },
+    {
+      "engine": "edge-1440",
+      "carouselSlides": 3,
+      "photoLink": true,
+      "bothSwipeDirections": true,
+      "settingsSwipe": true,
+      "verticalPreserved": true,
+      "noPageErrors": true
+    },
+    {
+      "engine": "webkit-390",
+      "carouselSlides": 3,
+      "photoLink": true,
+      "bothSwipeDirections": true,
+      "settingsSwipe": true,
+      "verticalPreserved": true,
+      "noPageErrors": true
+    }
+  ]
+}

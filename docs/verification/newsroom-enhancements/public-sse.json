@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-08T14:34:20.625Z",
+  "releaseId": "20261108222723",
+  "elapsedMs": 45029,
+  "totalBytes": 692096,
+  "heartbeats": 2,
+  "endedNormally": false,
+  "events": [
+    {
+      "elapsedMs": 3667,
+      "translated": 123,
+      "pending": 177,
+      "unavailable": 0
+    },
+    {
+      "elapsedMs": 16824,
+      "translated": 123,
+      "pending": 177,
+      "unavailable": 0
+    },
+    {
+      "elapsedMs": 32757,
+      "translated": 123,
+      "pending": 177,
+      "unavailable": 0
+    }
+  ],
+  "passed": true
+}
